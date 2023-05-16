@@ -10,9 +10,16 @@ public class Main {
 
         HeroService heroService = new HeroService();
         Abilities abilities = new Abilities(1,1,1,1,1,1);
-        Hero hero = new Hero("Archie", 1, 0.0f,10,abilities, HeroClass.ARCHER);
+        Hero hero = new Hero();
+        hero.setName("Archie");
+        hero.setLvl(1);
+        hero.setExperience(0.0f);
+        hero.setSkillPoints(10);
+        hero.setAbilities(abilities);
+        hero.setHeroClass(HeroClass.ARCHER);
+        hero.setRequiredExperience(heroService.calculateRequiredExperience(hero.getLvl()));
         System.out.println(hero);
-        heroService.gainExperience(hero,1000);
+        heroService.gainExperience(hero,1100);
         System.out.println(hero);
     }
 }

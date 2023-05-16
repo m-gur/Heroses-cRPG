@@ -4,6 +4,9 @@ import org.gm.hero.entity.Hero;
 
 public class HeroService {
 
+    public float calculateRequiredExperience(int heroLvl) {
+        return (float) heroLvl * 100;
+    }
     public void gainExperience(Hero hero, float experiencePoints) {
         float actualHeroExperiencePoints = hero.getExperience();
         hero.setExperience(actualHeroExperiencePoints+experiencePoints);
@@ -11,15 +14,11 @@ public class HeroService {
     }
 
     private void checkLevelUp(Hero hero) {
-        float requiredExperience = calculateRequiredExperience(hero.getLvl());
-        while (hero.getExperience() >= requiredExperience) {
-            levelUp(hero);
-            requiredExperience = calculateRequiredExperience(hero.getLvl());
+        while (hero.getExperience() >= hero.getRequiredExperience()) {
+                levelUp(hero);
+                hero.setExperience(hero.getExperience() - hero.getRequiredExperience());
+                hero.setRequiredExperience(calculateRequiredExperience(hero.getLvl()));
         }
-    }
-
-    private float calculateRequiredExperience(int heroLvl) {
-            return 100 * heroLvl * ((float) heroLvl / 10);
     }
 
     private void levelUp(Hero hero) {

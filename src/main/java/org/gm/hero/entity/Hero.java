@@ -1,9 +1,6 @@
 package org.gm.hero.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
@@ -13,6 +10,7 @@ public class Hero {
     private String name;
     private Integer lvl;
     private float experience;
+    private float requiredExperience;
     private Integer skillPoints;
     private Abilities abilities;
     private HeroClass heroClass;
