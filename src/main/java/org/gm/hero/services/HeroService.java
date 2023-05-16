@@ -1,6 +1,8 @@
 package org.gm.hero.services;
 
 import org.gm.hero.entity.Hero;
+import org.gm.hero.entity.HeroClass;
+import org.gm.hero.entity.ModifierAbilities;
 
 public class HeroService {
 
@@ -22,13 +24,41 @@ public class HeroService {
     }
 
     private void levelUp(Hero hero) {
-        Integer actualHeroLvl = hero.getLvl();
+        int actualHeroLvl = hero.getLvl();
         hero.setLvl(actualHeroLvl+1);
         addSkillPointsAfterLevelUp(hero);
     }
 
     private void addSkillPointsAfterLevelUp(Hero hero) {
-        Integer actualHeroSkillPoints = hero.getSkillPoints();
+        int actualHeroSkillPoints = hero.getSkillPoints();
         hero.setSkillPoints(actualHeroSkillPoints+10);
+    }
+
+    public ModifierAbilities setModifierAbilities(Hero hero, HeroClass heroClass) {
+        if (heroClass == HeroClass.MAGE) {
+            hero.getModifierAbilities().setStrengthModifier(1.0f);
+            hero.getModifierAbilities().setDefenceModifier(1.0f);
+            hero.getModifierAbilities().setIntelligenceModifier(1.2f);
+            hero.getModifierAbilities().setDexterityModifier(1.05f);
+            hero.getModifierAbilities().setAgilityModifier(1.02f);
+            hero.getModifierAbilities().setSpeedModifier(1.0f);
+        }
+        if (heroClass == HeroClass.KNIGHT) {
+            hero.getModifierAbilities().setStrengthModifier(1.2f);
+            hero.getModifierAbilities().setDefenceModifier(1.1f);
+            hero.getModifierAbilities().setIntelligenceModifier(1.0f);
+            hero.getModifierAbilities().setDexterityModifier(1.05f);
+            hero.getModifierAbilities().setAgilityModifier(1.02f);
+            hero.getModifierAbilities().setSpeedModifier(1.5f);
+        }
+        if (heroClass == HeroClass.ARCHER) {
+            hero.getModifierAbilities().setStrengthModifier(1.05f);
+            hero.getModifierAbilities().setDefenceModifier(1.05f);
+            hero.getModifierAbilities().setIntelligenceModifier(1.0f);
+            hero.getModifierAbilities().setDexterityModifier(1.2f);
+            hero.getModifierAbilities().setAgilityModifier(1.1f);
+            hero.getModifierAbilities().setSpeedModifier(1.05f);
+        }
+        return hero.getModifierAbilities();
     }
 }
