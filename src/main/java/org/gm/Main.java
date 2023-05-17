@@ -13,12 +13,7 @@ public class Main {
 
         HeroService heroService = new HeroService();
         AbilitiesService abilitiesService = new AbilitiesService();
-        Hero hero = new Hero();
-        hero.setName("Archie");
-        hero.setHeroClass(HeroClass.ARCHER);
-        hero.setLvl(1);
-        hero.setExperience(0.0f);
-        hero.setSkillPoints(10);
+        Hero hero = new Hero("Archie", HeroClass.ARCHER);
         hero.setModifierAbilities(heroService.setModifierAbilities(hero, hero.getHeroClass()));
         hero.setAbilitiesAfterModifier(abilitiesService.setAbilitiesAfterModifier(hero));
         hero.setRequiredExperience(heroService.calculateRequiredExperience(hero.getLvl()));
