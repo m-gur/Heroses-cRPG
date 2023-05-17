@@ -27,6 +27,8 @@ public class HeroService {
         int actualHeroLvl = hero.getLvl();
         hero.setLvl(actualHeroLvl+1);
         addSkillPointsAfterLevelUp(hero);
+        hero.setDamage(setDamage(hero, hero.getHeroClass()));
+        hero.setHp(setHP(hero, hero.getHeroClass()));
     }
 
     private void addSkillPointsAfterLevelUp(Hero hero) {
@@ -60,5 +62,31 @@ public class HeroService {
             hero.getModifierAbilities().setSpeedModifier(1.05f);
         }
         return hero.getModifierAbilities();
+    }
+
+    public float setDamage(Hero hero, HeroClass heroClass) {
+        if (heroClass == HeroClass.MAGE) {
+            hero.setDamage(10 + (hero.getLvl() * 10) + (hero.getAbilitiesAfterModifier().getIntelligence() * 10));
+        }
+        if (heroClass == HeroClass.KNIGHT) {
+            hero.setDamage(10 +(hero.getLvl() * 10) + (hero.getAbilitiesAfterModifier().getStrength() * 10));
+        }
+        if (heroClass == HeroClass.ARCHER) {
+            hero.setDamage(10 +(hero.getLvl() * 10) + (hero.getAbilitiesAfterModifier().getDexterity() * 10));
+        }
+        return hero.getDamage();
+    }
+
+    public float setHP(Hero hero, HeroClass heroClass) {
+        if (heroClass == HeroClass.MAGE) {
+            hero.setHp(100 + (hero.getLvl() * 10) + (hero.getAbilitiesAfterModifier().getDefence() * 13));
+        }
+        if (heroClass == HeroClass.KNIGHT) {
+            hero.setHp(100 +(hero.getLvl() * 10) + (hero.getAbilitiesAfterModifier().getDefence() * 20));
+        }
+        if (heroClass == HeroClass.ARCHER) {
+            hero.setHp(100 +(hero.getLvl() * 10) + (hero.getAbilitiesAfterModifier().getDefence() * 15));
+        }
+        return hero.getHp();
     }
 }

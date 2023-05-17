@@ -1,6 +1,5 @@
 package org.gm.hero.services;
 
-import org.gm.hero.entity.Abilities;
 import org.gm.hero.entity.AbilitiesAfterModifier;
 import org.gm.hero.entity.Hero;
 
@@ -8,6 +7,7 @@ import java.util.Map;
 
 public class AbilitiesService {
 
+    private HeroService heroService = new HeroService();
     public AbilitiesAfterModifier setAbilitiesAfterModifier(Hero hero) {
                 hero.getAbilitiesAfterModifier().setStrength(hero.getAbilities().getStrength() * hero.getModifierAbilities().getStrengthModifier());
 
@@ -75,6 +75,8 @@ public class AbilitiesService {
 
             remainingSkillPointsToDistribute -= pointsToAdd;
             hero.setSkillPoints(remainingSkillPointsToDistribute);
+            hero.setDamage(heroService.setDamage(hero, hero.getHeroClass()));
+            hero.setHp(heroService.setHP(hero, hero.getHeroClass()));
         }
 
         System.out.println("Skill points distributed successfully.");

@@ -16,6 +16,7 @@ public class Hero {
     private Abilities abilities;
     private ModifierAbilities modifierAbilities;
     private AbilitiesAfterModifier abilitiesAfterModifier;
+    private float damage;
 
     public Hero(String name, HeroClass heroClass) {
         this.name = name;
@@ -27,6 +28,7 @@ public class Hero {
         this.abilities = new Abilities(1.0f,1.0f,1.0f,1.0f,1.0f,1.0f);
         this.modifierAbilities = new ModifierAbilities();
         this.abilitiesAfterModifier = new AbilitiesAfterModifier();
+        this.setDamage(10);
     }
 
     @Override
@@ -35,12 +37,14 @@ public class Hero {
                 "name='" + name + '\'' +
                 ", heroClass=" + heroClass +
                 ", lvl=" + lvl +
+                ", hp=" + hp +
                 ", experience=" + experience +
                 ", requiredExperience=" + requiredExperience +
                 ", skillPoints=" + skillPoints +
                 ", abilities=" + abilities +
                 ", modifierAbilities=" + modifierAbilities +
                 ", abilitiesAfterModifier=" + abilitiesAfterModifier +
+                ", damage=" + damage +
                 '}';
     }
 }

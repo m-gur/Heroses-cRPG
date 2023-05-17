@@ -17,10 +17,12 @@ public class Main {
         hero.setModifierAbilities(heroService.setModifierAbilities(hero, hero.getHeroClass()));
         hero.setAbilitiesAfterModifier(abilitiesService.setAbilitiesAfterModifier(hero));
         hero.setRequiredExperience(heroService.calculateRequiredExperience(hero.getLvl()));
+        hero.setDamage(heroService.setDamage(hero, hero.getHeroClass()));
         System.out.println(hero);
         Map<String, Integer> skillPointsDistribution = new HashMap<>();
         skillPointsDistribution.put("strength", 5);
         skillPointsDistribution.put("speed", 3);
+        skillPointsDistribution.put("dexterity", 4);
         heroService.gainExperience(hero,1100);
         abilitiesService.distributeSkillPoints(hero, skillPointsDistribution);
         System.out.println(hero);
