@@ -44,33 +44,31 @@ public class AbilitiesService {
             }
 
             switch (skillName) {
-                case "strength":
+                case "strength" -> {
                     hero.getAbilities().setStrength(hero.getAbilities().getStrength() + pointsToAdd);
                     hero.getAbilitiesAfterModifier().setStrength(hero.getAbilities().getStrength() * hero.getModifierAbilities().getStrengthModifier());
-                    break;
-                case "defence":
+                }
+                case "defence" -> {
                     hero.getAbilities().setDefence(hero.getAbilities().getDefence() + pointsToAdd);
                     hero.getAbilitiesAfterModifier().setDefence(hero.getAbilities().getDefence() * hero.getModifierAbilities().getDefenceModifier());
-                    break;
-                case "intelligence":
+                }
+                case "intelligence" -> {
                     hero.getAbilities().setIntelligence(hero.getAbilities().getIntelligence() + pointsToAdd);
                     hero.getAbilitiesAfterModifier().setIntelligence(hero.getAbilities().getIntelligence() * hero.getModifierAbilities().getIntelligenceModifier());
-                    break;
-                case "dexterity":
+                }
+                case "dexterity" -> {
                     hero.getAbilities().setDexterity(hero.getAbilities().getDexterity() + pointsToAdd);
                     hero.getAbilitiesAfterModifier().setDexterity(hero.getAbilities().getDexterity() * hero.getModifierAbilities().getDexterityModifier());
-                    break;
-                case "agility":
+                }
+                case "agility" -> {
                     hero.getAbilities().setAgility(hero.getAbilities().getAgility() + pointsToAdd);
                     hero.getAbilitiesAfterModifier().setAgility(hero.getAbilities().getAgility() * hero.getModifierAbilities().getAgilityModifier());
-                    break;
-                case "speed":
+                }
+                case "speed" -> {
                     hero.getAbilities().setSpeed(hero.getAbilities().getSpeed() + pointsToAdd);
                     hero.getAbilitiesAfterModifier().setSpeed(hero.getAbilities().getSpeed() * hero.getModifierAbilities().getSpeedModifier());
-                    break;
-                default:
-                    System.out.println("Invalid skill name: " + skillName);
-                    break;
+                }
+                default -> System.out.println("Invalid skill name: " + skillName);
             }
 
             remainingSkillPointsToDistribute -= pointsToAdd;
