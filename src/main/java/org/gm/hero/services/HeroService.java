@@ -28,7 +28,7 @@ public class HeroService {
         hero.setLvl(actualHeroLvl+1);
         addSkillPointsAfterLevelUp(hero);
         hero.setDamage(setDamage(hero, hero.getHeroClass()));
-        hero.setHp(setHP(hero, hero.getHeroClass()));
+        hero.setHp(setOrReviveHP(hero, hero.getHeroClass()));
     }
 
     private void addSkillPointsAfterLevelUp(Hero hero) {
@@ -77,7 +77,7 @@ public class HeroService {
         return hero.getDamage();
     }
 
-    public float setHP(Hero hero, HeroClass heroClass) {
+    public float setOrReviveHP(Hero hero, HeroClass heroClass) {
         if (heroClass == HeroClass.MAGE) {
             hero.setHp(100 + (hero.getLvl() * 10) + (hero.getAbilitiesAfterModifier().getDefence() * 13));
         }

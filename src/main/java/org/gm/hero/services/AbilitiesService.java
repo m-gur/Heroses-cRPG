@@ -76,7 +76,7 @@ public class AbilitiesService {
             remainingSkillPointsToDistribute -= pointsToAdd;
             hero.setSkillPoints(remainingSkillPointsToDistribute);
             hero.setDamage(heroService.setDamage(hero, hero.getHeroClass()));
-            hero.setHp(heroService.setHP(hero, hero.getHeroClass()));
+            hero.setHp(heroService.setOrReviveHP(hero, hero.getHeroClass()));
         }
 
         System.out.println("Skill points distributed successfully.");

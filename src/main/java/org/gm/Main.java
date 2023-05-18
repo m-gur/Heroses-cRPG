@@ -43,5 +43,7 @@ public class Main {
         FightService fightService = new FightService();
         fightService.fight(hero, monster);
         System.out.println(hero);
+        heroService.setOrReviveHP(hero, hero.getHeroClass());
+        System.out.println(hero);
     }
 }
