@@ -18,10 +18,10 @@ public class Main {
         HeroService heroService = new HeroService();
         AbilitiesService abilitiesService = new AbilitiesService();
         Hero hero = new Hero("Archie", HeroClass.ARCHER);
-        hero.setModifierAbilities(heroService.setModifierAbilities(hero, hero.getHeroClass()));
+        hero.setModifierAbilities(heroService.setModifierAbilities(hero));
         hero.setAbilitiesAfterModifier(abilitiesService.setAbilitiesAfterModifier(hero));
         hero.setRequiredExperience(heroService.calculateRequiredExperience(hero.getLvl()));
-        hero.setDamage(heroService.setDamage(hero, hero.getHeroClass()));
+        hero.setDamage(heroService.setDamage(hero));
         System.out.println(hero);
         Map<String, Integer> skillPointsDistribution = new HashMap<>();
         skillPointsDistribution.put("strength", 5);
@@ -43,7 +43,7 @@ public class Main {
         FightService fightService = new FightService();
         fightService.fight(hero, monster);
         System.out.println(hero);
-        heroService.setOrReviveHP(hero, hero.getHeroClass());
+        heroService.setOrReviveHP(hero);
         System.out.println(hero);
     }
 }
