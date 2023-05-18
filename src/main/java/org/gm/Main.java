@@ -4,6 +4,9 @@ import org.gm.hero.entity.Hero;
 import org.gm.hero.entity.HeroClass;
 import org.gm.hero.services.AbilitiesService;
 import org.gm.hero.services.HeroService;
+import org.gm.monster.entity.Monster;
+import org.gm.monster.entity.MonsterClass;
+import org.gm.monster.services.MonsterService;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -26,5 +29,14 @@ public class Main {
         heroService.gainExperience(hero,1100);
         abilitiesService.distributeSkillPoints(hero, skillPointsDistribution);
         System.out.println(hero);
+
+
+        MonsterService monsterService = new MonsterService();
+        Monster monster = new Monster("Higher Orc Commander", MonsterClass.ORC);
+        monster.setLvl(1);
+        monster.setHp(50);
+        monster.setExperience(monsterService.setExperience(monster, hero));
+        monster.setDamage(30);
+
     }
 }
