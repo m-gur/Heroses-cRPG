@@ -19,4 +19,16 @@ public class Monster {
         this.name = name;
         this.monsterClass = monsterClass;
     }
+
+    @Override
+    public String toString() {
+        return "Monster{" +
+                "name='" + name + '\'' +
+                ", monsterClass=" + monsterClass +
+                ", lvl=" + lvl +
+                ", hp=" + hp +
+                ", experience=" + experience +
+                ", damage=" + damage +
+                '}';
+    }
 }

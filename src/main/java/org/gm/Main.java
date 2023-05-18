@@ -1,5 +1,6 @@
 package org.gm;
 
+import org.gm.fights.FightService;
 import org.gm.hero.entity.Hero;
 import org.gm.hero.entity.HeroClass;
 import org.gm.hero.services.AbilitiesService;
@@ -37,6 +38,10 @@ public class Main {
         monster.setHp(50);
         monster.setExperience(monsterService.setExperience(monster, hero));
         monster.setDamage(30);
+        System.out.println(monster);
 
+        FightService fightService = new FightService();
+        fightService.fight(hero, monster);
+        System.out.println(hero);
     }
 }
