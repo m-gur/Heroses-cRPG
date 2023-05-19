@@ -1,8 +1,8 @@
 package org.gm.hero.services;
 
-import org.gm.hero.entity.Hero;
-import org.gm.hero.entity.HeroClass;
-import org.gm.hero.entity.ModifierAbilities;
+import org.gm.hero.entity.*;
+
+import java.util.Map;
 
 public class HeroService {
 
@@ -88,5 +88,23 @@ public class HeroService {
             hero.setHp(100 +(hero.getLvl() * 10) + (hero.getAbilitiesAfterModifier().getDefence() * 15));
         }
         return hero.getHp();
+    }
+
+    public Map<ItemType, Item> equipItem(Hero hero, Item item) {
+        ItemType itemType = item.getItemType();
+        Map<ItemType, Item> equippedItems = hero.getEquippedItems();
+        Item currentlyEquippedItem = equippedItems.get(itemType);
+        if (currentlyEquippedItem == null) {
+            equippedItems.put(itemType, item);
+        } else {
+            unequipItem(hero, item);
+            equippedItems.put(itemType, item);
+        }
+        return equippedItems;
+    }
+    public void unequipItem(Hero hero, Item item) {
+        Map<ItemType, Item> equippedItems = hero.getEquippedItems();
+        ItemType itemType = item.getItemType();
+        equippedItems.remove(itemType);
     }
 }

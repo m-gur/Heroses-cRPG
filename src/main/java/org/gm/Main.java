@@ -1,14 +1,14 @@
 package org.gm;
 
 import org.gm.fights.FightService;
-import org.gm.hero.entity.Hero;
-import org.gm.hero.entity.HeroClass;
+import org.gm.hero.entity.*;
 import org.gm.hero.services.AbilitiesService;
 import org.gm.hero.services.HeroService;
 import org.gm.monster.entity.Monster;
 import org.gm.monster.entity.MonsterClass;
 import org.gm.monster.services.MonsterService;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -44,6 +44,11 @@ public class Main {
         fightService.fight(hero, monster);
         System.out.println(hero);
         heroService.setOrReviveHP(hero);
+        System.out.println(hero);
+
+        Abilities abilities = new Abilities(1f, 1f, 1f, 1f, 1f, 1f);
+        Item item = new Item("Bow", ItemType.WEAPON, abilities, BigDecimal.valueOf(10), 1, false);
+        hero.setEquippedItems(heroService.equipItem(hero, item));
         System.out.println(hero);
     }
 }

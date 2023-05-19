@@ -2,6 +2,11 @@ package org.gm.hero.entity;
 
 import lombok.*;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -17,6 +22,8 @@ public class Hero {
     private ModifierAbilities modifierAbilities;
     private AbilitiesAfterModifier abilitiesAfterModifier;
     private float damage;
+    private List<Item> inventory;
+    private Map<ItemType, Item> equippedItems;
 
     public Hero(String name, HeroClass heroClass) {
         this.name = name;
@@ -29,6 +36,8 @@ public class Hero {
         this.modifierAbilities = new ModifierAbilities();
         this.abilitiesAfterModifier = new AbilitiesAfterModifier();
         this.setDamage(10);
+        this.inventory = new ArrayList<>();
+        this.equippedItems = new HashMap<>();
     }
 
     @Override
@@ -45,6 +54,8 @@ public class Hero {
                 ", modifierAbilities=" + modifierAbilities +
                 ", abilitiesAfterModifier=" + abilitiesAfterModifier +
                 ", damage=" + damage +
+                ", inventory=" + inventory +
+                ", equippedItems=" + equippedItems +
                 '}';
     }
 }
