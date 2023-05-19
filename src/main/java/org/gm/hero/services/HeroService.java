@@ -1,36 +1,10 @@
 package org.gm.hero.services;
 
 import org.gm.hero.abilities.entity.AbilitiesAfterModifier;
-import org.gm.hero.abilities.entity.ModifierAbilities;
-import org.gm.hero.abilities.entity.ModifierStrategy;
-import org.gm.hero.abilities.entity.impl.ArcherModifierStrategy;
-import org.gm.hero.abilities.entity.impl.KnightModifierStrategy;
-import org.gm.hero.abilities.entity.impl.MageModifierStrategy;
 import org.gm.hero.entity.*;
 
 
 public class HeroService {
-
-    public ModifierAbilities setModifierAbilities(Hero hero) {
-        ModifierAbilities modifierAbilities = hero.getModifierAbilities();
-        HeroClass heroClass = hero.getHeroClass();
-
-        ModifierStrategy modifierStrategy;
-
-        switch (heroClass) {
-            case MAGE -> modifierStrategy = new MageModifierStrategy();
-            case KNIGHT -> modifierStrategy = new KnightModifierStrategy();
-            case ARCHER -> modifierStrategy = new ArcherModifierStrategy();
-            default -> {
-                System.out.println("Invalid hero class: " + heroClass);
-                return modifierAbilities;
-            }
-        }
-
-        modifierStrategy.setModifiers(modifierAbilities);
-
-        return modifierAbilities;
-    }
 
     public float setDamage(Hero hero) {
         float baseDamage = 10f + (hero.getLvl() * 10);

@@ -3,6 +3,10 @@ package org.gm.hero.abilities.services;
 import org.gm.hero.abilities.entity.Abilities;
 import org.gm.hero.abilities.entity.AbilitiesAfterModifier;
 import org.gm.hero.abilities.entity.ModifierAbilities;
+import org.gm.hero.abilities.entity.ModifierStrategy;
+import org.gm.hero.abilities.entity.impl.ArcherModifierStrategy;
+import org.gm.hero.abilities.entity.impl.KnightModifierStrategy;
+import org.gm.hero.abilities.entity.impl.MageModifierStrategy;
 import org.gm.hero.entity.*;
 import org.gm.hero.items.entity.Item;
 import org.gm.hero.items.entity.ItemType;
@@ -111,6 +115,27 @@ public class AbilitiesService {
         }
 
         return abilities;
+    }
+
+    public ModifierAbilities setModifierAbilities(Hero hero) {
+        ModifierAbilities modifierAbilities = hero.getModifierAbilities();
+        HeroClass heroClass = hero.getHeroClass();
+
+        ModifierStrategy modifierStrategy;
+
+        switch (heroClass) {
+            case MAGE -> modifierStrategy = new MageModifierStrategy();
+            case KNIGHT -> modifierStrategy = new KnightModifierStrategy();
+            case ARCHER -> modifierStrategy = new ArcherModifierStrategy();
+            default -> {
+                System.out.println("Invalid hero class: " + heroClass);
+                return modifierAbilities;
+            }
+        }
+
+        modifierStrategy.setModifiers(modifierAbilities);
+
+        return modifierAbilities;
     }
 
 }

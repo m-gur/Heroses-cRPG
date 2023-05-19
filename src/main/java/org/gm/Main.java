@@ -25,7 +25,7 @@ public class Main {
         ItemService itemService = new ItemService();
         LevelService levelService = new LevelService();
         Hero hero = new Hero("Archie", HeroClass.ARCHER);
-        hero.setModifierAbilities(heroService.setModifierAbilities(hero));
+        hero.setModifierAbilities(abilitiesService.setModifierAbilities(hero));
         hero.setAbilitiesAfterModifier(abilitiesService.setAbilitiesAfterModifier(hero));
         hero.setRequiredExperience(levelService.calculateRequiredExperience(hero.getLvl()));
         hero.setDamage(heroService.setDamage(hero));
