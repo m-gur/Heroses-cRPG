@@ -1,10 +1,13 @@
 package org.gm;
 
 import org.gm.fights.FightService;
+import org.gm.hero.abilities.entity.Abilities;
 import org.gm.hero.entity.*;
-import org.gm.hero.services.AbilitiesService;
+import org.gm.hero.items.entity.Item;
+import org.gm.hero.items.entity.ItemType;
+import org.gm.hero.abilities.services.AbilitiesService;
 import org.gm.hero.services.HeroService;
-import org.gm.hero.services.ItemService;
+import org.gm.hero.items.services.ItemService;
 import org.gm.hero.services.LevelService;
 import org.gm.monster.entity.Monster;
 import org.gm.monster.entity.MonsterClass;

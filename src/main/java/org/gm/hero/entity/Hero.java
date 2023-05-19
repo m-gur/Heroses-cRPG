@@ -1,6 +1,11 @@
 package org.gm.hero.entity;
 
 import lombok.*;
+import org.gm.hero.abilities.entity.Abilities;
+import org.gm.hero.abilities.entity.AbilitiesAfterModifier;
+import org.gm.hero.abilities.entity.ModifierAbilities;
+import org.gm.hero.items.entity.Item;
+import org.gm.hero.items.entity.ItemType;
 
 import java.util.ArrayList;
 import java.util.HashMap;

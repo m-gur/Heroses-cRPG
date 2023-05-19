@@ -1,4 +1,4 @@
-package org.gm.hero.entity;
+package org.gm.hero.abilities.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

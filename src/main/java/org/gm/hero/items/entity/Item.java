@@ -1,8 +1,9 @@
-package org.gm.hero.entity;
+package org.gm.hero.items.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import org.gm.hero.abilities.entity.Abilities;
 
 import java.math.BigDecimal;
 

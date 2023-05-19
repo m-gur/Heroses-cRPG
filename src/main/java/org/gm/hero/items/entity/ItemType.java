@@ -1,4 +1,4 @@
-package org.gm.hero.entity;
+package org.gm.hero.items.entity;
 
 public enum ItemType {
     HELM,

@@ -1,5 +1,11 @@
 package org.gm.hero.services;
 
+import org.gm.hero.abilities.entity.AbilitiesAfterModifier;
+import org.gm.hero.abilities.entity.ModifierAbilities;
+import org.gm.hero.abilities.entity.ModifierStrategy;
+import org.gm.hero.abilities.entity.impl.ArcherModifierStrategy;
+import org.gm.hero.abilities.entity.impl.KnightModifierStrategy;
+import org.gm.hero.abilities.entity.impl.MageModifierStrategy;
 import org.gm.hero.entity.*;
 
 
@@ -9,33 +15,19 @@ public class HeroService {
         ModifierAbilities modifierAbilities = hero.getModifierAbilities();
         HeroClass heroClass = hero.getHeroClass();
 
+        ModifierStrategy modifierStrategy;
+
         switch (heroClass) {
-            case MAGE -> {
-                modifierAbilities.setStrengthModifier(1.0f);
-                modifierAbilities.setDefenceModifier(1.0f);
-                modifierAbilities.setIntelligenceModifier(1.2f);
-                modifierAbilities.setDexterityModifier(1.05f);
-                modifierAbilities.setAgilityModifier(1.02f);
-                modifierAbilities.setSpeedModifier(1.0f);
+            case MAGE -> modifierStrategy = new MageModifierStrategy();
+            case KNIGHT -> modifierStrategy = new KnightModifierStrategy();
+            case ARCHER -> modifierStrategy = new ArcherModifierStrategy();
+            default -> {
+                System.out.println("Invalid hero class: " + heroClass);
+                return modifierAbilities;
             }
-            case KNIGHT -> {
-                modifierAbilities.setStrengthModifier(1.2f);
-                modifierAbilities.setDefenceModifier(1.1f);
-                modifierAbilities.setIntelligenceModifier(1.0f);
-                modifierAbilities.setDexterityModifier(1.05f);
-                modifierAbilities.setAgilityModifier(1.02f);
-                modifierAbilities.setSpeedModifier(1.5f);
-            }
-            case ARCHER -> {
-                modifierAbilities.setStrengthModifier(1.05f);
-                modifierAbilities.setDefenceModifier(1.05f);
-                modifierAbilities.setIntelligenceModifier(1.0f);
-                modifierAbilities.setDexterityModifier(1.2f);
-                modifierAbilities.setAgilityModifier(1.1f);
-                modifierAbilities.setSpeedModifier(1.05f);
-            }
-            default -> System.out.println("Invalid hero class: " + heroClass);
         }
+
+        modifierStrategy.setModifiers(modifierAbilities);
 
         return modifierAbilities;
     }

@@ -1,8 +1,8 @@
-package org.gm.hero.services;
+package org.gm.hero.items.services;
 
 import org.gm.hero.entity.Hero;
-import org.gm.hero.entity.Item;
-import org.gm.hero.entity.ItemType;
+import org.gm.hero.items.entity.Item;
+import org.gm.hero.items.entity.ItemType;
 
 import java.util.Map;
 
