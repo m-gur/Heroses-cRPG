@@ -2,6 +2,7 @@ package org.gm.hero.services;
 
 import org.gm.hero.entity.*;
 
+import java.util.List;
 import java.util.Map;
 
 public class HeroService {
@@ -95,6 +96,7 @@ public class HeroService {
         Map<ItemType, Item> equippedItems = hero.getEquippedItems();
         Item currentlyEquippedItem = equippedItems.get(itemType);
         if (currentlyEquippedItem == null) {
+            item.setUsage(true);
             equippedItems.put(itemType, item);
         } else {
             unequipItem(hero, item);

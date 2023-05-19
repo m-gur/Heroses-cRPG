@@ -49,6 +49,7 @@ public class Main {
         Abilities abilities = new Abilities(1f, 1f, 1f, 1f, 1f, 1f);
         Item item = new Item("Bow", ItemType.WEAPON, abilities, BigDecimal.valueOf(10), 1, false);
         hero.setEquippedItems(heroService.equipItem(hero, item));
+        hero.setAbilitiesAfterModifier(abilitiesService.setAbilitiesAfterModifier(hero));
         System.out.println(hero);
     }
 }
