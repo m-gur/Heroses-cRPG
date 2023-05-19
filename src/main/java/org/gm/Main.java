@@ -4,6 +4,8 @@ import org.gm.fights.FightService;
 import org.gm.hero.entity.*;
 import org.gm.hero.services.AbilitiesService;
 import org.gm.hero.services.HeroService;
+import org.gm.hero.services.ItemService;
+import org.gm.hero.services.LevelService;
 import org.gm.monster.entity.Monster;
 import org.gm.monster.entity.MonsterClass;
 import org.gm.monster.services.MonsterService;
@@ -17,17 +19,19 @@ public class Main {
 
         HeroService heroService = new HeroService();
         AbilitiesService abilitiesService = new AbilitiesService();
+        ItemService itemService = new ItemService();
+        LevelService levelService = new LevelService();
         Hero hero = new Hero("Archie", HeroClass.ARCHER);
         hero.setModifierAbilities(heroService.setModifierAbilities(hero));
         hero.setAbilitiesAfterModifier(abilitiesService.setAbilitiesAfterModifier(hero));
-        hero.setRequiredExperience(heroService.calculateRequiredExperience(hero.getLvl()));
+        hero.setRequiredExperience(levelService.calculateRequiredExperience(hero.getLvl()));
         hero.setDamage(heroService.setDamage(hero));
         System.out.println(hero);
         Map<String, Integer> skillPointsDistribution = new HashMap<>();
         skillPointsDistribution.put("strength", 5);
         skillPointsDistribution.put("speed", 3);
         skillPointsDistribution.put("dexterity", 4);
-        heroService.gainExperience(hero,1100);
+        levelService.accumulateExperience(hero,1100);
         abilitiesService.distributeSkillPoints(hero, skillPointsDistribution);
         System.out.println(hero);
 
@@ -41,14 +45,14 @@ public class Main {
         System.out.println(monster);
 
         FightService fightService = new FightService();
-        fightService.fight(hero, monster);
+        fightService.performBattle(hero, monster);
         System.out.println(hero);
         heroService.setOrReviveHP(hero);
         System.out.println(hero);
 
         Abilities abilities = new Abilities(1f, 1f, 1f, 1f, 1f, 1f);
         Item item = new Item("Bow", ItemType.WEAPON, abilities, BigDecimal.valueOf(10), 1, false);
-        hero.setEquippedItems(heroService.equipItem(hero, item));
+        hero.setEquippedItems(itemService.itemOperation(hero, item));
         hero.setAbilitiesAfterModifier(abilitiesService.setAbilitiesAfterModifier(hero));
         System.out.println(hero);
     }
