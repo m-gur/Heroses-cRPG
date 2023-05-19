@@ -10,11 +10,11 @@ public class FightService {
     private HeroService heroService = new HeroService();
     public void fight(Hero hero, Monster monster) {
         Random random = new Random();
-        boolean firstAttack = random.nextBoolean();
+        boolean heroFirstAttack = random.nextBoolean();
         boolean fightEnd = false;
 
-        if (firstAttack) {
-            while (!fightEnd) {
+        while (!fightEnd) {
+            if (heroFirstAttack) {
                 monster.setHp(monster.getHp() - hero.getDamage());
                 if (monster.getHp() <= 0) {
                     heroService.gainExperience(hero, monster.getExperience());
@@ -25,9 +25,7 @@ public class FightService {
                         fightEnd = true;
                     }
                 }
-            }
-        } else {
-            while (!fightEnd) {
+            } else {
                 hero.setHp(hero.getHp() - monster.getDamage());
                 if (hero.getHp() <= 0) {
                     fightEnd = true;
@@ -41,4 +39,5 @@ public class FightService {
             }
         }
     }
+
 }

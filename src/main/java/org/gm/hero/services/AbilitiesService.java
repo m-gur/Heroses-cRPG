@@ -1,9 +1,6 @@
 package org.gm.hero.services;
 
-import org.gm.hero.entity.Abilities;
-import org.gm.hero.entity.AbilitiesAfterModifier;
-import org.gm.hero.entity.Hero;
-import org.gm.hero.entity.ItemType;
+import org.gm.hero.entity.*;
 
 import java.util.Map;
 
@@ -12,23 +9,26 @@ public class AbilitiesService {
     private HeroService heroService = new HeroService();
     public AbilitiesAfterModifier setAbilitiesAfterModifier(Hero hero) {
         setAbilitiesFromItems(hero);
-                hero.getAbilitiesAfterModifier().setStrength(hero.getAbilities().getStrength() * hero.getModifierAbilities().getStrengthModifier());
 
-                hero.getAbilitiesAfterModifier().setDefence(hero.getAbilities().getDefence() * hero.getModifierAbilities().getDefenceModifier());
+        Abilities abilities = hero.getAbilities();
+        AbilitiesAfterModifier abilitiesAfterModifier = hero.getAbilitiesAfterModifier();
+        ModifierAbilities modifierAbilities = hero.getModifierAbilities();
 
-                hero.getAbilitiesAfterModifier().setIntelligence(hero.getAbilities().getIntelligence() * hero.getModifierAbilities().getIntelligenceModifier());
+        abilitiesAfterModifier.setStrength(abilities.getStrength() * modifierAbilities.getStrengthModifier());
+        abilitiesAfterModifier.setDefence(abilities.getDefence() * modifierAbilities.getDefenceModifier());
+        abilitiesAfterModifier.setIntelligence(abilities.getIntelligence() * modifierAbilities.getIntelligenceModifier());
+        abilitiesAfterModifier.setDexterity(abilities.getDexterity() * modifierAbilities.getDexterityModifier());
+        abilitiesAfterModifier.setAgility(abilities.getAgility() * modifierAbilities.getAgilityModifier());
+        abilitiesAfterModifier.setSpeed(abilities.getSpeed() * modifierAbilities.getSpeedModifier());
 
-                hero.getAbilitiesAfterModifier().setDexterity(hero.getAbilities().getDexterity() * hero.getModifierAbilities().getDexterityModifier());
-
-                hero.getAbilitiesAfterModifier().setAgility(hero.getAbilities().getAgility() * hero.getModifierAbilities().getAgilityModifier());
-
-                hero.getAbilitiesAfterModifier().setSpeed(hero.getAbilities().getSpeed() * hero.getModifierAbilities().getSpeedModifier());
-                return hero.getAbilitiesAfterModifier();
+        return abilitiesAfterModifier;
     }
+
 
     public void distributeSkillPoints(Hero hero, Map<String, Integer> skillPointsDistribution) {
         if (hero.getSkillPoints() <= 0) {
             System.out.println("No skill points available to distribute.");
+            return;
         }
 
         int remainingSkillPointsToDistribute = hero.getSkillPoints();
@@ -46,32 +46,38 @@ public class AbilitiesService {
                 break;
             }
 
+            Abilities abilities = hero.getAbilities();
+            AbilitiesAfterModifier abilitiesAfterModifier = hero.getAbilitiesAfterModifier();
+            ModifierAbilities modifierAbilities = hero.getModifierAbilities();
+
             switch (skillName) {
-                case "strength" -> {
-                    hero.getAbilities().setStrength(hero.getAbilities().getStrength() + pointsToAdd);
-                    hero.getAbilitiesAfterModifier().setStrength(hero.getAbilities().getStrength() * hero.getModifierAbilities().getStrengthModifier());
-                }
-                case "defence" -> {
-                    hero.getAbilities().setDefence(hero.getAbilities().getDefence() + pointsToAdd);
-                    hero.getAbilitiesAfterModifier().setDefence(hero.getAbilities().getDefence() * hero.getModifierAbilities().getDefenceModifier());
-                }
-                case "intelligence" -> {
-                    hero.getAbilities().setIntelligence(hero.getAbilities().getIntelligence() + pointsToAdd);
-                    hero.getAbilitiesAfterModifier().setIntelligence(hero.getAbilities().getIntelligence() * hero.getModifierAbilities().getIntelligenceModifier());
-                }
-                case "dexterity" -> {
-                    hero.getAbilities().setDexterity(hero.getAbilities().getDexterity() + pointsToAdd);
-                    hero.getAbilitiesAfterModifier().setDexterity(hero.getAbilities().getDexterity() * hero.getModifierAbilities().getDexterityModifier());
-                }
-                case "agility" -> {
-                    hero.getAbilities().setAgility(hero.getAbilities().getAgility() + pointsToAdd);
-                    hero.getAbilitiesAfterModifier().setAgility(hero.getAbilities().getAgility() * hero.getModifierAbilities().getAgilityModifier());
-                }
-                case "speed" -> {
-                    hero.getAbilities().setSpeed(hero.getAbilities().getSpeed() + pointsToAdd);
-                    hero.getAbilitiesAfterModifier().setSpeed(hero.getAbilities().getSpeed() * hero.getModifierAbilities().getSpeedModifier());
-                }
-                default -> System.out.println("Invalid skill name: " + skillName);
+                case "strength":
+                    abilities.setStrength(abilities.getStrength() + pointsToAdd);
+                    abilitiesAfterModifier.setStrength(abilities.getStrength() * modifierAbilities.getStrengthModifier());
+                    break;
+                case "defence":
+                    abilities.setDefence(abilities.getDefence() + pointsToAdd);
+                    abilitiesAfterModifier.setDefence(abilities.getDefence() * modifierAbilities.getDefenceModifier());
+                    break;
+                case "intelligence":
+                    abilities.setIntelligence(abilities.getIntelligence() + pointsToAdd);
+                    abilitiesAfterModifier.setIntelligence(abilities.getIntelligence() * modifierAbilities.getIntelligenceModifier());
+                    break;
+                case "dexterity":
+                    abilities.setDexterity(abilities.getDexterity() + pointsToAdd);
+                    abilitiesAfterModifier.setDexterity(abilities.getDexterity() * modifierAbilities.getDexterityModifier());
+                    break;
+                case "agility":
+                    abilities.setAgility(abilities.getAgility() + pointsToAdd);
+                    abilitiesAfterModifier.setAgility(abilities.getAgility() * modifierAbilities.getAgilityModifier());
+                    break;
+                case "speed":
+                    abilities.setSpeed(abilities.getSpeed() + pointsToAdd);
+                    abilitiesAfterModifier.setSpeed(abilities.getSpeed() * modifierAbilities.getSpeedModifier());
+                    break;
+                default:
+                    System.out.println("Invalid skill name: " + skillName);
+                    continue;
             }
 
             remainingSkillPointsToDistribute -= pointsToAdd;
@@ -83,81 +89,22 @@ public class AbilitiesService {
         System.out.println("Skill points distributed successfully.");
     }
 
+
     public Abilities setAbilitiesFromItems(Hero hero) {
-        float itemsStrength = 0;
-        float itemsDefence = 0;
-        float itemsIntelligence = 0;
-        float itemsDexterity = 0;
-        float itemsAgility = 0;
-        float itemsSpeed = 0;
-        if (hero.getEquippedItems().containsKey(ItemType.HELM)) {
-            itemsStrength += hero.getEquippedItems().get(ItemType.HELM).getAbilities().getStrength();
-            itemsDefence += hero.getEquippedItems().get(ItemType.HELM).getAbilities().getDefence();
-            itemsIntelligence += hero.getEquippedItems().get(ItemType.HELM).getAbilities().getIntelligence();
-            itemsDexterity += hero.getEquippedItems().get(ItemType.HELM).getAbilities().getDexterity();
-            itemsAgility += hero.getEquippedItems().get(ItemType.HELM).getAbilities().getAgility();
-            itemsSpeed += hero.getEquippedItems().get(ItemType.HELM).getAbilities().getSpeed();
+        Abilities abilities = hero.getAbilities();
+        Map<ItemType, Item> equippedItems = hero.getEquippedItems();
+
+        for (Item item : equippedItems.values()) {
+            Abilities itemAbilities = item.getAbilities();
+            abilities.setStrength(abilities.getStrength() + itemAbilities.getStrength());
+            abilities.setDefence(abilities.getDefence() + itemAbilities.getDefence());
+            abilities.setIntelligence(abilities.getIntelligence() + itemAbilities.getIntelligence());
+            abilities.setDexterity(abilities.getDexterity() + itemAbilities.getDexterity());
+            abilities.setAgility(abilities.getAgility() + itemAbilities.getAgility());
+            abilities.setSpeed(abilities.getSpeed() + itemAbilities.getSpeed());
         }
 
-        if (hero.getEquippedItems().containsKey(ItemType.ARMOR)) {
-            itemsStrength += hero.getEquippedItems().get(ItemType.ARMOR).getAbilities().getStrength();
-            itemsDefence += hero.getEquippedItems().get(ItemType.ARMOR).getAbilities().getDefence();
-            itemsIntelligence += hero.getEquippedItems().get(ItemType.ARMOR).getAbilities().getIntelligence();
-            itemsDexterity += hero.getEquippedItems().get(ItemType.ARMOR).getAbilities().getDexterity();
-            itemsAgility += hero.getEquippedItems().get(ItemType.ARMOR).getAbilities().getAgility();
-            itemsSpeed += hero.getEquippedItems().get(ItemType.ARMOR).getAbilities().getSpeed();
-        }
-
-        if (hero.getEquippedItems().containsKey(ItemType.RING)) {
-            itemsStrength += hero.getEquippedItems().get(ItemType.RING).getAbilities().getStrength();
-            itemsDefence += hero.getEquippedItems().get(ItemType.RING).getAbilities().getDefence();
-            itemsIntelligence += hero.getEquippedItems().get(ItemType.RING).getAbilities().getIntelligence();
-            itemsDexterity += hero.getEquippedItems().get(ItemType.RING).getAbilities().getDexterity();
-            itemsAgility += hero.getEquippedItems().get(ItemType.RING).getAbilities().getAgility();
-            itemsSpeed += hero.getEquippedItems().get(ItemType.RING).getAbilities().getSpeed();
-        }
-
-        if (hero.getEquippedItems().containsKey(ItemType.NECKLACE)) {
-            itemsStrength += hero.getEquippedItems().get(ItemType.NECKLACE).getAbilities().getStrength();
-            itemsDefence += hero.getEquippedItems().get(ItemType.NECKLACE).getAbilities().getDefence();
-            itemsIntelligence += hero.getEquippedItems().get(ItemType.NECKLACE).getAbilities().getIntelligence();
-            itemsDexterity += hero.getEquippedItems().get(ItemType.NECKLACE).getAbilities().getDexterity();
-            itemsAgility += hero.getEquippedItems().get(ItemType.NECKLACE).getAbilities().getAgility();
-            itemsSpeed += hero.getEquippedItems().get(ItemType.NECKLACE).getAbilities().getSpeed();
-        }
-
-        if (hero.getEquippedItems().containsKey(ItemType.TROUSERS)) {
-            itemsStrength += hero.getEquippedItems().get(ItemType.TROUSERS).getAbilities().getStrength();
-            itemsDefence += hero.getEquippedItems().get(ItemType.TROUSERS).getAbilities().getDefence();
-            itemsIntelligence += hero.getEquippedItems().get(ItemType.TROUSERS).getAbilities().getIntelligence();
-            itemsDexterity += hero.getEquippedItems().get(ItemType.TROUSERS).getAbilities().getDexterity();
-            itemsAgility += hero.getEquippedItems().get(ItemType.TROUSERS).getAbilities().getAgility();
-            itemsSpeed += hero.getEquippedItems().get(ItemType.TROUSERS).getAbilities().getSpeed();
-        }
-
-        if (hero.getEquippedItems().containsKey(ItemType.SHOES)) {
-            itemsStrength += hero.getEquippedItems().get(ItemType.SHOES).getAbilities().getStrength();
-            itemsDefence += hero.getEquippedItems().get(ItemType.SHOES).getAbilities().getDefence();
-            itemsIntelligence += hero.getEquippedItems().get(ItemType.SHOES).getAbilities().getIntelligence();
-            itemsDexterity += hero.getEquippedItems().get(ItemType.SHOES).getAbilities().getDexterity();
-            itemsAgility += hero.getEquippedItems().get(ItemType.SHOES).getAbilities().getAgility();
-            itemsSpeed += hero.getEquippedItems().get(ItemType.SHOES).getAbilities().getSpeed();
-        }
-
-        if (hero.getEquippedItems().containsKey(ItemType.WEAPON)) {
-            itemsStrength += hero.getEquippedItems().get(ItemType.WEAPON).getAbilities().getStrength();
-            itemsDefence += hero.getEquippedItems().get(ItemType.WEAPON).getAbilities().getDefence();
-            itemsIntelligence += hero.getEquippedItems().get(ItemType.WEAPON).getAbilities().getIntelligence();
-            itemsDexterity += hero.getEquippedItems().get(ItemType.WEAPON).getAbilities().getDexterity();
-            itemsAgility += hero.getEquippedItems().get(ItemType.WEAPON).getAbilities().getAgility();
-            itemsSpeed += hero.getEquippedItems().get(ItemType.WEAPON).getAbilities().getSpeed();
-        }
-            hero.getAbilities().setStrength(hero.getAbilities().getStrength() + itemsStrength);
-            hero.getAbilities().setDefence(hero.getAbilities().getDefence() + itemsDefence);
-            hero.getAbilities().setIntelligence(hero.getAbilities().getIntelligence() + itemsIntelligence);
-            hero.getAbilities().setDexterity(hero.getAbilities().getDexterity() + itemsDexterity);
-            hero.getAbilities().setAgility(hero.getAbilities().getAgility() + itemsAgility);
-            hero.getAbilities().setSpeed(hero.getAbilities().getSpeed() + itemsSpeed);
-            return hero.getAbilities();
+        return abilities;
     }
+
 }
