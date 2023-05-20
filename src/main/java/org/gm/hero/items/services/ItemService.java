@@ -4,9 +4,28 @@ import org.gm.hero.entity.Hero;
 import org.gm.hero.items.entity.Item;
 import org.gm.hero.items.entity.ItemType;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class ItemService {
+
+    public Map<ItemType, List<Item>> addItemToInventory(Hero hero, Item item) {
+        ItemType itemType = item.getItemType();
+        Map<ItemType, List<Item>> inventory = hero.getInventory();
+
+        if (inventory.containsKey(itemType)) {
+            List<Item> itemList = inventory.get(itemType);
+            itemList.add(item);
+        } else {
+            List<Item> itemList = new ArrayList<>();
+            itemList.add(item);
+            inventory.put(itemType, itemList);
+        }
+
+        return inventory;
+    }
+
     public Map<ItemType, Item> itemOperation(Hero hero, Item item) {
         ItemType itemType = item.getItemType();
         Map<ItemType, Item> equippedItems = hero.getEquippedItems();

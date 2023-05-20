@@ -12,7 +12,7 @@ public class FightService {
         Random random = new Random();
         boolean heroFirstAttack = random.nextBoolean();
 
-        while (hero.getHp() > 0 && monster.getHp() > 0) {
+        while (hero.getMaxHp() > 0 && monster.getHp() > 0) {
             if (heroFirstAttack) {
                 performHeroAttack(hero, monster);
                 if (monster.getHp() <= 0) {
@@ -22,7 +22,7 @@ public class FightService {
                 }
             } else {
                 performMonsterAttack(hero, monster);
-                if (hero.getHp() <= 0) {
+                if (hero.getCurrentHp() <= 0) {
                     break;
                 } else {
                     performHeroAttack(hero, monster);
@@ -39,7 +39,7 @@ public class FightService {
     }
 
     private void performMonsterAttack(Hero hero, Monster monster) {
-        hero.setHp(hero.getHp() - monster.getDamage());
+        hero.setCurrentHp(hero.getCurrentHp() - monster.getDamage());
     }
 
 

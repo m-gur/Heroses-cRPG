@@ -93,14 +93,14 @@ public class AbilitiesService {
             remainingSkillPointsToDistribute -= pointsToAdd;
             hero.setSkillPoints(remainingSkillPointsToDistribute);
             hero.setDamage(heroService.setDamage(hero));
-            hero.setHp(heroService.setOrReviveHP(hero));
+            hero.setMaxHp(heroService.setHP(hero));
         }
 
         System.out.println("Skill points distributed successfully.");
     }
 
 
-    public Abilities setAbilitiesFromItems(Hero hero) {
+    public void setAbilitiesFromItems(Hero hero) {
         Abilities abilities = hero.getAbilities();
         Map<ItemType, Item> equippedItems = hero.getEquippedItems();
 
@@ -114,7 +114,6 @@ public class AbilitiesService {
             abilities.setSpeed(abilities.getSpeed() + itemAbilities.getSpeed());
         }
 
-        return abilities;
     }
 
     public ModifierAbilities setModifierAbilities(Hero hero) {

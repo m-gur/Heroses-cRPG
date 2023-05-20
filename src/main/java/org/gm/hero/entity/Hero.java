@@ -7,7 +7,6 @@ import org.gm.hero.abilities.entity.ModifierAbilities;
 import org.gm.hero.items.entity.Item;
 import org.gm.hero.items.entity.ItemType;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,7 +18,8 @@ public class Hero {
     private String name;
     private HeroClass heroClass;
     private int lvl;
-    private float hp;
+    private float currentHp;
+    private float maxHp;
     private float experience;
     private float requiredExperience;
     private int skillPoints;
@@ -27,21 +27,22 @@ public class Hero {
     private ModifierAbilities modifierAbilities;
     private AbilitiesAfterModifier abilitiesAfterModifier;
     private float damage;
-    private List<Item> inventory;
+    private Map<ItemType, List<Item>> inventory;
     private Map<ItemType, Item> equippedItems;
 
     public Hero(String name, HeroClass heroClass) {
         this.name = name;
         this.heroClass = heroClass;
         this.lvl = 1;
-        this.hp = 100;
+        this.currentHp = 100;
+        this.maxHp = 100;
         this.experience = 0.0f;
         this.skillPoints = 10;
         this.abilities = new Abilities(1.0f,1.0f,1.0f,1.0f,1.0f,1.0f);
         this.modifierAbilities = new ModifierAbilities();
         this.abilitiesAfterModifier = new AbilitiesAfterModifier();
         this.setDamage(10);
-        this.inventory = new ArrayList<>();
+        this.inventory = new HashMap<>();
         this.equippedItems = new HashMap<>();
     }
 
@@ -51,7 +52,8 @@ public class Hero {
                 "name='" + name + '\'' +
                 ", heroClass=" + heroClass +
                 ", lvl=" + lvl +
-                ", hp=" + hp +
+                ", currentHp=" + currentHp +
+                ", maxHp=" + maxHp +
                 ", experience=" + experience +
                 ", requiredExperience=" + requiredExperience +
                 ", skillPoints=" + skillPoints +

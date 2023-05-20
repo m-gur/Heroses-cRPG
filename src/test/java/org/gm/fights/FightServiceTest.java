@@ -25,7 +25,7 @@ class FightServiceTest {
 
         monster = new Monster("Higher Orc Commander", MonsterClass.ORC);
         monster.setLvl(1);
-        monster.setHp(50);
+        monster.setHp(100);
         monster.setExperience(100);
         monster.setDamage(30);
 
@@ -43,19 +43,19 @@ class FightServiceTest {
 
 
         //then
-        assertTrue(hero.getHp() >= 0);
+        assertTrue(hero.getCurrentHp() >= 0);
     }
 
     @Test
      void testFight_MonsterWins() {
 
         //given
-        hero.setDamage(10);
+        hero.setDamage(1);
 
         //when
         fightService.performBattle(hero, monster);
 
         //then
-        assertTrue(hero.getHp() <= 0);
+        assertTrue(hero.getCurrentHp() <= 0);
     }
 }

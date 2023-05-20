@@ -41,6 +41,7 @@ public class LevelService {
 
     private void upgradeStatisticsAfterLevelUp(Hero hero) {
         hero.setDamage(heroService.setDamage(hero));
-        hero.setHp(heroService.setOrReviveHP(hero));
+        hero.setMaxHp(heroService.setHP(hero));
+        hero.setCurrentHp(hero.getMaxHp());
     }
 }

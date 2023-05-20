@@ -47,16 +47,23 @@ public class Main {
         monster.setDamage(30);
         System.out.println(monster);
 
+
         FightService fightService = new FightService();
         fightService.performBattle(hero, monster);
-        System.out.println(hero);
-        heroService.setOrReviveHP(hero);
         System.out.println(hero);
 
         Abilities abilities = new Abilities(1f, 1f, 1f, 1f, 1f, 1f);
         Item item = new Item("Bow", ItemType.WEAPON, abilities, BigDecimal.valueOf(10), 1, false);
+        Item item2 = new Item("HP Potion", ItemType.USABLE, BigDecimal.valueOf(10), 2, false);
+        Item item3 = new Item("HP Apple", ItemType.USABLE, BigDecimal.valueOf(10), 1, false);
         hero.setEquippedItems(itemService.itemOperation(hero, item));
+        hero.setInventory(itemService.addItemToInventory(hero, item2));
+        hero.setInventory(itemService.addItemToInventory(hero, item3));
         hero.setAbilitiesAfterModifier(abilitiesService.setAbilitiesAfterModifier(hero));
         System.out.println(hero);
+        heroService.restoreHP(hero, "HP Potion");
+        System.out.println(hero);
+
+
     }
 }
