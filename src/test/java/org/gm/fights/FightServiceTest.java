@@ -33,7 +33,7 @@ class FightServiceTest {
     }
 
     @Test
-     void testFight_HeroWins() {
+     void testFight_WithoutParameters_HeroWins() {
 
         //given
         hero.setDamage(40);
@@ -47,7 +47,7 @@ class FightServiceTest {
     }
 
     @Test
-     void testFight_MonsterWins() {
+     void testFight_WithoutParameters_MonsterWins() {
 
         //given
         hero.setDamage(1);
