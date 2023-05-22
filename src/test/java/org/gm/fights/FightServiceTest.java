@@ -1,7 +1,6 @@
 package org.gm.fights;
 
-import org.gm.hero.entity.Hero;
-import org.gm.hero.entity.HeroClass;
+import org.gm.hero.entity.Archer;
 import org.gm.monster.entity.Monster;
 import org.gm.monster.entity.MonsterClass;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class FightServiceTest {
     @Mock
-    private Hero hero;
+    private Archer archer;
     @Mock
     private Monster monster;
     @InjectMocks
@@ -21,7 +20,7 @@ class FightServiceTest {
 
     @BeforeEach
     public void setUp() {
-        hero = new Hero("Archie", HeroClass.ARCHER);
+        archer = new Archer("Archie");
 
         monster = new Monster("Higher Orc Commander", MonsterClass.ORC);
         monster.setLvl(1);
@@ -36,26 +35,26 @@ class FightServiceTest {
      void testFight_WithoutParameters_HeroWins() {
 
         //given
-        hero.setDamage(40);
+        archer.setDamage(40);
 
         //when
-        fightService.performBattle(hero, monster);
+        fightService.performBattle(archer, monster);
 
 
         //then
-        assertTrue(hero.getCurrentHp() >= 0);
+        assertTrue(archer.getCurrentHp() >= 0);
     }
 
     @Test
      void testFight_WithoutParameters_MonsterWins() {
 
         //given
-        hero.setDamage(1);
+        archer.setDamage(1);
 
         //when
-        fightService.performBattle(hero, monster);
+        fightService.performBattle(archer, monster);
 
         //then
-        assertTrue(hero.getCurrentHp() <= 0);
+        assertTrue(archer.getCurrentHp() <= 0);
     }
 }

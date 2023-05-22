@@ -14,13 +14,15 @@ public class HeroService {
     public float setDamage(Hero hero) {
         float baseDamage = 10f + (hero.getLvl() * 10);
         AbilitiesAfterModifier abilities = hero.getAbilitiesAfterModifier();
-        HeroClass heroClass = hero.getHeroClass();
 
-        switch (heroClass) {
-            case MAGE -> hero.setDamage(baseDamage + (abilities.getIntelligence() * 10));
-            case KNIGHT -> hero.setDamage(baseDamage + (abilities.getStrength() * 10));
-            case ARCHER -> hero.setDamage(baseDamage + (abilities.getDexterity() * 10));
-            default -> System.out.println("Invalid hero class: " + heroClass);
+        if (hero instanceof Mage) {
+            hero.setDamage(baseDamage + (abilities.getIntelligence() * 10));
+        } else if (hero instanceof Knight) {
+            hero.setDamage(baseDamage + (abilities.getStrength() * 10));
+        } else if (hero instanceof Archer) {
+            hero.setDamage(baseDamage + (abilities.getDexterity() * 10));
+        } else {
+            System.out.println("Invalid hero class");
         }
 
         return hero.getDamage();
@@ -29,17 +31,20 @@ public class HeroService {
     public float setHP(Hero hero) {
         float baseHP = 100f + (hero.getLvl() * 10);
         AbilitiesAfterModifier abilities = hero.getAbilitiesAfterModifier();
-        HeroClass heroClass = hero.getHeroClass();
 
-        switch (heroClass) {
-            case MAGE -> hero.setMaxHp(baseHP + (abilities.getDefence() * 13));
-            case KNIGHT -> hero.setMaxHp(baseHP + (abilities.getDefence() * 20));
-            case ARCHER -> hero.setMaxHp(baseHP + (abilities.getDefence() * 15));
-            default -> System.out.println("Invalid hero class: " + heroClass);
+        if (hero instanceof Mage) {
+            hero.setMaxHp(baseHP + (abilities.getDefence() * 13));
+        } else if (hero instanceof Knight) {
+            hero.setMaxHp(baseHP + (abilities.getDefence() * 20));
+        } else if (hero instanceof Archer) {
+            hero.setMaxHp(baseHP + (abilities.getDefence() * 15));
+        } else {
+            System.out.println("Invalid hero class");
         }
 
         return hero.getMaxHp();
     }
+
 
     public void restoreHP(Hero hero, String itemName) {
         Map<ItemType, List<Item>> inventory = hero.getInventory();

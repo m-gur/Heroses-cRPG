@@ -1,8 +1,7 @@
 package org.gm.hero.abilities.services;
 
 import org.gm.hero.abilities.entity.Abilities;
-import org.gm.hero.entity.Hero;
-import org.gm.hero.entity.HeroClass;
+import org.gm.hero.entity.Archer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -16,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class AbilitiesServiceTest {
 
     @Mock
-    private Hero hero;
+    private Archer archer;
     @Mock
     private Abilities abilities;
     @InjectMocks
@@ -25,9 +24,9 @@ class AbilitiesServiceTest {
     @BeforeEach
     public void setUp() {
         abilities = new Abilities(1f, 1f, 1f, 1f, 1f, 1f);
-        hero = new Hero("Archie", HeroClass.ARCHER);
-        hero.setAbilities(abilities);
-        hero.setSkillPoints(20);
+        archer = new Archer("Archie");
+        archer.setAbilities(abilities);
+        archer.setSkillPoints(20);
         abilitiesService = new AbilitiesService();
     }
     @Test
@@ -40,12 +39,12 @@ class AbilitiesServiceTest {
         skillPointsDistribution.put("dexterity", 4);
 
         //when
-        abilitiesService.distributeSkillPoints(hero, skillPointsDistribution);
+        abilitiesService.distributeSkillPoints(archer, skillPointsDistribution);
 
         //then
-        assertEquals(6, hero.getAbilities().getStrength());
-        assertEquals(4, hero.getAbilities().getSpeed());
-        assertEquals(5, hero.getAbilities().getDexterity());
+        assertEquals(6, archer.getAbilities().getStrength());
+        assertEquals(4, archer.getAbilities().getSpeed());
+        assertEquals(5, archer.getAbilities().getDexterity());
     }
 
     @Test
@@ -56,9 +55,9 @@ class AbilitiesServiceTest {
         skillPointsDistribution.put("strength", 25);
 
         //when
-        abilitiesService.distributeSkillPoints(hero, skillPointsDistribution);
+        abilitiesService.distributeSkillPoints(archer, skillPointsDistribution);
 
         //then
-        assertFalse(hero.getAbilities().getStrength() > 25);
+        assertFalse(archer.getAbilities().getStrength() > 25);
     }
 }

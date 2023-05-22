@@ -118,18 +118,18 @@ public class AbilitiesService {
 
     public ModifierAbilities setModifierAbilities(Hero hero) {
         ModifierAbilities modifierAbilities = hero.getModifierAbilities();
-        HeroClass heroClass = hero.getHeroClass();
 
         ModifierStrategy modifierStrategy;
 
-        switch (heroClass) {
-            case MAGE -> modifierStrategy = new MageModifierStrategy();
-            case KNIGHT -> modifierStrategy = new KnightModifierStrategy();
-            case ARCHER -> modifierStrategy = new ArcherModifierStrategy();
-            default -> {
-                System.out.println("Invalid hero class: " + heroClass);
-                return modifierAbilities;
-            }
+        if (hero instanceof Mage) {
+            modifierStrategy = new MageModifierStrategy();
+        } else if (hero instanceof Knight) {
+            modifierStrategy = new KnightModifierStrategy();
+        } else if (hero instanceof Archer) {
+            modifierStrategy = new ArcherModifierStrategy();
+        } else {
+            System.out.println("Invalid hero class");
+            return modifierAbilities;
         }
 
         modifierStrategy.setModifiers(modifierAbilities);

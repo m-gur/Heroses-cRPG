@@ -4,6 +4,7 @@ import lombok.*;
 import org.gm.hero.abilities.entity.Abilities;
 import org.gm.hero.abilities.entity.AbilitiesAfterModifier;
 import org.gm.hero.abilities.entity.ModifierAbilities;
+import org.gm.hero.abilities.entity.ModifierStrategy;
 import org.gm.hero.items.entity.Item;
 import org.gm.hero.items.entity.ItemType;
 
@@ -14,9 +15,8 @@ import java.util.Map;
 @Getter
 @Setter
 @AllArgsConstructor
-public class Hero {
+public abstract class Hero {
     private String name;
-    private HeroClass heroClass;
     private int lvl;
     private float currentHp;
     private float maxHp;
@@ -30,9 +30,10 @@ public class Hero {
     private Map<ItemType, List<Item>> inventory;
     private Map<ItemType, Item> equippedItems;
 
-    public Hero(String name, HeroClass heroClass) {
+    public abstract ModifierStrategy getModifierStrategy();
+
+    public Hero(String name) {
         this.name = name;
-        this.heroClass = heroClass;
         this.lvl = 1;
         this.currentHp = 100;
         this.maxHp = 100;
@@ -50,7 +51,6 @@ public class Hero {
     public String toString() {
         return "Hero{" +
                 "name='" + name + '\'' +
-                ", heroClass=" + heroClass +
                 ", lvl=" + lvl +
                 ", currentHp=" + currentHp +
                 ", maxHp=" + maxHp +

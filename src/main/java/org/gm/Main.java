@@ -17,6 +17,8 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
+
+
 public class Main {
     public static void main(String[] args) {
 
@@ -24,45 +26,45 @@ public class Main {
         AbilitiesService abilitiesService = new AbilitiesService();
         ItemService itemService = new ItemService();
         LevelService levelService = new LevelService();
-        Hero hero = new Hero("Archie", HeroClass.ARCHER);
-        hero.setModifierAbilities(abilitiesService.setModifierAbilities(hero));
-        hero.setAbilitiesAfterModifier(abilitiesService.setAbilitiesAfterModifier(hero));
-        hero.setRequiredExperience(levelService.calculateRequiredExperience(hero.getLvl()));
-        hero.setDamage(heroService.setDamage(hero));
-        System.out.println(hero);
+        Archer archer = new Archer("Archie");
+        archer.setModifierAbilities(abilitiesService.setModifierAbilities(archer));
+        archer.setAbilitiesAfterModifier(abilitiesService.setAbilitiesAfterModifier(archer));
+        archer.setRequiredExperience(levelService.calculateRequiredExperience(archer.getLvl()));
+        archer.setDamage(heroService.setDamage(archer));
+        System.out.println(archer);
         Map<String, Integer> skillPointsDistribution = new HashMap<>();
         skillPointsDistribution.put("strength", 5);
         skillPointsDistribution.put("speed", 3);
         skillPointsDistribution.put("dexterity", 4);
-        levelService.accumulateExperience(hero,1100);
-        abilitiesService.distributeSkillPoints(hero, skillPointsDistribution);
-        System.out.println(hero);
+        levelService.accumulateExperience(archer,1100);
+        abilitiesService.distributeSkillPoints(archer, skillPointsDistribution);
+        System.out.println(archer);
 
 
         MonsterService monsterService = new MonsterService();
         Monster monster = new Monster("Higher Orc Commander", MonsterClass.ORC);
         monster.setLvl(1);
         monster.setHp(50);
-        monster.setExperience(monsterService.setExperience(monster, hero));
+        monster.setExperience(monsterService.setExperience(monster, archer));
         monster.setDamage(30);
         System.out.println(monster);
 
 
         FightService fightService = new FightService();
-        fightService.performBattle(hero, monster);
-        System.out.println(hero);
+        fightService.performBattle(archer, monster);
+        System.out.println(archer);
 
         Abilities abilities = new Abilities(1f, 1f, 1f, 1f, 1f, 1f);
         Item item = new Item("Bow", ItemType.WEAPON, abilities, BigDecimal.valueOf(10), 1, false);
         Item item2 = new Item("HP Potion", ItemType.USABLE, BigDecimal.valueOf(10), 2, false);
         Item item3 = new Item("HP Apple", ItemType.USABLE, BigDecimal.valueOf(10), 1, false);
-        hero.setEquippedItems(itemService.itemOperation(hero, item));
-        hero.setInventory(itemService.addItemToInventory(hero, item2));
-        hero.setInventory(itemService.addItemToInventory(hero, item3));
-        hero.setAbilitiesAfterModifier(abilitiesService.setAbilitiesAfterModifier(hero));
-        System.out.println(hero);
-        heroService.restoreHP(hero, "HP Potion");
-        System.out.println(hero);
+        archer.setEquippedItems(itemService.itemOperation(archer, item));
+        archer.setInventory(itemService.addItemToInventory(archer, item2));
+        archer.setInventory(itemService.addItemToInventory(archer, item3));
+        archer.setAbilitiesAfterModifier(abilitiesService.setAbilitiesAfterModifier(archer));
+        System.out.println(archer);
+        heroService.restoreHP(archer, "HP Potion");
+        System.out.println(archer);
 
 
     }
