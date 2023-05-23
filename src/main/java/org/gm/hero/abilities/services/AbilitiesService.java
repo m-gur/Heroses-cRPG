@@ -99,6 +99,13 @@ public class AbilitiesService {
         System.out.println("Skill points distributed successfully.");
     }
 
+    public void resetSkillPoints(Hero hero) {
+        Abilities abilities = new Abilities(1f,1f,1f,1f,1f,1f);
+        hero.setAbilities(abilities);
+        hero.setSkillPoints(hero.getLvl() * 10);
+        setAbilitiesAfterModifier(hero);
+        System.out.println("Skill points reset successfully.");
+    }
 
     public void setAbilitiesFromItems(Hero hero) {
         Abilities abilities = hero.getAbilities();

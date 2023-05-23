@@ -65,7 +65,7 @@ public class Main {
         System.out.println(archer);
         heroService.restoreHP(archer, "HP Potion");
         System.out.println(archer);
-
-
+        abilitiesService.resetSkillPoints(archer);
+        System.out.println(archer);
     }
 }
