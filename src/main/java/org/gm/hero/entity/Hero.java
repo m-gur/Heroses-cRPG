@@ -42,7 +42,17 @@ public abstract class Hero {
         this.abilities = new Abilities(1.0f,1.0f,1.0f,1.0f,1.0f,1.0f);
         this.modifierAbilities = new ModifierAbilities();
         this.abilitiesAfterModifier = new AbilitiesAfterModifier();
-        this.setDamage(10);
+        this.inventory = new HashMap<>();
+        this.equippedItems = new HashMap<>();
+    }
+
+    public Hero() {
+        this.lvl = 1;
+        this.experience = 0.0f;
+        this.skillPoints = 10;
+        this.abilities = new Abilities(1.0f,1.0f,1.0f,1.0f,1.0f,1.0f);
+        this.modifierAbilities = new ModifierAbilities();
+        this.abilitiesAfterModifier = new AbilitiesAfterModifier();
         this.inventory = new HashMap<>();
         this.equippedItems = new HashMap<>();
     }

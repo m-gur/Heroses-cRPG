@@ -10,6 +10,10 @@ public class Knight extends Hero {
         super(name);
     }
 
+    public Knight() {
+
+    }
+
     @Override
     public ModifierStrategy getModifierStrategy() {
         return new KnightModifierStrategy();
