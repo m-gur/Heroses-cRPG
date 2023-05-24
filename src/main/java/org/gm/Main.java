@@ -5,6 +5,7 @@ import org.gm.fights.FightService;
 import org.gm.hero.abilities.services.AbilitiesService;
 import org.gm.hero.entity.Hero;
 import org.gm.hero.services.HeroService;
+import org.gm.menu.Menu;
 import org.gm.monster.entity.Monster;
 import org.gm.monster.entity.MonsterClass;
 import org.gm.monster.services.MonsterService;
@@ -15,6 +16,9 @@ import java.util.Map;
 
 public class Main {
     public static void main(String[] args) {
+        Menu menu = new Menu();
+        menu.startGame();
+
         HeroFactory heroFactory = new HeroFactory();
         AbilitiesService abilitiesService = new AbilitiesService();
         HeroService heroService = new HeroService();
