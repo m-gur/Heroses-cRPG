@@ -12,6 +12,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
+import static java.lang.System.exit;
+
 public class Menu {
     private HeroService heroService = new HeroService();
     private AbilitiesService abilitiesService = new AbilitiesService();
@@ -93,5 +95,126 @@ public class Menu {
 
         return hero;
     }
-}
 
+    private void exploreCity(Hero hero) {
+        Scanner scanner = new Scanner(System.in);
+        int choice;
+        do {
+            System.out.println("""
+                    Where you want to go?
+                    1. Blacksmith
+                    2. Market
+                    3. Bulletin Board
+                    4. Get out of town
+                    5. Character menu
+                    6. Game menu
+                    """);
+
+            choice = scanner.nextInt();
+            scanner.nextLine();
+            switch (choice) {
+                case 1 -> blacksmith(hero);
+                case 2 -> market(hero);
+                case 3 -> bulletinBoard(hero);
+                case 4 -> getOutOfTown(hero);
+                case 5 -> showCharacterMenu(hero);
+                case 6 -> gameMenu(hero);
+                default -> System.out.println("Invalid choice. Please try again.");
+            }
+        } while (choice != 6);
+    }
+
+    private void blacksmith(Hero hero) {
+        Scanner scanner = new Scanner(System.in);
+        int choice;
+        System.out.println("""
+    Welcome adventurer, my name is Greg.
+    What brings you to me?
+    Are you want to upgrade your equipment?
+    """);
+        System.out.println("Welcome Greg, my name is " + hero.getName());
+        do {
+            System.out.println("""
+                    1. Yes, I want to upgrade equipment
+                    2. No, only want to ask you about the town
+                    3. No, sorry I got lost, thanks (leaving)
+                    """);
+
+            choice = scanner.nextInt();
+            scanner.nextLine();
+            switch (choice) {
+                case 1 -> upgradeEquipment(hero);
+                case 2 -> System.out.println("""
+                        This town is no longer like before..
+                        Many things are changed, people changed.
+                        Now in city it is not safe, everyone are scared.
+                        No one are helping us with the monsters, there was some adventurers.
+                        Just like you, people paid them to kill monsters and safe them.
+                        After getting money, they run away. The problem wasn't solved
+                        and we lost the money..
+                        Maybe you want to help us with monsters?
+                        Probably if you will give us the proof, monsters died,
+                        we will give you some coins for your help.
+                        Think about this, on bulletin board should be an announcement.
+                        """);
+                case 3 -> exploreCity(hero);
+                default -> System.out.println("Invalid choice. Please try again.");
+            }
+        } while (choice != 3);
+    }
+
+    private void upgradeEquipment(Hero hero) {
+
+    }
+
+    private void market(Hero hero) {
+        System.out.println("""
+                The center of the town, from this place you can go to mayor,
+                sell some staff to merchants or lost your money for other things.
+                """);
+    }
+
+    private void bulletinBoard(Hero hero) {
+        System.out.println("""
+                Here you will see available quests, some are available now,
+                others after completing the previous ones.
+                """);
+
+    }
+
+    private void getOutOfTown(Hero hero) {
+        System.out.println("""
+                You left town, feel a light breeze. Now you have to be careful.
+                Monsters can be everywhere, where you want to go?
+                """);
+    }
+
+    private void showCharacterMenu(Hero hero) {
+
+    }
+    private void gameMenu(Hero hero) {
+        Scanner scanner = new Scanner(System.in);
+        int choice;
+        do {
+            System.out.println("""
+                    What you want to do?
+                    1. Save game
+                    2. Exit game
+                    3. Return to the game
+                    """);
+
+            choice = scanner.nextInt();
+            scanner.nextLine();
+            switch (choice) {
+                case 1 -> saveGame(hero);
+                case 2 -> exit(0);
+                case 3 -> exploreCity(hero);
+                default -> System.out.println("Invalid choice. Please try again.");
+            }
+        } while (choice != 3);
+    }
+    //TODO creating logic to saving game
+    private void saveGame(Hero hero) {
+
+    }
+}
