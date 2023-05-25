@@ -5,6 +5,7 @@ import org.gm.hero.entity.Archer;
 import org.gm.hero.entity.Hero;
 import org.gm.hero.entity.Knight;
 import org.gm.hero.entity.Mage;
+import org.gm.hero.items.entity.ItemType;
 import org.gm.hero.services.HeroService;
 import org.gm.hero.services.LevelService;
 
@@ -190,7 +191,77 @@ public class Menu {
     }
 
     private void showCharacterMenu(Hero hero) {
+        Scanner scanner = new Scanner(System.in);
+        int choice;
+        do {
+            System.out.println("""
+                    What you want to see?
+                    1. Basic stats
+                    2. Inventory
+                    3. Return
+                    """);
 
+            choice = scanner.nextInt();
+            scanner.nextLine();
+            switch (choice) {
+                case 1 -> showHeroBasicStats(hero);
+                case 2 -> showHeroInventory(hero);
+                case 3 -> exploreCity(hero);
+                default -> System.out.println("Invalid choice. Please try again.");
+            }
+        } while (choice != 3);
+    }
+
+    private void showHeroBasicStats(Hero hero) {
+        System.out.println( "Name: " + hero.getName() + "\n" +
+                "level: " + hero.getLvl() + "\n" +
+                "experience: " + hero.getExperience() + "\n" +
+                "required experience to level up: " + hero.getRequiredExperience() + "\n" +
+                "current hp: " + hero.getCurrentHp() + "\n" +
+                "max hp: " + hero.getMaxHp() + "\n" +
+                "skill points to distribute: " + hero.getSkillPoints() + "\n" +
+                "damage: " + hero.getDamage() + "\n\n" +
+                "Abilities: \n" +
+                "strength: " + hero.getAbilitiesAfterModifier().getStrength() + "\n" +
+                "defence: " + hero.getAbilitiesAfterModifier().getDefence() + "\n" +
+                "intelligence: " + hero.getAbilitiesAfterModifier().getIntelligence() + "\n" +
+                "dexterity: " + hero.getAbilitiesAfterModifier().getDexterity() + "\n" +
+                "agility: " + hero.getAbilitiesAfterModifier().getAgility() + "\n" +
+                "speed: " + hero.getAbilitiesAfterModifier().getSpeed() + "\n"
+                );
+    }
+
+    private void showHeroInventory(Hero hero) {
+        if (hero.getInventory().get(ItemType.HELM) != null) {
+            System.out.println("Helm items" + hero.getInventory().get(ItemType.HELM));
+        }
+        if (hero.getInventory().get(ItemType.ARMOR) != null) {
+            System.out.println("Armor items" + hero.getInventory().get(ItemType.ARMOR));
+        }
+        if (hero.getInventory().get(ItemType.RING) != null) {
+            System.out.println("Ring items" + hero.getInventory().get(ItemType.RING));
+        }
+        if (hero.getInventory().get(ItemType.NECKLACE) != null) {
+            System.out.println("Necklace items" + hero.getInventory().get(ItemType.NECKLACE));
+        }
+        if (hero.getInventory().get(ItemType.TROUSERS) != null) {
+            System.out.println("Trousers items" + hero.getInventory().get(ItemType.TROUSERS));
+        }
+        if (hero.getInventory().get(ItemType.SHOES) != null) {
+            System.out.println("Shoes items" + hero.getInventory().get(ItemType.SHOES));
+        }
+        if (hero.getInventory().get(ItemType.WEAPON) != null) {
+            System.out.println("Weapon items" + hero.getInventory().get(ItemType.WEAPON));
+        }
+        if (hero.getInventory().get(ItemType.USUALLY) != null) {
+            System.out.println("Usually items" + hero.getInventory().get(ItemType.USUALLY));
+        }
+        if (hero.getInventory().get(ItemType.USABLE) != null) {
+            System.out.println("Usable items" + hero.getInventory().get(ItemType.USABLE));
+        }
+        if (hero.getInventory().size() == 0) {
+            System.out.println("Currently you have no items in your inventory.");
+        }
     }
     private void gameMenu(Hero hero) {
         Scanner scanner = new Scanner(System.in);
