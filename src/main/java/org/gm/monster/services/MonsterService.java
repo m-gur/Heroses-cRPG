@@ -6,7 +6,7 @@ import org.gm.monster.entity.Monster;
 public class MonsterService {
 
     public float setExperience(Monster monster, Hero hero) {
-        monster.setExperience((float) (hero.getLvl() * 1.3));
+        monster.setExperience((float) ((hero.getLvl() + monster.getLvl()) * 1.3));
         return monster.getExperience();
     }
 }
