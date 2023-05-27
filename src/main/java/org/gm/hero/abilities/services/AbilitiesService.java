@@ -107,22 +107,6 @@ public class AbilitiesService {
         System.out.println("Skill points reset successfully.");
     }
 
-    public void setAbilitiesFromItems(Hero hero) {
-        Abilities abilities = hero.getAbilities();
-        Map<ItemType, Item> equippedItems = hero.getEquippedItems();
-
-        for (Item item : equippedItems.values()) {
-            Abilities itemAbilities = item.getAbilities();
-            abilities.setStrength(abilities.getStrength() + itemAbilities.getStrength());
-            abilities.setDefence(abilities.getDefence() + itemAbilities.getDefence());
-            abilities.setIntelligence(abilities.getIntelligence() + itemAbilities.getIntelligence());
-            abilities.setDexterity(abilities.getDexterity() + itemAbilities.getDexterity());
-            abilities.setAgility(abilities.getAgility() + itemAbilities.getAgility());
-            abilities.setSpeed(abilities.getSpeed() + itemAbilities.getSpeed());
-        }
-
-    }
-
     public ModifierAbilities setModifierAbilities(Hero hero) {
         ModifierAbilities modifierAbilities = hero.getModifierAbilities();
 
@@ -142,6 +126,21 @@ public class AbilitiesService {
         modifierStrategy.setModifiers(modifierAbilities);
 
         return modifierAbilities;
+    }
+
+    private void setAbilitiesFromItems(Hero hero) {
+        Abilities abilities = hero.getAbilities();
+        Map<ItemType, Item> equippedItems = hero.getEquippedItems();
+
+        for (Item item : equippedItems.values()) {
+            Abilities itemAbilities = item.getAbilities();
+            abilities.setStrength(abilities.getStrength() + itemAbilities.getStrength());
+            abilities.setDefence(abilities.getDefence() + itemAbilities.getDefence());
+            abilities.setIntelligence(abilities.getIntelligence() + itemAbilities.getIntelligence());
+            abilities.setDexterity(abilities.getDexterity() + itemAbilities.getDexterity());
+            abilities.setAgility(abilities.getAgility() + itemAbilities.getAgility());
+            abilities.setSpeed(abilities.getSpeed() + itemAbilities.getSpeed());
+        }
     }
 
 }
