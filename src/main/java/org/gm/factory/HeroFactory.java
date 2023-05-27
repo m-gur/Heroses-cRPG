@@ -18,7 +18,7 @@ public class HeroFactory {
     private LevelService levelService = new LevelService();
     private HeroService heroService = new HeroService();
     private AbilitiesService abilitiesService = new AbilitiesService();
-    public Hero createHero(String heroType) {
+    public Hero createRandomHero(String heroType) {
         switch (heroType) {
             case "Mage":
                 return randomMage();
@@ -31,7 +31,7 @@ public class HeroFactory {
         }
     }
 
-    private Hero createRandomHero(Class<? extends Hero> heroClass, String heroName) {
+    private Hero createRandomHeroPartTwo(Class<? extends Hero> heroClass, String heroName) {
         Random random = new Random();
         Abilities abilities = new Abilities(1f, 1f, 1f, 1f, 1f, 1f);
         Map<ItemType, List<Item>> inventory = new HashMap<>();
@@ -95,15 +95,15 @@ public class HeroFactory {
     }
 
     private Mage randomMage() {
-        return (Mage) createRandomHero(Mage.class, randomWizardName());
+        return (Mage) createRandomHeroPartTwo(Mage.class, randomWizardName());
     }
 
     private Knight randomKnight() {
-        return (Knight) createRandomHero(Knight.class, randomKnightName());
+        return (Knight) createRandomHeroPartTwo(Knight.class, randomKnightName());
     }
 
     private Archer randomArcher() {
-        return (Archer) createRandomHero(Archer.class, randomArcherName());
+        return (Archer) createRandomHeroPartTwo(Archer.class, randomArcherName());
     }
 
     private String randomWizardName() {
