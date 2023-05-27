@@ -1,5 +1,7 @@
 package org.gm.menu;
 
+import org.gm.factory.MonsterFactory;
+import org.gm.fights.FightService;
 import org.gm.hero.abilities.entity.Abilities;
 import org.gm.hero.abilities.services.AbilitiesService;
 import org.gm.hero.entity.Archer;
@@ -10,6 +12,7 @@ import org.gm.hero.items.entity.Item;
 import org.gm.hero.items.entity.ItemType;
 import org.gm.hero.services.HeroService;
 import org.gm.hero.services.LevelService;
+import org.gm.monster.entity.Monster;
 
 import java.util.*;
 
@@ -19,6 +22,8 @@ public class Menu {
     private HeroService heroService = new HeroService();
     private AbilitiesService abilitiesService = new AbilitiesService();
     private LevelService levelService = new LevelService();
+    private FightService fightService = new FightService();
+    private MonsterFactory monsterFactory = new MonsterFactory();
 
     public void startGame() {
         Scanner scanner = new Scanner(System.in);
@@ -269,10 +274,202 @@ public class Menu {
     }
 
     private void getOutOfTown(Hero hero) {
+        Scanner scanner = new Scanner(System.in);
+        int choice;
         System.out.println("""
                 You left town, feel a light breeze. Now you have to be careful.
                 Monsters can be everywhere, where you want to go?
                 """);
+        do {
+            System.out.println("""
+                    1. Forgotten Field
+                    2. Back to the town
+                    3. Haunted Forest
+                    4. Adventure
+                    5. Character menu
+                    6. Game menu
+                    """);
+
+            choice = scanner.nextInt();
+            scanner.nextLine();
+            switch (choice) {
+                case 1 -> forgottenField(hero);
+                case 2 -> exploreCity(hero);
+                case 3 -> hauntedForest(hero);
+                case 4 -> adventure(hero);
+                case 5 -> showCharacterMenu(hero);
+                case 6 -> gameMenu(hero);
+                default -> System.out.println("Invalid choice. Please try again.");
+            }
+        } while (choice != 6);
+    }
+
+    private void hauntedForest(Hero hero) {
+        Scanner scanner = new Scanner(System.in);
+        int choice;
+        System.out.println("""
+                Currently, you are too weak for this place. Come back when you are stronger.
+                Where would you like to go?
+                """);
+        do {
+            System.out.println("""
+                    1. Forgotten Field
+                    2. Castle
+                    3. Back to the town
+                    4. Adventure
+                    5. Character menu
+                    6. Game menu
+                    """);
+
+            choice = scanner.nextInt();
+            scanner.nextLine();
+            switch (choice) {
+                case 1 -> forgottenField(hero);
+                case 2 -> castle(hero);
+                case 3 -> exploreCity(hero);
+                case 4 -> adventure(hero);
+                case 5 -> showCharacterMenu(hero);
+                case 6 -> gameMenu(hero);
+                default -> System.out.println("Invalid choice. Please try again.");
+            }
+        } while (choice != 6);
+    }
+
+    private void castle(Hero hero) {
+        Scanner scanner = new Scanner(System.in);
+        int choice;
+        System.out.println("""
+                You have arrived at the castle, but for now, you can't do anything more here.
+                Where would you like to go?
+                """);
+        do {
+            System.out.println("""
+                    1. Forgotten Field
+                    2. Back to the town
+                    3. Haunted Forest
+                    4. Adventure
+                    5. Character menu
+                    6. Game menu
+                    """);
+
+            choice = scanner.nextInt();
+            scanner.nextLine();
+            switch (choice) {
+                case 1 -> forgottenField(hero);
+                case 2 -> exploreCity(hero);
+                case 3 -> hauntedForest(hero);
+                case 4 -> adventure(hero);
+                case 5 -> showCharacterMenu(hero);
+                case 6 -> gameMenu(hero);
+                default -> System.out.println("Invalid choice. Please try again.");
+            }
+        } while (choice != 6);
+    }
+
+    private void forgottenField(Hero hero) {
+        Scanner scanner = new Scanner(System.in);
+        int choice;
+        System.out.println("""
+                You hear strange voices in the vicinity, as if they were crows.
+                In the distance, you see an old scarecrow, and it seems to be moving.
+                To the west, amidst long-withered crops, there is a house.
+                Do you want to continue further? Or would you prefer to go somewhere else?
+                """);
+        do {
+            System.out.println("""
+                    1. Back to the town
+                    2. Explore the house
+                    3. Castle
+                    4. Haunted Forest
+                    5. Adventure
+                    6. Character menu
+                    7. Game menu
+                    """);
+
+            choice = scanner.nextInt();
+            scanner.nextLine();
+            switch (choice) {
+                case 1 -> exploreCity(hero);
+                case 2 -> exploreHouse(hero);
+                case 3 -> castle(hero);
+                case 4 -> hauntedForest(hero);
+                case 5 -> adventure(hero);
+                case 6 -> showCharacterMenu(hero);
+                case 7 -> gameMenu(hero);
+                default -> System.out.println("Invalid choice. Please try again.");
+            }
+        } while (choice != 7);
+    }
+
+    private void exploreHouse(Hero hero) {
+        Scanner scanner = new Scanner(System.in);
+        int choice;
+        System.out.println("""
+                As you approach the old house, a strange smell lingers in the air, accompanied by an weird aura.
+                You ponder whether you truly want to stay in this place. Are you sure you want to be here?
+                What would you like to do?
+                """);
+        do {
+            System.out.println("""
+                    1. Back to the town
+                    2. Forgotten Field
+                    3. Castle
+                    4. Haunted Forest
+                    5. Adventure
+                    6. Character menu
+                    7. Game menu
+                    """);
+
+            choice = scanner.nextInt();
+            scanner.nextLine();
+            switch (choice) {
+                case 1 -> exploreCity(hero);
+                case 2 -> forgottenField(hero);
+                case 3 -> castle(hero);
+                case 4 -> hauntedForest(hero);
+                case 5 -> adventure(hero);
+                case 6 -> showCharacterMenu(hero);
+                case 7 -> gameMenu(hero);
+                default -> System.out.println("Invalid choice. Please try again.");
+            }
+        } while (choice != 7);
+    }
+
+    private void adventure(Hero hero) {
+        Monster randomMonster = monsterFactory.createRandomMonster(hero);
+        Scanner scanner = new Scanner(System.in);
+        int choice;
+        System.out.println("""
+                You are brave, choosing an adventure.
+                Are you able to find something more than just monsters here?
+                """);
+        fightService.performBattle(hero, randomMonster);
+        if (hero.getCurrentHp() <= 0) {
+            System.out.println("""
+                    You have died and have been transported to the main location in the game.
+                    Your health has been restored.
+                    """);
+            hero.setCurrentHp(hero.getMaxHp());
+            exploreCity(hero);
+        }
+        do {
+            System.out.println("""
+                    1. Back to the town
+                    2. Adventure
+                    3. Character menu
+                    4. Game menu
+                    """);
+
+            choice = scanner.nextInt();
+            scanner.nextLine();
+            switch (choice) {
+                case 1 -> exploreCity(hero);
+                case 2 -> adventure(hero);
+                case 3 -> showCharacterMenu(hero);
+                case 4 -> gameMenu(hero);
+                default -> System.out.println("Invalid choice. Please try again.");
+            }
+        } while (choice != 4);
     }
 
     private void showCharacterMenu(Hero hero) {
