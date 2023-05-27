@@ -1,17 +1,17 @@
 package org.gm.menu;
 
+import org.gm.hero.abilities.entity.Abilities;
 import org.gm.hero.abilities.services.AbilitiesService;
 import org.gm.hero.entity.Archer;
 import org.gm.hero.entity.Hero;
 import org.gm.hero.entity.Knight;
 import org.gm.hero.entity.Mage;
+import org.gm.hero.items.entity.Item;
 import org.gm.hero.items.entity.ItemType;
 import org.gm.hero.services.HeroService;
 import org.gm.hero.services.LevelService;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 
 import static java.lang.System.exit;
 
@@ -165,8 +165,93 @@ public class Menu {
     }
 
     private void upgradeEquipment(Hero hero) {
-
+        Scanner scanner = new Scanner(System.in);
+        int choice;
+        String itemName;
+        System.out.println("""
+                What you want to upgrade?
+                Upgraded item will receive all stats + 1
+                1. Helm
+                2. Armor
+                3. Ring
+                4. Necklace
+                5. Trousers
+                6. Shoes
+                7. Weapon
+                8. Return
+                """);
+        do {
+            choice = scanner.nextInt();
+            scanner.nextLine();
+            switch (choice) {
+                case 1 -> {
+                    itemName = getItemName(scanner);
+                    upgradeItem(hero, ItemType.HELM, itemName);
+                }
+                case 2 -> {
+                    itemName = getItemName(scanner);
+                    upgradeItem(hero, ItemType.ARMOR, itemName);
+                }
+                case 3 -> {
+                    itemName = getItemName(scanner);
+                    upgradeItem(hero, ItemType.RING, itemName);
+                }
+                case 4 -> {
+                    itemName = getItemName(scanner);
+                    upgradeItem(hero, ItemType.NECKLACE, itemName);
+                }
+                case 5 -> {
+                    itemName = getItemName(scanner);
+                    upgradeItem(hero, ItemType.TROUSERS, itemName);
+                }
+                case 6 -> {
+                    itemName = getItemName(scanner);
+                    upgradeItem(hero, ItemType.SHOES, itemName);
+                }
+                case 7 -> {
+                    itemName = getItemName(scanner);
+                    upgradeItem(hero, ItemType.WEAPON, itemName);
+                }
+                case 8 -> blacksmith(hero);
+                default -> System.out.println("Invalid choice. Please try again.");
+            }
+        } while (choice != 8);
     }
+
+    private static String getItemName(Scanner scanner) {
+        String itemName;
+        System.out.println("Enter item name to upgrade: ");
+        itemName = scanner.nextLine();
+        return itemName;
+    }
+
+    private void upgradeItem(Hero hero, ItemType itemType, String itemName) {
+        List<Item> items = hero.getInventory().get(itemType);
+        if (items == null) {
+            System.out.println("Currently you haven't items of type: " + itemType);
+            upgradeEquipment(hero);
+        } else {
+            for (Item item : items) {
+                if (item.getName().equals(itemName)) {
+                    Abilities abilities = item.getAbilities();
+                    abilities.setStrength(abilities.getStrength() + 1);
+                    abilities.setDefence(abilities.getDefence() + 1);
+                    abilities.setIntelligence(abilities.getIntelligence() + 1);
+                    abilities.setDexterity(abilities.getDexterity() + 1);
+                    abilities.setAgility(abilities.getAgility() + 1);
+                    abilities.setSpeed(abilities.getSpeed() + 1);
+
+                    hero.getInventory().put(itemType, items);
+                    System.out.println("Item " + itemName + " upgraded successfully.");
+                    abilitiesService.setAbilitiesAfterModifier(hero);
+                    upgradeEquipment(hero);
+                }
+            }
+        }
+        System.out.println("Item of given name '" + itemName + "' does not exist in your equipment.");
+        upgradeEquipment(hero);
+    }
+
 
     private void market(Hero hero) {
         System.out.println("""
