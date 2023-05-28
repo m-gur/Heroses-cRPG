@@ -74,6 +74,9 @@ public class Menu {
                 case 1 -> exploreCity(createHeroPartTwo(new Archer()));
                 case 2 -> exploreCity(createHeroPartTwo(new Knight()));
                 case 3 -> exploreCity(createHeroPartTwo(new Mage()));
+                case 4 -> {
+                    return;
+                }
                 default -> System.out.println("Invalid choice. Please try again.");
             }
         } while (choice != 4);
@@ -477,10 +480,11 @@ public class Menu {
         int choice;
         do {
             System.out.println("""
-                    What you want to see?
+                    Character menu options:
                     1. Basic stats
                     2. Inventory
-                    3. Return
+                    3. Distribute skill points
+                    4. Return
                     """);
 
             choice = scanner.nextInt();
@@ -488,10 +492,13 @@ public class Menu {
             switch (choice) {
                 case 1 -> showHeroBasicStats(hero);
                 case 2 -> showHeroInventory(hero);
-                case 3 -> exploreCity(hero);
+                case 3 -> distributeSkillPoints(hero);
+                case 4 -> {
+                    return;
+                }
                 default -> System.out.println("Invalid choice. Please try again.");
             }
-        } while (choice != 3);
+        } while (choice != 4);
     }
 
     private void showHeroBasicStats(Hero hero) {
@@ -545,6 +552,71 @@ public class Menu {
             System.out.println("Currently you have no items in your inventory.");
         }
     }
+
+    private void distributeSkillPoints(Hero hero) {
+        Scanner scanner = new Scanner(System.in);
+        int choice;
+        int skillPoints;
+        Map<String, Integer> skillPointsDistribution = new HashMap<>();
+        String pointsQuestion = "How much points you want add?";
+        do {
+            System.out.println("""
+                    To which skill you want add points?
+                    1. Strength
+                    2. Defence
+                    3. Intelligence
+                    4. Dexterity
+                    5. Agility
+                    6. Speed
+                    7. Return
+                    """);
+
+            choice = scanner.nextInt();
+            scanner.nextLine();
+            switch (choice) {
+                case 1 -> {
+                    System.out.println(pointsQuestion);
+                    skillPoints = scanner.nextInt();
+                    skillPointsDistribution.put("strength", skillPoints);
+                    abilitiesService.distributeSkillPoints(hero, skillPointsDistribution);
+                }
+                case 2 -> {
+                    System.out.println(pointsQuestion);
+                    skillPoints = scanner.nextInt();
+                    skillPointsDistribution.put("defence", skillPoints);
+                    abilitiesService.distributeSkillPoints(hero, skillPointsDistribution);
+                }
+                case 3 -> {
+                    System.out.println(pointsQuestion);
+                    skillPoints = scanner.nextInt();
+                    skillPointsDistribution.put("intelligence", skillPoints);
+                    abilitiesService.distributeSkillPoints(hero, skillPointsDistribution);
+                }
+                case 4 -> {
+                    System.out.println(pointsQuestion);
+                    skillPoints = scanner.nextInt();
+                    skillPointsDistribution.put("dexternity", skillPoints);
+                    abilitiesService.distributeSkillPoints(hero, skillPointsDistribution);
+                }
+                case 5 -> {
+                    System.out.println(pointsQuestion);
+                    skillPoints = scanner.nextInt();
+                    skillPointsDistribution.put("agility", skillPoints);
+                    abilitiesService.distributeSkillPoints(hero, skillPointsDistribution);
+                }
+                case 6 -> {
+                    System.out.println(pointsQuestion);
+                    skillPoints = scanner.nextInt();
+                    skillPointsDistribution.put("speed", skillPoints);
+                    abilitiesService.distributeSkillPoints(hero, skillPointsDistribution);
+                }
+                case 7 -> {
+                    return;
+                }
+                default -> System.out.println("Invalid choice. Please try again.");
+            }
+        } while (choice != 7);
+    }
     private void gameMenu(Hero hero) {
         Scanner scanner = new Scanner(System.in);
         int choice;
@@ -553,7 +625,7 @@ public class Menu {
                     What you want to do?
                     1. Save game
                     2. Exit game
-                    3. Return to the game
+                    3. Return to the game in Town
                     """);
 
             choice = scanner.nextInt();
