@@ -27,7 +27,7 @@ public class HeroFactory {
             case "Archer":
                 return randomArcher();
             default:
-                throw new IllegalArgumentException("Invaild hero type: " + heroType);
+                throw new IllegalArgumentException("Invalid hero type: " + heroType);
         }
     }
 
@@ -35,26 +35,26 @@ public class HeroFactory {
         Random random = new Random();
         Abilities abilities = new Abilities(1f, 1f, 1f, 1f, 1f, 1f);
         Map<ItemType, List<Item>> inventory = new HashMap<>();
-        List<Item> helms = new ArrayList<>();
-        helms.add(itemFactory.createItem(ItemType.HELM));
-        List<Item> armors = new ArrayList<>();
-        armors.add(itemFactory.createItem(ItemType.ARMOR));
+        List<Item> helmets = new ArrayList<>();
+        helmets.add(itemFactory.createFactoryItem(ItemType.HELMET));
+        List<Item> chests = new ArrayList<>();
+        chests.add(itemFactory.createFactoryItem(ItemType.CHEST));
         List<Item> rings = new ArrayList<>();
-        rings.add(itemFactory.createItem(ItemType.RING));
+        rings.add(itemFactory.createFactoryItem(ItemType.RING));
         List<Item> necklaces = new ArrayList<>();
-        necklaces.add(itemFactory.createItem(ItemType.NECKLACE));
+        necklaces.add(itemFactory.createFactoryItem(ItemType.NECKLACE));
         List<Item> trousers = new ArrayList<>();
-        trousers.add(itemFactory.createItem(ItemType.TROUSERS));
+        trousers.add(itemFactory.createFactoryItem(ItemType.TROUSERS));
         List<Item> shoes = new ArrayList<>();
-        shoes.add(itemFactory.createItem(ItemType.SHOES));
+        shoes.add(itemFactory.createFactoryItem(ItemType.SHOES));
         List<Item> weapons = new ArrayList<>();
-        weapons.add(itemFactory.createItem(ItemType.WEAPON));
+        weapons.add(itemFactory.createFactoryItem(ItemType.WEAPON));
         List<Item> usually = new ArrayList<>();
-        usually.add(itemFactory.createItem(ItemType.USUALLY));
+        usually.add(itemFactory.createFactoryItem(ItemType.USUALLY));
         List<Item> usable = new ArrayList<>();
-        usable.add(itemFactory.createItem(ItemType.USABLE));
-        inventory.put(ItemType.HELM, helms);
-        inventory.put(ItemType.ARMOR, armors);
+        usable.add(itemFactory.createFactoryItem(ItemType.USABLE));
+        inventory.put(ItemType.HELMET, helmets);
+        inventory.put(ItemType.CHEST, chests);
         inventory.put(ItemType.RING, rings);
         inventory.put(ItemType.NECKLACE, necklaces);
         inventory.put(ItemType.TROUSERS, trousers);
@@ -64,13 +64,13 @@ public class HeroFactory {
         inventory.put(ItemType.USABLE, usable);
 
         Map<ItemType, Item> equippedItems = new HashMap<>();
-        equippedItems.put(ItemType.HELM, itemFactory.createItem(ItemType.HELM));
-        equippedItems.put(ItemType.ARMOR, itemFactory.createItem(ItemType.ARMOR));
-        equippedItems.put(ItemType.RING, itemFactory.createItem(ItemType.RING));
-        equippedItems.put(ItemType.NECKLACE, itemFactory.createItem(ItemType.NECKLACE));
-        equippedItems.put(ItemType.TROUSERS, itemFactory.createItem(ItemType.TROUSERS));
-        equippedItems.put(ItemType.SHOES, itemFactory.createItem(ItemType.SHOES));
-        equippedItems.put(ItemType.WEAPON, itemFactory.createItem(ItemType.WEAPON));
+        equippedItems.put(ItemType.HELMET, itemFactory.createFactoryItem(ItemType.HELMET));
+        equippedItems.put(ItemType.CHEST, itemFactory.createFactoryItem(ItemType.CHEST));
+        equippedItems.put(ItemType.RING, itemFactory.createFactoryItem(ItemType.RING));
+        equippedItems.put(ItemType.NECKLACE, itemFactory.createFactoryItem(ItemType.NECKLACE));
+        equippedItems.put(ItemType.TROUSERS, itemFactory.createFactoryItem(ItemType.TROUSERS));
+        equippedItems.put(ItemType.SHOES, itemFactory.createFactoryItem(ItemType.SHOES));
+        equippedItems.put(ItemType.WEAPON, itemFactory.createFactoryItem(ItemType.WEAPON));
         Hero hero;
         try {
             hero = heroClass.getConstructor(String.class).newInstance(heroName);

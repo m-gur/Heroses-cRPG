@@ -1,8 +1,8 @@
 package org.gm.hero.items.entity;
 
 public enum ItemType {
-    HELM,
-    ARMOR,
+    HELMET,
+    CHEST,
     RING,
     NECKLACE,
     TROUSERS,

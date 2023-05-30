@@ -194,11 +194,11 @@ public class Menu {
             switch (choice) {
                 case 1 -> {
                     itemName = getItemName(scanner);
-                    upgradeItem(hero, ItemType.HELM, itemName);
+                    upgradeItem(hero, ItemType.HELMET, itemName);
                 }
                 case 2 -> {
                     itemName = getItemName(scanner);
-                    upgradeItem(hero, ItemType.ARMOR, itemName);
+                    upgradeItem(hero, ItemType.CHEST, itemName);
                 }
                 case 3 -> {
                     itemName = getItemName(scanner);
@@ -521,11 +521,11 @@ public class Menu {
     }
 
     private void showHeroInventory(Hero hero) {
-        if (hero.getInventory().get(ItemType.HELM) != null) {
-            System.out.println("Helm items" + hero.getInventory().get(ItemType.HELM));
+        if (hero.getInventory().get(ItemType.HELMET) != null) {
+            System.out.println("Helm items" + hero.getInventory().get(ItemType.HELMET));
         }
-        if (hero.getInventory().get(ItemType.ARMOR) != null) {
-            System.out.println("Armor items" + hero.getInventory().get(ItemType.ARMOR));
+        if (hero.getInventory().get(ItemType.CHEST) != null) {
+            System.out.println("Armor items" + hero.getInventory().get(ItemType.CHEST));
         }
         if (hero.getInventory().get(ItemType.RING) != null) {
             System.out.println("Ring items" + hero.getInventory().get(ItemType.RING));
