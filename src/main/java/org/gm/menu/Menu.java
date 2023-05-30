@@ -486,9 +486,10 @@ public class Menu {
                     Character menu options:
                     1. Basic stats
                     2. Inventory
-                    3. Distribute skill points
-                    4. Equip items
-                    5. Return
+                    3. Equipped items
+                    4. Distribute skill points
+                    5. Equip items
+                    6. Return
                     """);
 
             choice = scanner.nextInt();
@@ -496,14 +497,15 @@ public class Menu {
             switch (choice) {
                 case 1 -> showHeroBasicStats(hero);
                 case 2 -> showHeroInventory(hero);
-                case 3 -> distributeSkillPoints(hero);
-                case 4 -> equipItems(hero);
-                case 5 -> {
+                case 3 -> showHeroEquippedItems(hero);
+                case 4 -> distributeSkillPoints(hero);
+                case 5 -> equipItems(hero);
+                case 6 -> {
                     return;
                 }
                 default -> System.out.println("Invalid choice. Please try again.");
             }
-        } while (choice != 5);
+        } while (choice != 6);
     }
 
     private void showHeroBasicStats(Hero hero) {
@@ -555,6 +557,33 @@ public class Menu {
         }
         if (hero.getInventory().size() == 0) {
             System.out.println("Currently you have no items in your inventory.");
+        }
+    }
+
+    private void showHeroEquippedItems(Hero hero) {
+        if (hero.getEquippedItems().get(ItemType.HELMET) != null) {
+            System.out.println("Helmet item" + hero.getEquippedItems().get(ItemType.HELMET));
+        }
+        if (hero.getEquippedItems().get(ItemType.CHEST) != null) {
+            System.out.println("Chest item" + hero.getEquippedItems().get(ItemType.CHEST));
+        }
+        if (hero.getEquippedItems().get(ItemType.RING) != null) {
+            System.out.println("Ring item" + hero.getEquippedItems().get(ItemType.RING));
+        }
+        if (hero.getEquippedItems().get(ItemType.NECKLACE) != null) {
+            System.out.println("Necklace item" + hero.getEquippedItems().get(ItemType.NECKLACE));
+        }
+        if (hero.getEquippedItems().get(ItemType.TROUSERS) != null) {
+            System.out.println("Trousers item" + hero.getEquippedItems().get(ItemType.TROUSERS));
+        }
+        if (hero.getEquippedItems().get(ItemType.SHOES) != null) {
+            System.out.println("Shoes item" + hero.getEquippedItems().get(ItemType.SHOES));
+        }
+        if (hero.getEquippedItems().get(ItemType.WEAPON) != null) {
+            System.out.println("Weapon item" + hero.getEquippedItems().get(ItemType.WEAPON));
+        }
+        if (hero.getEquippedItems().size() == 0) {
+            System.out.println("Currently you have no equipped items.");
         }
     }
 
