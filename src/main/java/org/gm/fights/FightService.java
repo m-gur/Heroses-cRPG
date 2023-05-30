@@ -3,7 +3,7 @@ package org.gm.fights;
 import org.gm.factory.ItemFactory;
 import org.gm.hero.entity.Hero;
 import org.gm.hero.items.entity.Item;
-import org.gm.hero.items.entity.ItemType;
+import org.gm.hero.items.services.ItemService;
 import org.gm.hero.services.LevelService;
 import org.gm.monster.entity.Monster;
 
@@ -12,10 +12,9 @@ import java.util.*;
 public class FightService {
     private LevelService levelService = new LevelService();
     private ItemFactory itemFactory = new ItemFactory();
+    private ItemService itemService = new ItemService();
     public void performBattle(Hero hero, Monster monster) {
         Random random = new Random();
-        List<Item> itemList = new ArrayList<>();
-        Map<ItemType, List<Item>> listMap = new HashMap<>();
         boolean heroFirstAttack = random.nextBoolean();
 
         while (hero.getCurrentHp() > 0 && monster.getHp() > 0) {
@@ -24,9 +23,7 @@ public class FightService {
                 if (monster.getHp() <= 0) {
                     levelService.accumulateExperience(hero, monster.getExperience());
                     Item randomItem = itemFactory.createRandomItem(hero);
-                    itemList.add(randomItem);
-                    listMap.put(randomItem.getItemType(), itemList);
-                    hero.setInventory(listMap);
+                    hero.setInventory(itemService.addItemToInventory(hero, randomItem));
                 } else {
                     performMonsterAttack(hero, monster);
                 }
@@ -39,9 +36,7 @@ public class FightService {
                     if (monster.getHp() <= 0) {
                         levelService.accumulateExperience(hero, monster.getExperience());
                         Item randomItem = itemFactory.createRandomItem(hero);
-                        itemList.add(randomItem);
-                        listMap.put(randomItem.getItemType(), itemList);
-                        hero.setInventory(listMap);
+                        hero.setInventory(itemService.addItemToInventory(hero, randomItem));
                     }
                 }
             }

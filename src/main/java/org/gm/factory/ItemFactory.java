@@ -48,52 +48,51 @@ public class ItemFactory {
 
     public Item createRandomItem(Hero hero) {
         Random random = new Random();
-        int randomValue = random.nextInt(hero.getLvl() * 3);
         Abilities abilitiesForArmorItems = new Abilities();
-        abilitiesForArmorItems.setStrength(randomValue);
-        abilitiesForArmorItems.setDefence(randomValue);
-        abilitiesForArmorItems.setIntelligence(randomValue);
-        abilitiesForArmorItems.setDexterity(randomValue);
-        abilitiesForArmorItems.setAgility(randomValue);
-        abilitiesForArmorItems.setSpeed(randomValue);
+        abilitiesForArmorItems.setStrength(random.nextInt(hero.getLvl() * 3));
+        abilitiesForArmorItems.setDefence(random.nextInt(hero.getLvl() * 3));
+        abilitiesForArmorItems.setIntelligence(random.nextInt(hero.getLvl() * 3));
+        abilitiesForArmorItems.setDexterity(random.nextInt(hero.getLvl() * 3));
+        abilitiesForArmorItems.setAgility(random.nextInt(hero.getLvl() * 3));
+        abilitiesForArmorItems.setSpeed(random.nextInt(hero.getLvl() * 3));
         Abilities abilitiesForOtherTypeItem = new Abilities(0f, 0f, 0f, 0f, 0f, 0f);
-        int itemChoice = random.nextInt(9);
+        int itemChoice = random.nextInt(9)+1;
         switch (itemChoice) {
             case 1 -> {
                 return new Item(getRandomHelmetName(), ItemType.HELMET, abilitiesForArmorItems,
-                        BigDecimal.valueOf(randomValue), 1, false);
+                        BigDecimal.valueOf(random.nextInt(hero.getLvl() * 3)), 1, false);
             }
             case 2 -> {
                 return new Item(getRandomChestName(), ItemType.CHEST, abilitiesForArmorItems,
-                        BigDecimal.valueOf(randomValue), 1, false);
+                        BigDecimal.valueOf(random.nextInt(hero.getLvl() * 3)), 1, false);
             }
             case 3 -> {
                 return new Item(getRandomRingName(), ItemType.RING, abilitiesForArmorItems,
-                        BigDecimal.valueOf(randomValue), 1, false);
+                        BigDecimal.valueOf(random.nextInt(hero.getLvl() * 3)), 1, false);
             }
             case 4 -> {
                 return new Item(getRandomNecklaceName(), ItemType.NECKLACE, abilitiesForArmorItems,
-                        BigDecimal.valueOf(randomValue), 1, false);
+                        BigDecimal.valueOf(random.nextInt(hero.getLvl() * 3)), 1, false);
             }
             case 5 -> {
                 return new Item(getRandomTrousersName(), ItemType.TROUSERS, abilitiesForArmorItems,
-                        BigDecimal.valueOf(randomValue), 1, false);
+                        BigDecimal.valueOf(random.nextInt(hero.getLvl() * 3)), 1, false);
             }
             case 6 -> {
                 return new Item(getRandomShoesName(), ItemType.SHOES, abilitiesForArmorItems,
-                        BigDecimal.valueOf(randomValue), 1, false);
+                        BigDecimal.valueOf(random.nextInt(hero.getLvl() * 3)), 1, false);
             }
             case 7 -> {
                 return new Item(getRandomWeaponName(), ItemType.WEAPON, abilitiesForArmorItems,
-                        BigDecimal.valueOf(randomValue), 1, false);
+                        BigDecimal.valueOf(random.nextInt(hero.getLvl() * 3)), 1, false);
             }
             case 8 -> {
                 return new Item(getRandomUsuallyName(), ItemType.USUALLY, abilitiesForOtherTypeItem,
-                        BigDecimal.valueOf(randomValue), 1, false);
+                        BigDecimal.valueOf(random.nextInt(hero.getLvl() * 3)), 1, false);
             }
             case 9 -> {
                 return new Item(getRandomUsableName(), ItemType.USABLE, abilitiesForOtherTypeItem,
-                        BigDecimal.valueOf(randomValue), 1, false);
+                        BigDecimal.valueOf(random.nextInt(hero.getLvl() * 3)), 1, false);
             }
             default -> throw new IllegalArgumentException("Invalid item type");
         }
