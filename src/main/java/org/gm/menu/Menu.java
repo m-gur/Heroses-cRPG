@@ -10,6 +10,7 @@ import org.gm.hero.entity.Knight;
 import org.gm.hero.entity.Mage;
 import org.gm.hero.items.entity.Item;
 import org.gm.hero.items.entity.ItemType;
+import org.gm.hero.items.services.ItemService;
 import org.gm.hero.services.HeroService;
 import org.gm.hero.services.LevelService;
 import org.gm.monster.entity.Monster;
@@ -24,6 +25,7 @@ public class Menu {
     private LevelService levelService = new LevelService();
     private FightService fightService = new FightService();
     private MonsterFactory monsterFactory = new MonsterFactory();
+    private ItemService itemService = new ItemService();
 
     public void startGame() {
         Scanner scanner = new Scanner(System.in);
@@ -439,6 +441,7 @@ public class Menu {
     }
 
     private void adventure(Hero hero) {
+        hero.setCurrentHp(10000);
         Monster randomMonster = monsterFactory.createRandomMonster(hero);
         Scanner scanner = new Scanner(System.in);
         int choice;
@@ -484,7 +487,8 @@ public class Menu {
                     1. Basic stats
                     2. Inventory
                     3. Distribute skill points
-                    4. Return
+                    4. Equip items
+                    5. Return
                     """);
 
             choice = scanner.nextInt();
@@ -493,12 +497,13 @@ public class Menu {
                 case 1 -> showHeroBasicStats(hero);
                 case 2 -> showHeroInventory(hero);
                 case 3 -> distributeSkillPoints(hero);
-                case 4 -> {
+                case 4 -> equipItems(hero);
+                case 5 -> {
                     return;
                 }
                 default -> System.out.println("Invalid choice. Please try again.");
             }
-        } while (choice != 4);
+        } while (choice != 5);
     }
 
     private void showHeroBasicStats(Hero hero) {
@@ -522,10 +527,10 @@ public class Menu {
 
     private void showHeroInventory(Hero hero) {
         if (hero.getInventory().get(ItemType.HELMET) != null) {
-            System.out.println("Helm items" + hero.getInventory().get(ItemType.HELMET));
+            System.out.println("Helmet items" + hero.getInventory().get(ItemType.HELMET));
         }
         if (hero.getInventory().get(ItemType.CHEST) != null) {
-            System.out.println("Armor items" + hero.getInventory().get(ItemType.CHEST));
+            System.out.println("Chest items" + hero.getInventory().get(ItemType.CHEST));
         }
         if (hero.getInventory().get(ItemType.RING) != null) {
             System.out.println("Ring items" + hero.getInventory().get(ItemType.RING));
@@ -616,6 +621,98 @@ public class Menu {
                 default -> System.out.println("Invalid choice. Please try again.");
             }
         } while (choice != 7);
+    }
+
+    private void equipItems(Hero hero) {
+        Scanner scanner = new Scanner(System.in);
+        int choice;
+        do {
+            System.out.println("""
+                    What item you want to equip?
+                    1. Helmet
+                    2. Chest
+                    3. Ring
+                    4. Necklace
+                    5. Trousers
+                    6. Shoes
+                    7. Weapon
+                    8. Return
+                    """);
+
+            choice = scanner.nextInt();
+            scanner.nextLine();
+            int i = 0;
+            List<Item> itemToEquip = new ArrayList<>();
+            scanner = new Scanner(System.in);
+            System.out.println("Which item?");
+            switch (choice) {
+                case 1 -> {
+                    List<Item> items = hero.getInventory().get(ItemType.HELMET);
+                    for (Item item : items) {
+                        System.out.println(i + ". " + item);
+                        i++;
+                    }
+                    itemToEquip.add(items.get(scanner.nextInt()));
+                    itemService.itemOperation(hero, itemToEquip.get(0));
+                }
+                case 2 -> {
+                    List<Item> items = hero.getInventory().get(ItemType.CHEST);
+                    for (Item item : items) {
+                        System.out.println(i + ". " + item);
+                        i++;
+                    }
+                    itemToEquip.add(items.get(scanner.nextInt()));
+                    itemService.itemOperation(hero, itemToEquip.get(0));
+                }
+                case 3 -> {
+                    List<Item> items = hero.getInventory().get(ItemType.RING);
+                    for (Item item : items) {
+                        System.out.println(i + ". " + item);
+                        i++;
+                    }
+                    itemToEquip.add(items.get(scanner.nextInt()));
+                    itemService.itemOperation(hero, itemToEquip.get(0));
+                }
+                case 4 -> {
+                    List<Item> items = hero.getInventory().get(ItemType.NECKLACE);
+                    for (Item item : items) {
+                        System.out.println(i + ". " + item);
+                        i++;
+                    }
+                    itemToEquip.add(items.get(scanner.nextInt()));
+                    itemService.itemOperation(hero, itemToEquip.get(0));
+                }
+                case 5 -> {
+                    List<Item> items = hero.getInventory().get(ItemType.TROUSERS);
+                    for (Item item : items) {
+                        System.out.println(i + ". " + item);
+                        i++;
+                    }
+                    itemToEquip.add(items.get(scanner.nextInt()));
+                    itemService.itemOperation(hero, itemToEquip.get(0));
+                }
+                case 6 -> {
+                    List<Item> items = hero.getInventory().get(ItemType.SHOES);
+                    for (Item item : items) {
+                        System.out.println(i + ". " + item);
+                        i++;
+                    }
+                    itemToEquip.add(items.get(scanner.nextInt()));
+                    itemService.itemOperation(hero, itemToEquip.get(0));
+                }
+                case 7 -> {
+                    List<Item> items = hero.getInventory().get(ItemType.WEAPON);
+                    for (Item item : items) {
+                        System.out.println(i + ". " + item);
+                        i++;
+                    }
+                    itemToEquip.add(items.get(scanner.nextInt()));
+                    itemService.itemOperation(hero, itemToEquip.get(0));
+                }
+                case 8 -> showCharacterMenu(hero);
+                default -> System.out.println("Invalid choice. Please try again.");
+            }
+        } while (choice != 8);
     }
     private void gameMenu(Hero hero) {
         Scanner scanner = new Scanner(System.in);
