@@ -15,4 +15,9 @@ public class Mage extends Hero {
     public ModifierStrategy getModifierStrategy() {
         return new MageModifierStrategy();
     }
+
+    @Override
+    public String getHeroType() {
+        return "Mage";
+    }
 }

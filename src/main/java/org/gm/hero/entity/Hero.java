@@ -29,8 +29,10 @@ public abstract class Hero {
     private float damage;
     private Map<ItemType, List<Item>> inventory;
     private Map<ItemType, Item> equippedItems;
+    private String heroType;
 
     public abstract ModifierStrategy getModifierStrategy();
+    public abstract String getHeroType();
 
     public Hero(String name) {
         this.name = name;
@@ -44,6 +46,7 @@ public abstract class Hero {
         this.abilitiesAfterModifier = new AbilitiesAfterModifier();
         this.inventory = new HashMap<>();
         this.equippedItems = new HashMap<>();
+        this.heroType = getHeroType();
     }
 
     public Hero() {
@@ -60,19 +63,20 @@ public abstract class Hero {
     @Override
     public String toString() {
         return "Hero{" +
-                "name='" + name + '\'' +
-                ", lvl=" + lvl +
-                ", currentHp=" + currentHp +
-                ", maxHp=" + maxHp +
-                ", experience=" + experience +
-                ", requiredExperience=" + requiredExperience +
-                ", skillPoints=" + skillPoints +
-                ", abilities=" + abilities +
-                ", modifierAbilities=" + modifierAbilities +
-                ", abilitiesAfterModifier=" + abilitiesAfterModifier +
-                ", damage=" + damage +
-                ", inventory=" + inventory +
-                ", equippedItems=" + equippedItems +
-                '}';
+               "name='" + name + '\'' +
+               ", lvl=" + lvl +
+               ", currentHp=" + currentHp +
+               ", maxHp=" + maxHp +
+               ", experience=" + experience +
+               ", requiredExperience=" + requiredExperience +
+               ", skillPoints=" + skillPoints +
+               ", abilities=" + abilities +
+               ", modifierAbilities=" + modifierAbilities +
+               ", abilitiesAfterModifier=" + abilitiesAfterModifier +
+               ", damage=" + damage +
+               ", inventory=" + inventory +
+               ", equippedItems=" + equippedItems +
+               ", heroType='" + heroType + '\'' +
+               '}';
     }
 }

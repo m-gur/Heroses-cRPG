@@ -1,5 +1,6 @@
 package org.gm.menu;
 
+import com.google.gson.*;
 import org.gm.factory.MonsterFactory;
 import org.gm.fights.FightService;
 import org.gm.hero.abilities.entity.Abilities;
@@ -14,11 +15,14 @@ import org.gm.hero.services.HeroService;
 import org.gm.hero.services.LevelService;
 import org.gm.monster.entity.Monster;
 
+import java.io.*;
+import java.lang.reflect.Type;
 import java.util.*;
 
 import static java.lang.System.exit;
 
 public class Menu {
+    private static final String SAVE_FILE_PATH = "src/main/resources/game_save.json";
     private HeroService heroService = new HeroService();
     private AbilitiesService abilitiesService = new AbilitiesService();
     private LevelService levelService = new LevelService();
@@ -54,9 +58,53 @@ public class Menu {
             }
         } while (choice != 3);
     }
-    //TODO create logic to loading game
     private void loadGame() {
+        try (Reader reader = new FileReader(SAVE_FILE_PATH)) {
+            Gson gson = new GsonBuilder()
+                    .registerTypeAdapter(Hero.class, new HeroDeserializer())
+                    .create();
 
+            Hero loadedHero = gson.fromJson(reader, Hero.class);
+            if (loadedHero != null) {
+                System.out.println("Game loaded successfully!");
+                exploreCity(loadedHero);
+            } else {
+                System.out.println("Failed to load game.");
+                startGame();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    private static class HeroDeserializer implements JsonDeserializer<Hero> {
+        @Override
+        public Hero deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+            JsonObject jsonObject = json.getAsJsonObject();
+
+            String typeName = jsonObject.getAsJsonPrimitive("heroType").getAsString();
+            try {
+                Class<? extends Hero> heroClass = getHeroClass(typeName);
+                return context.deserialize(jsonObject, heroClass);
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        private Class<? extends Hero> getHeroClass(String typeName) throws ClassNotFoundException {
+            switch (typeName) {
+                case "Mage" -> {
+                    return Mage.class;
+                }
+                case "Knight" -> {
+                    return Knight.class;
+                }
+                case "Archer" -> {
+                    return Archer.class;
+                }
+                default -> throw new ClassNotFoundException("Unknown hero type: " + typeName);
+            }
+        }
     }
 
     private void createHero() {
@@ -95,6 +143,7 @@ public class Menu {
         hero.setCurrentHp(hero.getMaxHp());
         abilitiesService.setModifierAbilities(hero);
         abilitiesService.setAbilitiesAfterModifier(hero);
+        hero.setHeroType(hero.getHeroType());
 
         System.out.println("Welcome " + hero.getName() + "! \n" +
                 "I am really glad to see you want to spent a few great moments in our world.\n" +
@@ -499,8 +548,15 @@ public class Menu {
             }
         } while (choice != 3);
     }
-    //TODO creating logic to saving game
     private void saveGame(Hero hero) {
-
+        try (OutputStream os = new FileOutputStream(SAVE_FILE_PATH);
+             Writer writer = new OutputStreamWriter(os)) {
+            Gson gson = new GsonBuilder().create();
+            gson.toJson(hero, writer);
+            System.out.println("Game saved successfully!");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        gameMenu(hero);
     }
 }
