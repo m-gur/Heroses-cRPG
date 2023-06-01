@@ -48,6 +48,8 @@ public class Menu {
 
             if (menuOptions.containsKey(choice)) {
                 menuOptions.get(choice).run();
+            } else if (choice == 3) {
+                exit(0);
             } else {
                 System.out.println("Invalid choice. Please try again.");
             }
@@ -527,62 +529,35 @@ public class Menu {
     }
 
     private void showHeroInventory(Hero hero) {
-        if (hero.getInventory().get(ItemType.HELMET) != null) {
-            System.out.println("Helmet items" + hero.getInventory().get(ItemType.HELMET));
-        }
-        if (hero.getInventory().get(ItemType.CHEST) != null) {
-            System.out.println("Chest items" + hero.getInventory().get(ItemType.CHEST));
-        }
-        if (hero.getInventory().get(ItemType.RING) != null) {
-            System.out.println("Ring items" + hero.getInventory().get(ItemType.RING));
-        }
-        if (hero.getInventory().get(ItemType.NECKLACE) != null) {
-            System.out.println("Necklace items" + hero.getInventory().get(ItemType.NECKLACE));
-        }
-        if (hero.getInventory().get(ItemType.TROUSERS) != null) {
-            System.out.println("Trousers items" + hero.getInventory().get(ItemType.TROUSERS));
-        }
-        if (hero.getInventory().get(ItemType.SHOES) != null) {
-            System.out.println("Shoes items" + hero.getInventory().get(ItemType.SHOES));
-        }
-        if (hero.getInventory().get(ItemType.WEAPON) != null) {
-            System.out.println("Weapon items" + hero.getInventory().get(ItemType.WEAPON));
-        }
-        if (hero.getInventory().get(ItemType.USUALLY) != null) {
-            System.out.println("Usually items" + hero.getInventory().get(ItemType.USUALLY));
-        }
-        if (hero.getInventory().get(ItemType.USABLE) != null) {
-            System.out.println("Usable items" + hero.getInventory().get(ItemType.USABLE));
-        }
-        if (hero.getInventory().size() == 0) {
+        Map<ItemType, List<Item>> inventory = hero.getInventory();
+
+        if (inventory.isEmpty()) {
             System.out.println("Currently you have no items in your inventory.");
+            return;
+        }
+
+        for (Map.Entry<ItemType, List<Item>> entry : inventory.entrySet()) {
+            ItemType itemType = entry.getKey();
+            List<Item> items = entry.getValue();
+
+            if (!items.isEmpty()) {
+                System.out.println(itemType.toString() + " items: " + items);
+            }
         }
     }
 
     private void showHeroEquippedItems(Hero hero) {
-        if (hero.getEquippedItems().get(ItemType.HELMET) != null) {
-            System.out.println("Helmet item" + hero.getEquippedItems().get(ItemType.HELMET));
-        }
-        if (hero.getEquippedItems().get(ItemType.CHEST) != null) {
-            System.out.println("Chest item" + hero.getEquippedItems().get(ItemType.CHEST));
-        }
-        if (hero.getEquippedItems().get(ItemType.RING) != null) {
-            System.out.println("Ring item" + hero.getEquippedItems().get(ItemType.RING));
-        }
-        if (hero.getEquippedItems().get(ItemType.NECKLACE) != null) {
-            System.out.println("Necklace item" + hero.getEquippedItems().get(ItemType.NECKLACE));
-        }
-        if (hero.getEquippedItems().get(ItemType.TROUSERS) != null) {
-            System.out.println("Trousers item" + hero.getEquippedItems().get(ItemType.TROUSERS));
-        }
-        if (hero.getEquippedItems().get(ItemType.SHOES) != null) {
-            System.out.println("Shoes item" + hero.getEquippedItems().get(ItemType.SHOES));
-        }
-        if (hero.getEquippedItems().get(ItemType.WEAPON) != null) {
-            System.out.println("Weapon item" + hero.getEquippedItems().get(ItemType.WEAPON));
-        }
-        if (hero.getEquippedItems().size() == 0) {
+        Map<ItemType, Item> equippedItems = hero.getEquippedItems();
+
+        if (equippedItems.isEmpty()) {
             System.out.println("Currently you have no equipped items.");
+            return;
+        }
+
+        for (Map.Entry<ItemType, Item> entry : equippedItems.entrySet()) {
+            ItemType itemType = entry.getKey();
+            Item item = entry.getValue();
+            System.out.println(itemType.toString() + " item: " + item);
         }
     }
 

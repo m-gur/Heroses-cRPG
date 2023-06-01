@@ -1,5 +1,6 @@
 package org.gm.hero.items.services;
 
+import org.gm.hero.abilities.services.AbilitiesService;
 import org.gm.hero.entity.Hero;
 import org.gm.hero.items.entity.Item;
 import org.gm.hero.items.entity.ItemType;
@@ -9,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 public class ItemService {
+    private AbilitiesService abilitiesService = new AbilitiesService();
 
     public Map<ItemType, List<Item>> addItemToInventory(Hero hero, Item item) {
         ItemType itemType = item.getItemType();
@@ -47,5 +49,6 @@ public class ItemService {
         Map<ItemType, Item> equippedItems = hero.getEquippedItems();
         item.setUsage(true);
         equippedItems.put(itemType, item);
+        abilitiesService.setAbilitiesAfterModifier(hero);
     }
 }
