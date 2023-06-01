@@ -10,7 +10,6 @@ import org.gm.hero.entity.Knight;
 import org.gm.hero.entity.Mage;
 import org.gm.hero.items.entity.Item;
 import org.gm.hero.items.entity.ItemType;
-import org.gm.hero.items.services.ItemService;
 import org.gm.hero.services.HeroService;
 import org.gm.hero.services.LevelService;
 import org.gm.monster.entity.Monster;
@@ -25,7 +24,7 @@ public class Menu {
     private LevelService levelService = new LevelService();
     private FightService fightService = new FightService();
     private MonsterFactory monsterFactory = new MonsterFactory();
-    private ItemService itemService = new ItemService();
+    private CharacterMenu characterMenu = new CharacterMenu();
 
     public void startGame() {
         Scanner scanner = new Scanner(System.in);
@@ -130,7 +129,7 @@ public class Menu {
                 case 2 -> market(hero);
                 case 3 -> bulletinBoard(hero);
                 case 4 -> getOutOfTown(hero);
-                case 5 -> showCharacterMenu(hero);
+                case 5 -> characterMenu.showCharacterMenu(hero);
                 case 6 -> gameMenu(hero);
                 default -> System.out.println("Invalid choice. Please try again.");
             }
@@ -304,7 +303,7 @@ public class Menu {
                 case 2 -> exploreCity(hero);
                 case 3 -> hauntedForest(hero);
                 case 4 -> adventure(hero);
-                case 5 -> showCharacterMenu(hero);
+                case 5 -> characterMenu.showCharacterMenu(hero);
                 case 6 -> gameMenu(hero);
                 default -> System.out.println("Invalid choice. Please try again.");
             }
@@ -335,7 +334,7 @@ public class Menu {
                 case 2 -> castle(hero);
                 case 3 -> exploreCity(hero);
                 case 4 -> adventure(hero);
-                case 5 -> showCharacterMenu(hero);
+                case 5 -> characterMenu.showCharacterMenu(hero);
                 case 6 -> gameMenu(hero);
                 default -> System.out.println("Invalid choice. Please try again.");
             }
@@ -366,7 +365,7 @@ public class Menu {
                 case 2 -> exploreCity(hero);
                 case 3 -> hauntedForest(hero);
                 case 4 -> adventure(hero);
-                case 5 -> showCharacterMenu(hero);
+                case 5 -> characterMenu.showCharacterMenu(hero);
                 case 6 -> gameMenu(hero);
                 default -> System.out.println("Invalid choice. Please try again.");
             }
@@ -401,7 +400,7 @@ public class Menu {
                 case 3 -> castle(hero);
                 case 4 -> hauntedForest(hero);
                 case 5 -> adventure(hero);
-                case 6 -> showCharacterMenu(hero);
+                case 6 -> characterMenu.showCharacterMenu(hero);
                 case 7 -> gameMenu(hero);
                 default -> System.out.println("Invalid choice. Please try again.");
             }
@@ -435,7 +434,7 @@ public class Menu {
                 case 3 -> castle(hero);
                 case 4 -> hauntedForest(hero);
                 case 5 -> adventure(hero);
-                case 6 -> showCharacterMenu(hero);
+                case 6 -> characterMenu.showCharacterMenu(hero);
                 case 7 -> gameMenu(hero);
                 default -> System.out.println("Invalid choice. Please try again.");
             }
@@ -472,198 +471,11 @@ public class Menu {
             switch (choice) {
                 case 1 -> exploreCity(hero);
                 case 2 -> adventure(hero);
-                case 3 -> showCharacterMenu(hero);
+                case 3 -> characterMenu.showCharacterMenu(hero);
                 case 4 -> gameMenu(hero);
                 default -> System.out.println("Invalid choice. Please try again.");
             }
         } while (choice != 4);
-    }
-
-    private void showCharacterMenu(Hero hero) {
-        Scanner scanner = new Scanner(System.in);
-        int choice;
-        do {
-            System.out.println("""
-                    Character menu options:
-                    1. Basic stats
-                    2. Inventory
-                    3. Equipped items
-                    4. Distribute skill points
-                    5. Equip items
-                    6. Return
-                    """);
-
-            choice = scanner.nextInt();
-            scanner.nextLine();
-            switch (choice) {
-                case 1 -> showHeroBasicStats(hero);
-                case 2 -> showHeroInventory(hero);
-                case 3 -> showHeroEquippedItems(hero);
-                case 4 -> distributeSkillPoints(hero);
-                case 5 -> equipItems(hero);
-                case 6 -> {
-                    return;
-                }
-                default -> System.out.println("Invalid choice. Please try again.");
-            }
-        } while (choice != 6);
-    }
-
-    private void showHeroBasicStats(Hero hero) {
-        System.out.println( "Name: " + hero.getName() + "\n" +
-                "level: " + hero.getLvl() + "\n" +
-                "experience: " + hero.getExperience() + "\n" +
-                "required experience to level up: " + hero.getRequiredExperience() + "\n" +
-                "current hp: " + hero.getCurrentHp() + "\n" +
-                "max hp: " + hero.getMaxHp() + "\n" +
-                "skill points to distribute: " + hero.getSkillPoints() + "\n" +
-                "damage: " + hero.getDamage() + "\n\n" +
-                "Abilities: \n" +
-                "strength: " + hero.getAbilitiesAfterModifier().getStrength() + "\n" +
-                "defence: " + hero.getAbilitiesAfterModifier().getDefence() + "\n" +
-                "intelligence: " + hero.getAbilitiesAfterModifier().getIntelligence() + "\n" +
-                "dexterity: " + hero.getAbilitiesAfterModifier().getDexterity() + "\n" +
-                "agility: " + hero.getAbilitiesAfterModifier().getAgility() + "\n" +
-                "speed: " + hero.getAbilitiesAfterModifier().getSpeed() + "\n"
-                );
-    }
-
-    private void showHeroInventory(Hero hero) {
-        Map<ItemType, List<Item>> inventory = hero.getInventory();
-
-        if (inventory.isEmpty()) {
-            System.out.println("Currently you have no items in your inventory.");
-            return;
-        }
-
-        for (Map.Entry<ItemType, List<Item>> entry : inventory.entrySet()) {
-            ItemType itemType = entry.getKey();
-            List<Item> items = entry.getValue();
-
-            if (!items.isEmpty()) {
-                System.out.println(itemType.toString() + " items: " + items);
-            }
-        }
-    }
-
-    private void showHeroEquippedItems(Hero hero) {
-        Map<ItemType, Item> equippedItems = hero.getEquippedItems();
-
-        if (equippedItems.isEmpty()) {
-            System.out.println("Currently you have no equipped items.");
-            return;
-        }
-
-        for (Map.Entry<ItemType, Item> entry : equippedItems.entrySet()) {
-            ItemType itemType = entry.getKey();
-            Item item = entry.getValue();
-            System.out.println(itemType.toString() + " item: " + item);
-        }
-    }
-
-    private void distributeSkillPoints(Hero hero) {
-        Scanner scanner = new Scanner(System.in);
-        String pointsQuestion = "How many points do you want to add?";
-
-        Map<Integer, String> skillOptions = new HashMap<>();
-        skillOptions.put(1, "strength");
-        skillOptions.put(2, "defence");
-        skillOptions.put(3, "intelligence");
-        skillOptions.put(4, "dexterity");
-        skillOptions.put(5, "agility");
-        skillOptions.put(6, "speed");
-
-        int choice;
-        do {
-            System.out.println("""
-                Which skill do you want to add points to?
-                1. Strength
-                2. Defence
-                3. Intelligence
-                4. Dexterity
-                5. Agility
-                6. Speed
-                7. Return
-                """);
-
-            choice = scanner.nextInt();
-            scanner.nextLine();
-
-            if (skillOptions.containsKey(choice)) {
-                System.out.println(pointsQuestion);
-                int skillPoints = scanner.nextInt();
-                scanner.nextLine();
-                String skillName = skillOptions.get(choice);
-                Map<String, Integer> skillPointsDistribution = new HashMap<>();
-                skillPointsDistribution.put(skillName, skillPoints);
-                abilitiesService.distributeSkillPoints(hero, skillPointsDistribution);
-            } else if (choice == 7){
-                return;
-            } else {
-                System.out.println("Invalid choice. Please try again.");
-            }
-        } while (choice != 7);
-        scanner.close();
-    }
-
-    private void equipItems(Hero hero) {
-        Scanner scanner = new Scanner(System.in);
-        int choice;
-        do {
-            System.out.println("""
-                What item do you want to equip?
-                1. Helmet
-                2. Chest
-                3. Ring
-                4. Necklace
-                5. Trousers
-                6. Shoes
-                7. Weapon
-                8. Return
-                """);
-
-            choice = scanner.nextInt();
-            scanner.nextLine();
-
-            switch (choice) {
-                case 1 -> chooseAndEquipItem(hero, ItemType.HELMET);
-                case 2 -> chooseAndEquipItem(hero, ItemType.CHEST);
-                case 3 -> chooseAndEquipItem(hero, ItemType.RING);
-                case 4 -> chooseAndEquipItem(hero, ItemType.NECKLACE);
-                case 5 -> chooseAndEquipItem(hero, ItemType.TROUSERS);
-                case 6 -> chooseAndEquipItem(hero, ItemType.SHOES);
-                case 7 -> chooseAndEquipItem(hero, ItemType.WEAPON);
-                case 8 -> showCharacterMenu(hero);
-                default -> System.out.println("Invalid choice. Please try again.");
-            }
-        } while (choice != 8);
-    }
-
-    private void chooseAndEquipItem(Hero hero, ItemType itemType) {
-        Scanner scanner = new Scanner(System.in);
-        List<Item> items = hero.getInventory().get(itemType);
-        if (items.isEmpty()) {
-            System.out.println("No items of this type in inventory.");
-            return;
-        }
-
-        printItems(items);
-        int selectedIndex = scanner.nextInt();
-        scanner.nextLine();
-
-        if (selectedIndex >= 0 && selectedIndex < items.size()) {
-            Item selected = items.get(selectedIndex);
-            itemService.itemOperation(hero, selected);
-            System.out.println("Item equipped: " + selected);
-        } else {
-            System.out.println("Invalid item selection.");
-        }
-    }
-
-    private void printItems(List<Item> items) {
-        for (int i = 0; i < items.size(); i++) {
-            System.out.println((i) + ". " + items.get(i));
-        }
     }
 
     private void gameMenu(Hero hero) {
