@@ -588,67 +588,47 @@ public class Menu {
 
     private void distributeSkillPoints(Hero hero) {
         Scanner scanner = new Scanner(System.in);
+        String pointsQuestion = "How many points do you want to add?";
+
+        Map<Integer, String> skillOptions = new HashMap<>();
+        skillOptions.put(1, "strength");
+        skillOptions.put(2, "defence");
+        skillOptions.put(3, "intelligence");
+        skillOptions.put(4, "dexterity");
+        skillOptions.put(5, "agility");
+        skillOptions.put(6, "speed");
+
         int choice;
-        int skillPoints;
-        Map<String, Integer> skillPointsDistribution = new HashMap<>();
-        String pointsQuestion = "How much points you want add?";
         do {
             System.out.println("""
-                    To which skill you want add points?
-                    1. Strength
-                    2. Defence
-                    3. Intelligence
-                    4. Dexterity
-                    5. Agility
-                    6. Speed
-                    7. Return
-                    """);
+                Which skill do you want to add points to?
+                1. Strength
+                2. Defence
+                3. Intelligence
+                4. Dexterity
+                5. Agility
+                6. Speed
+                7. Return
+                """);
 
             choice = scanner.nextInt();
             scanner.nextLine();
-            switch (choice) {
-                case 1 -> {
-                    System.out.println(pointsQuestion);
-                    skillPoints = scanner.nextInt();
-                    skillPointsDistribution.put("strength", skillPoints);
-                    abilitiesService.distributeSkillPoints(hero, skillPointsDistribution);
-                }
-                case 2 -> {
-                    System.out.println(pointsQuestion);
-                    skillPoints = scanner.nextInt();
-                    skillPointsDistribution.put("defence", skillPoints);
-                    abilitiesService.distributeSkillPoints(hero, skillPointsDistribution);
-                }
-                case 3 -> {
-                    System.out.println(pointsQuestion);
-                    skillPoints = scanner.nextInt();
-                    skillPointsDistribution.put("intelligence", skillPoints);
-                    abilitiesService.distributeSkillPoints(hero, skillPointsDistribution);
-                }
-                case 4 -> {
-                    System.out.println(pointsQuestion);
-                    skillPoints = scanner.nextInt();
-                    skillPointsDistribution.put("dexternity", skillPoints);
-                    abilitiesService.distributeSkillPoints(hero, skillPointsDistribution);
-                }
-                case 5 -> {
-                    System.out.println(pointsQuestion);
-                    skillPoints = scanner.nextInt();
-                    skillPointsDistribution.put("agility", skillPoints);
-                    abilitiesService.distributeSkillPoints(hero, skillPointsDistribution);
-                }
-                case 6 -> {
-                    System.out.println(pointsQuestion);
-                    skillPoints = scanner.nextInt();
-                    skillPointsDistribution.put("speed", skillPoints);
-                    abilitiesService.distributeSkillPoints(hero, skillPointsDistribution);
-                }
-                case 7 -> {
-                    return;
-                }
-                default -> System.out.println("Invalid choice. Please try again.");
+
+            if (skillOptions.containsKey(choice)) {
+                System.out.println(pointsQuestion);
+                int skillPoints = scanner.nextInt();
+                scanner.nextLine();
+                String skillName = skillOptions.get(choice);
+                Map<String, Integer> skillPointsDistribution = new HashMap<>();
+                skillPointsDistribution.put(skillName, skillPoints);
+                abilitiesService.distributeSkillPoints(hero, skillPointsDistribution);
+            } else if (choice == 7){
+                return;
+            } else {
+                System.out.println("Invalid choice. Please try again.");
             }
         } while (choice != 7);
+        scanner.close();
     }
 
     private void equipItems(Hero hero) {
