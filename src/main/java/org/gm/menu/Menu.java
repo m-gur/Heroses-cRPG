@@ -304,26 +304,68 @@ public class Menu {
                     itemService.itemOperation(hero, item);
                     upgradeEquipment(hero);
                 }
-            }
-        }
-        System.out.println("Item of given name '" + itemName + "' does not exist in your equipment.");
-        upgradeEquipment(hero);
-    }
-
 
     private void market(Hero hero) {
+        Scanner scanner = new Scanner(System.in);
+        int choice;
         System.out.println("""
                 The center of the town, from this place you can go to mayor,
                 sell some staff to merchants or lost your money for other things.
                 """);
+        do {
+            System.out.println("""
+                    Where you want to go?
+                    1. Healer
+                    2. Mayor
+                    3. Merchant
+                    4. Character menu
+                    5. Game menu
+                    6. Return
+                    """);
+
+            choice = scanner.nextInt();
+            scanner.nextLine();
+            switch (choice) {
+                case 1 -> healer(hero);
+                case 2 -> mayor(hero);
+                case 3 -> merchant(hero);
+                case 4 -> characterMenu.showCharacterMenu(hero);
+                case 5 -> gameMenu(hero);
+                case 6 -> {
+                    return;
+                }
+                default -> System.out.println("Invalid choice. Please try again.");
+            }
+        } while (choice != 6);
+
     }
 
+    private void healer(Hero hero) {
+        System.out.println("""
+                Hello newcomer, your efforts are admired, and in return, all your health points have been restored.
+                """);
+        hero.setCurrentHp(hero.getMaxHp());
+    }
+
+    private void mayor(Hero hero) {
+        System.out.println("""
+                Currently, you cannot meet with the mayor.
+                You don't have any business with him, and he also doesn't want to see you at this moment.
+                Please come back later.
+                """);
+    }
+
+    private void merchant(Hero hero) {
+        System.out.println("""
+                Here you can sell items from your inventory, but currently, there is no buyer here.
+                Please come back later.
+                """);
+    }
     private void bulletinBoard(Hero hero) {
         System.out.println("""
                 Here you will see available quests, some are available now,
                 others after completing the previous ones.
                 """);
-
     }
 
     private void getOutOfTown(Hero hero) {
