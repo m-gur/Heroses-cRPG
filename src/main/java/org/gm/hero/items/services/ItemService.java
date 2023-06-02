@@ -42,7 +42,9 @@ public class ItemService {
         Map<ItemType, Item> equippedItems = hero.getEquippedItems();
         ItemType itemType = item.getItemType();
         item.setUsage(false);
+        abilitiesService.unsetAbilitiesFromItems(hero);
         equippedItems.remove(itemType);
+        abilitiesService.setAbilitiesAfterModifier(hero);
     }
     private void equipItem(Hero hero, Item item) {
         ItemType itemType = item.getItemType();

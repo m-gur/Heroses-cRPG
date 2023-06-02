@@ -11,6 +11,7 @@ import org.gm.hero.entity.Knight;
 import org.gm.hero.entity.Mage;
 import org.gm.hero.items.entity.Item;
 import org.gm.hero.items.entity.ItemType;
+import org.gm.hero.items.services.ItemService;
 import org.gm.hero.services.HeroService;
 import org.gm.hero.services.LevelService;
 import org.gm.monster.entity.Monster;
@@ -29,6 +30,7 @@ public class Menu {
     private FightService fightService = new FightService();
     private MonsterFactory monsterFactory = new MonsterFactory();
     private CharacterMenu characterMenu = new CharacterMenu();
+    private ItemService itemService = new ItemService();
 
     public void startGame() {
         Scanner scanner = new Scanner(System.in);
@@ -227,7 +229,6 @@ public class Menu {
     private void upgradeEquipment(Hero hero) {
         Scanner scanner = new Scanner(System.in);
         int choice;
-        String itemName;
         System.out.println("""
                 What you want to upgrade?
                 Upgraded item will receive all stats + 1
@@ -244,55 +245,52 @@ public class Menu {
             choice = scanner.nextInt();
             scanner.nextLine();
             switch (choice) {
-                case 1 -> {
-                    itemName = getItemName(scanner);
-                    upgradeItem(hero, ItemType.HELMET, itemName);
-                }
-                case 2 -> {
-                    itemName = getItemName(scanner);
-                    upgradeItem(hero, ItemType.CHEST, itemName);
-                }
-                case 3 -> {
-                    itemName = getItemName(scanner);
-                    upgradeItem(hero, ItemType.RING, itemName);
-                }
-                case 4 -> {
-                    itemName = getItemName(scanner);
-                    upgradeItem(hero, ItemType.NECKLACE, itemName);
-                }
-                case 5 -> {
-                    itemName = getItemName(scanner);
-                    upgradeItem(hero, ItemType.TROUSERS, itemName);
-                }
-                case 6 -> {
-                    itemName = getItemName(scanner);
-                    upgradeItem(hero, ItemType.SHOES, itemName);
-                }
-                case 7 -> {
-                    itemName = getItemName(scanner);
-                    upgradeItem(hero, ItemType.WEAPON, itemName);
-                }
+                case 1 -> chooseAndUpgradeItem(hero, ItemType.HELMET);
+                case 2 -> chooseAndUpgradeItem(hero, ItemType.CHEST);
+                case 3 -> chooseAndUpgradeItem(hero, ItemType.RING);
+                case 4 -> chooseAndUpgradeItem(hero, ItemType.NECKLACE);
+                case 5 -> chooseAndUpgradeItem(hero, ItemType.TROUSERS);
+                case 6 -> chooseAndUpgradeItem(hero, ItemType.SHOES);
+                case 7 -> chooseAndUpgradeItem(hero, ItemType.WEAPON);
                 case 8 -> blacksmith(hero);
                 default -> System.out.println("Invalid choice. Please try again.");
             }
         } while (choice != 8);
     }
 
-    private static String getItemName(Scanner scanner) {
-        String itemName;
-        System.out.println("Enter item name to upgrade: ");
-        itemName = scanner.nextLine();
-        return itemName;
+    private void chooseAndUpgradeItem(Hero hero, ItemType itemType) {
+        Scanner scanner = new Scanner(System.in);
+        List<Item> items = hero.getInventory().get(itemType);
+        if (items == null || items.isEmpty()) {
+            System.out.println("No items of this type in inventory.");
+            return;
+        }
+
+        printItems(items);
+        int selectedIndex = scanner.nextInt();
+        scanner.nextLine();
+
+        if (selectedIndex >= 0 && selectedIndex < items.size()) {
+            Item selected = items.get(selectedIndex);
+            upgradeItem(hero, selected);
+        } else {
+            System.out.println("Invalid item selection.");
+        }
     }
 
-    private void upgradeItem(Hero hero, ItemType itemType, String itemName) {
+    private void printItems(List<Item> items) {
+        for (int i = 0; i < items.size(); i++) {
+            System.out.println((i) + ". " + items.get(i));
+        }
+    }
+
+    private void upgradeItem(Hero hero, Item item) {
+        ItemType itemType = item.getItemType();
         List<Item> items = hero.getInventory().get(itemType);
-        if (items == null) {
-            System.out.println("Currently you haven't items of type: " + itemType);
-            upgradeEquipment(hero);
-        } else {
-            for (Item item : items) {
-                if (item.getName().equals(itemName)) {
+        Item item1 = hero.getEquippedItems().get(itemType);
+        if (item1.equals(item)) {
+            itemService.unequipItem(hero, item);
+        }
                     Abilities abilities = item.getAbilities();
                     abilities.setStrength(abilities.getStrength() + 1);
                     abilities.setDefence(abilities.getDefence() + 1);
@@ -302,8 +300,8 @@ public class Menu {
                     abilities.setSpeed(abilities.getSpeed() + 1);
 
                     hero.getInventory().put(itemType, items);
-                    System.out.println("Item " + itemName + " upgraded successfully.");
-                    abilitiesService.setAbilitiesAfterModifier(hero);
+                    System.out.println("Item " + item.getName() + " upgraded successfully.");
+                    itemService.itemOperation(hero, item);
                     upgradeEquipment(hero);
                 }
             }
