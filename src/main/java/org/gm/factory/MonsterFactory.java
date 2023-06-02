@@ -17,7 +17,7 @@ public class MonsterFactory {
             case 0 -> randomOrc(hero);
             case 1 -> randomGoblin(hero);
             case 2 -> randomSkeleton(hero);
-            default -> throw new IllegalArgumentException("Invaild monster type");
+            default -> throw new IllegalArgumentException("Invalid monster type");
         };
     }
 

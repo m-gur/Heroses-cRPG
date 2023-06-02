@@ -23,10 +23,11 @@ public class CharacterMenu {
                     Character menu options:
                     1. Basic stats
                     2. Inventory
-                    3. Equipped items
-                    4. Distribute skill points
-                    5. Equip items
-                    6. Return
+                    3. Equip items
+                    4. Equipped items
+                    5. Distribute skill points
+                    6. Reset skill points
+                    7. Return
                     """);
 
             choice = scanner.nextInt();
@@ -34,15 +35,16 @@ public class CharacterMenu {
             switch (choice) {
                 case 1 -> showHeroBasicStats(hero);
                 case 2 -> showHeroInventory(hero);
-                case 3 -> showHeroEquippedItems(hero);
-                case 4 -> distributeSkillPoints(hero);
-                case 5 -> equipItems(hero);
-                case 6 -> {
+                case 3 -> equipItems(hero);
+                case 4 -> showHeroEquippedItems(hero);
+                case 5 -> distributeSkillPoints(hero);
+                case 6 -> resetSkillPoints(hero);
+                case 7 -> {
                     return;
                 }
                 default -> System.out.println("Invalid choice. Please try again.");
             }
-        } while (choice != 6);
+        } while (choice != 7);
     }
 
     private void showHeroBasicStats(Hero hero) {
@@ -140,6 +142,10 @@ public class CharacterMenu {
             }
         } while (choice != 7);
         scanner.close();
+    }
+
+    private void resetSkillPoints(Hero hero) {
+        abilitiesService.resetSkillPoints(hero);
     }
 
     private void equipItems(Hero hero) {
