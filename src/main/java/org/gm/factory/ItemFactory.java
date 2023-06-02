@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Random;
 
 public class ItemFactory {
-    public Item createFactoryItem(ItemType itemType) {
+    Item createFactoryItem(ItemType itemType) {
         Abilities abilities = new Abilities(1f, 1f, 1f, 1f, 1f, 1f);
         Abilities abilities2 = new Abilities(0f, 0f, 0f, 0f, 0f, 0f);
         switch (itemType){

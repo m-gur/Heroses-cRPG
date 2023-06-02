@@ -4,8 +4,6 @@ import org.gm.hero.abilities.entity.Abilities;
 import org.gm.hero.entity.Archer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -13,13 +11,9 @@ import java.util.Map;
 import static org.junit.jupiter.api.Assertions.*;
 
 class AbilitiesServiceTest {
-
-    @Mock
     private Archer archer;
-    @Mock
     private Abilities abilities;
-    @InjectMocks
-    AbilitiesService abilitiesService;
+    private AbilitiesService abilitiesService;
 
     @BeforeEach
     public void setUp() {

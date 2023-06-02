@@ -5,18 +5,13 @@ import org.gm.monster.entity.Monster;
 import org.gm.monster.entity.MonsterClass;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class FightServiceTest {
-    @Mock
     private Archer archer;
-    @Mock
     private Monster monster;
-    @InjectMocks
-    FightService fightService;
+    private FightService fightService;
 
     @BeforeEach
     public void setUp() {

@@ -4,17 +4,12 @@ import org.gm.hero.entity.Archer;
 import org.gm.hero.entity.Hero;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class LevelServiceTest {
-
-    @Mock
-    Hero hero;
-    @InjectMocks
-    LevelService levelService;
+    private Hero hero;
+    private LevelService levelService;
     @BeforeEach
     public void setUp() {
         levelService = new LevelService();

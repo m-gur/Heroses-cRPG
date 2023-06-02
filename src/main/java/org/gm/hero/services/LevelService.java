@@ -3,7 +3,7 @@ package org.gm.hero.services;
 import org.gm.hero.entity.Hero;
 
 public class LevelService {
-    HeroService heroService = new HeroService();
+    private HeroService heroService = new HeroService();
     public float calculateRequiredExperience(int heroLevel) {
         return (float) heroLevel * 100;
     }

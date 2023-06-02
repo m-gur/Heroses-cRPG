@@ -6,26 +6,16 @@ import org.gm.hero.items.entity.ItemType;
 import org.gm.hero.items.services.ItemService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 
 import java.math.BigDecimal;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class HeroServiceTest {
-
-    @Mock
     private Archer archer;
-
-    @Mock
     private Item item;
-
-    @Mock
     private ItemService itemService;
-
-    @InjectMocks
-    HeroService heroService;
+    private HeroService heroService;
 
     @BeforeEach
     public void setUp() {
