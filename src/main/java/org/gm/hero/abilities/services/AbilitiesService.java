@@ -30,7 +30,8 @@ public class AbilitiesService {
         abilitiesAfterModifier.setDexterity(abilities.getDexterity() * modifierAbilities.getDexterityModifier());
         abilitiesAfterModifier.setAgility(abilities.getAgility() * modifierAbilities.getAgilityModifier());
         abilitiesAfterModifier.setSpeed(abilities.getSpeed() * modifierAbilities.getSpeedModifier());
-
+        hero.setDamage(heroService.setDamage(hero));
+        hero.setMaxHp(heroService.setHP(hero));
         return abilitiesAfterModifier;
     }
 
