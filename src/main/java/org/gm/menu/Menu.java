@@ -18,6 +18,7 @@ import org.gm.monster.entity.Monster;
 
 import java.io.*;
 import java.lang.reflect.Type;
+import java.math.BigDecimal;
 import java.util.*;
 
 import static java.lang.System.exit;
@@ -146,6 +147,7 @@ public class Menu {
         abilitiesService.setModifierAbilities(hero);
         abilitiesService.setAbilitiesAfterModifier(hero);
         hero.setHeroType(hero.getHeroType());
+        hero.setCoins(BigDecimal.ZERO);
 
         System.out.println("Welcome " + hero.getName() + "! \n" +
                 "I am really glad to see you want to spent a few great moments in our world.\n" +
@@ -231,6 +233,7 @@ public class Menu {
         int choice;
         System.out.println("""
                 What you want to upgrade?
+                To upgrade item you need to pay 10 coins.
                 Upgraded item will receive all stats + 1
                 1. Helm
                 2. Armor
@@ -259,11 +262,15 @@ public class Menu {
     }
 
     private void chooseAndUpgradeItem(Hero hero, ItemType itemType) {
+        if (!hero.getCoins().equals(BigDecimal.valueOf(10))) {
+            System.out.println("Invalid needed coins to upgrade item.");
+            upgradeEquipment(hero);
+        }
         Scanner scanner = new Scanner(System.in);
         List<Item> items = hero.getInventory().get(itemType);
         if (items == null || items.isEmpty()) {
             System.out.println("No items of this type in inventory.");
-            return;
+            upgradeEquipment(hero);
         }
 
         printItems(items);

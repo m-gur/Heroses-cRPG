@@ -8,6 +8,7 @@ import org.gm.hero.abilities.entity.ModifierStrategy;
 import org.gm.hero.items.entity.Item;
 import org.gm.hero.items.entity.ItemType;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,6 +31,7 @@ public abstract class Hero {
     private Map<ItemType, List<Item>> inventory;
     private Map<ItemType, Item> equippedItems;
     private String heroType;
+    private BigDecimal coins;
 
     public abstract ModifierStrategy getModifierStrategy();
     public abstract String getHeroType();
@@ -47,6 +49,7 @@ public abstract class Hero {
         this.inventory = new HashMap<>();
         this.equippedItems = new HashMap<>();
         this.heroType = getHeroType();
+        this.coins = BigDecimal.ZERO;
     }
 
     public Hero() {
@@ -58,6 +61,8 @@ public abstract class Hero {
         this.abilitiesAfterModifier = new AbilitiesAfterModifier();
         this.inventory = new HashMap<>();
         this.equippedItems = new HashMap<>();
+        this.heroType = getHeroType();
+        this.coins = BigDecimal.ZERO;
     }
 
     @Override
