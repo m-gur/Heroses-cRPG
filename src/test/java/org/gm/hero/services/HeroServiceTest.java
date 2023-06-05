@@ -15,7 +15,7 @@ class HeroServiceTest {
     private Archer archer;
     private Item item;
     private ItemService itemService;
-    private HeroService heroService;
+    HeroService heroService;
 
     @BeforeEach
     public void setUp() {

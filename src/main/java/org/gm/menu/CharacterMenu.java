@@ -5,6 +5,8 @@ import org.gm.hero.entity.Hero;
 import org.gm.hero.items.entity.Item;
 import org.gm.hero.items.entity.ItemType;
 import org.gm.hero.items.services.ItemService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 import java.util.List;
@@ -12,14 +14,15 @@ import java.util.Map;
 import java.util.Scanner;
 
 public class CharacterMenu {
-
-    private AbilitiesService abilitiesService = new AbilitiesService();
-    private ItemService itemService = new ItemService();
+    private final AbilitiesService abilitiesService = new AbilitiesService();
+    private final ItemService itemService = new ItemService();
+    private static final Logger logger = LoggerFactory.getLogger(CharacterMenu.class);
+    private static final String INVALID = "Invalid choice. Please try again.";
     void showCharacterMenu(Hero hero) {
         Scanner scanner = new Scanner(System.in);
         int choice;
         do {
-            System.out.println("""
+            logger.info("""
                     Character menu options:
                     1. Basic stats
                     2. Inventory
@@ -42,13 +45,13 @@ public class CharacterMenu {
                 case 7 -> {
                     return;
                 }
-                default -> System.out.println("Invalid choice. Please try again.");
+                default -> logger.info(INVALID);
             }
         } while (choice != 7);
     }
 
     private void showHeroBasicStats(Hero hero) {
-        System.out.println( "Name: " + hero.getName() + "\n" +
+        logger.info( "Name: " + hero.getName() + "\n" +
                             "level: " + hero.getLvl() + "\n" +
                             "experience: " + hero.getExperience() + "\n" +
                             "required experience to level up: " + hero.getRequiredExperience() + "\n" +
@@ -71,7 +74,7 @@ public class CharacterMenu {
         Map<ItemType, List<Item>> inventory = hero.getInventory();
 
         if (inventory.isEmpty()) {
-            System.out.println("Currently you have no items in your inventory.");
+            logger.info("Currently you have no items in your inventory.");
             return;
         }
 
@@ -80,7 +83,7 @@ public class CharacterMenu {
             List<Item> items = entry.getValue();
 
             if (!items.isEmpty()) {
-                System.out.println(itemType.toString() + " items: " + items);
+                logger.info(itemType.toString() + " items: " + items);
             }
         }
     }
@@ -89,14 +92,14 @@ public class CharacterMenu {
         Map<ItemType, Item> equippedItems = hero.getEquippedItems();
 
         if (equippedItems.isEmpty()) {
-            System.out.println("Currently you have no equipped items.");
+            logger.info("Currently you have no equipped items.");
             return;
         }
 
         for (Map.Entry<ItemType, Item> entry : equippedItems.entrySet()) {
             ItemType itemType = entry.getKey();
             Item item = entry.getValue();
-            System.out.println(itemType.toString() + " item: " + item);
+            logger.info(itemType.toString() + " item: " + item);
         }
     }
 
@@ -114,7 +117,7 @@ public class CharacterMenu {
 
         int choice;
         do {
-            System.out.println("""
+            logger.info("""
                 Which skill do you want to add points to?
                 1. Strength
                 2. Defence
@@ -129,7 +132,7 @@ public class CharacterMenu {
             scanner.nextLine();
 
             if (skillOptions.containsKey(choice)) {
-                System.out.println(pointsQuestion);
+                logger.info(pointsQuestion);
                 int skillPoints = scanner.nextInt();
                 scanner.nextLine();
                 String skillName = skillOptions.get(choice);
@@ -139,7 +142,7 @@ public class CharacterMenu {
             } else if (choice == 7){
                 return;
             } else {
-                System.out.println("Invalid choice. Please try again.");
+                logger.info(INVALID);
             }
         } while (choice != 7);
         scanner.close();
@@ -153,7 +156,7 @@ public class CharacterMenu {
         Scanner scanner = new Scanner(System.in);
         int choice;
         do {
-            System.out.println("""
+            logger.info("""
                 What item do you want to equip?
                 1. Helmet
                 2. Chest
@@ -177,7 +180,7 @@ public class CharacterMenu {
                 case 6 -> chooseAndEquipItem(hero, ItemType.SHOES);
                 case 7 -> chooseAndEquipItem(hero, ItemType.WEAPON);
                 case 8 -> showCharacterMenu(hero);
-                default -> System.out.println("Invalid choice. Please try again.");
+                default -> logger.info(INVALID);
             }
         } while (choice != 8);
     }
@@ -186,7 +189,7 @@ public class CharacterMenu {
         Scanner scanner = new Scanner(System.in);
         List<Item> items = hero.getInventory().get(itemType);
         if (items == null || items.isEmpty()) {
-            System.out.println("No items of this type in inventory.");
+            logger.info("No items of this type in inventory.");
             return;
         }
 
@@ -197,15 +200,15 @@ public class CharacterMenu {
         if (selectedIndex >= 0 && selectedIndex < items.size()) {
             Item selected = items.get(selectedIndex);
             itemService.itemOperation(hero, selected);
-            System.out.println("Item equipped: " + selected);
+            logger.info("Item equipped: " + selected);
         } else {
-            System.out.println("Invalid item selection.");
+            logger.info("Invalid item selection.");
         }
     }
 
     private void printItems(List<Item> items) {
         for (int i = 0; i < items.size(); i++) {
-            System.out.println((i) + ". " + items.get(i));
+            logger.info((i) + ". " + items.get(i));
         }
     }
 }
