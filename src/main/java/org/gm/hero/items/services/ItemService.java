@@ -5,6 +5,7 @@ import org.gm.hero.entity.Hero;
 import org.gm.hero.items.entity.Item;
 import org.gm.hero.items.entity.ItemType;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -28,6 +29,19 @@ public class ItemService {
         return inventory;
     }
 
+    public void sellItem(Hero hero, Item item) {
+        ItemType itemType = item.getItemType();
+        Map<ItemType, List<Item>> inventory = hero.getInventory();
+        List<Item> items = new ArrayList<>();
+        items.add(item);
+        if (item.isUsage()) {
+            unequipItem(hero, item);
+        }
+        inventory.remove(itemType, items);
+        BigDecimal value = item.getValue();
+        hero.setCoins(hero.getCoins().add(value));
+    }
+
     public Map<ItemType, Item> itemOperation(Hero hero, Item item) {
         ItemType itemType = item.getItemType();
         Map<ItemType, Item> equippedItems = hero.getEquippedItems();
@@ -42,7 +56,7 @@ public class ItemService {
         Map<ItemType, Item> equippedItems = hero.getEquippedItems();
         ItemType itemType = item.getItemType();
         item.setUsage(false);
-        abilitiesService.unsetAbilitiesFromItems(hero);
+        abilitiesService.unsetAbilitiesFromItems(hero, item);
         equippedItems.remove(itemType);
         abilitiesService.setAbilitiesAfterModifier(hero);
     }

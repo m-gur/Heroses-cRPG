@@ -367,7 +367,59 @@ public class Menu {
                 Here you can sell items from your inventory, but currently, there is no buyer here.
                 Please come back later.
                 """);
+        Scanner scanner = new Scanner(System.in);
+        int choice;
+        do {
+            System.out.println("""
+                What item do you want to sell?
+                1. Helmet
+                2. Chest
+                3. Ring
+                4. Necklace
+                5. Trousers
+                6. Shoes
+                7. Weapon
+                8. Return
+                """);
+
+            choice = scanner.nextInt();
+            scanner.nextLine();
+
+            switch (choice) {
+                case 1 -> chooseAndSellItem(hero, ItemType.HELMET);
+                case 2 -> chooseAndSellItem(hero, ItemType.CHEST);
+                case 3 -> chooseAndSellItem(hero, ItemType.RING);
+                case 4 -> chooseAndSellItem(hero, ItemType.NECKLACE);
+                case 5 -> chooseAndSellItem(hero, ItemType.TROUSERS);
+                case 6 -> chooseAndSellItem(hero, ItemType.SHOES);
+                case 7 -> chooseAndSellItem(hero, ItemType.WEAPON);
+                case 8 -> market(hero);
+                default -> System.out.println("Invalid choice. Please try again.");
+            }
+        } while (choice != 8);
     }
+
+    private void chooseAndSellItem(Hero hero, ItemType itemType) {
+        Scanner scanner = new Scanner(System.in);
+        List<Item> items = hero.getInventory().get(itemType);
+        if (items == null || items.isEmpty()) {
+            System.out.println("No items of this type in inventory.");
+            merchant(hero);
+        }
+
+        printItems(items);
+        int selectedIndex = scanner.nextInt();
+        scanner.nextLine();
+
+        if (selectedIndex >= 0 && selectedIndex < items.size()) {
+            Item selected = items.get(selectedIndex);
+            itemService.sellItem(hero, selected);
+            System.out.println("Item sold: " + selected);
+        } else {
+            System.out.println("Invalid item selection.");
+        }
+    }
+
     private void bulletinBoard(Hero hero) {
         System.out.println("""
                 Here you will see available quests, some are available now,

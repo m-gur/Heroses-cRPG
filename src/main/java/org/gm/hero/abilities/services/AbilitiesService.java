@@ -144,10 +144,8 @@ public class AbilitiesService {
         }
     }
 
-    public void unsetAbilitiesFromItems(Hero hero) {
+    public void unsetAbilitiesFromItems(Hero hero, Item item) {
         Abilities abilities = hero.getAbilities();
-        Map<ItemType, Item> equippedItems = hero.getEquippedItems();
-        for (Item item : equippedItems.values()) {
             if (!item.isUsage()) {
                 Abilities itemAbilities = item.getAbilities();
                 abilities.setStrength(abilities.getStrength() - itemAbilities.getStrength());
@@ -158,6 +156,4 @@ public class AbilitiesService {
                 abilities.setSpeed(abilities.getSpeed() - itemAbilities.getSpeed());
             }
         }
-    }
-
 }
