@@ -1,29 +1,29 @@
 package org.gm.hero.services;
 
-import org.gm.hero.entity.Archer;
+import org.gm.factory.HeroFactoryTest;
+import org.gm.factory.ItemFactoryTest;
+import org.gm.hero.entity.Hero;
 import org.gm.hero.items.entity.Item;
 import org.gm.hero.items.entity.ItemType;
-import org.gm.hero.items.services.ItemService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class HeroServiceTest {
-    private Archer archer;
-    private Item item;
-    private ItemService itemService;
-    HeroService heroService;
+    private HeroService heroService;
+    private ItemFactoryTest itemFactoryTest;
+    private HeroFactoryTest heroFactoryTest;
 
     @BeforeEach
     public void setUp() {
-        item = new Item("HP Potion", ItemType.USABLE, BigDecimal.valueOf(10), 2, false);
-        archer = new Archer("Archie");
-        archer.setMaxHp(200);
-        archer.setCurrentHp(100);
-        itemService = new ItemService();
+        itemFactoryTest = new ItemFactoryTest();
+        heroFactoryTest = new HeroFactoryTest();
         heroService = new HeroService();
     }
 
@@ -31,8 +31,14 @@ class HeroServiceTest {
     void restoreHP_WithoutParameters_ReturnsTrue() {
 
         //given
-        archer.setInventory(itemService.addItemToInventory(archer, item));
-
+        Hero archer = heroFactoryTest.createRandomHero("Archer");
+        archer.setMaxHp(200);
+        archer.setCurrentHp(100);
+        Map<ItemType, List<Item>> inventory = new HashMap<>();
+        List<Item> usable = new ArrayList<>();
+        usable.add(itemFactoryTest.createFactoryItem(ItemType.USABLE));
+        inventory.put(ItemType.USABLE, usable);
+        archer.setInventory(inventory);
         //when
         heroService.restoreHP(archer, "HP Potion");
 
@@ -44,7 +50,9 @@ class HeroServiceTest {
     void restoreHP_WithoutParameters_ReturnsFalse() {
 
         //given
-
+        Hero archer = heroFactoryTest.createRandomHero("Archer");
+        archer.setMaxHp(200);
+        archer.setCurrentHp(100);
         //when
         heroService.restoreHP(archer, "HP Potion");
 
