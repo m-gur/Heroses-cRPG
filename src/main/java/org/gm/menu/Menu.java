@@ -8,6 +8,7 @@ import org.gm.hero.entity.Knight;
 import org.gm.hero.entity.Mage;
 import org.gm.hero.services.HeroService;
 import org.gm.hero.services.LevelService;
+import org.gm.location.city.CityLocation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,7 +28,7 @@ public class Menu {
     private final HeroService heroService = new HeroService();
     private final AbilitiesService abilitiesService = new AbilitiesService();
     private final LevelService levelService = new LevelService();
-    private final City city = new City();
+    private final CityLocation city = new CityLocation();
     private static final Logger logger = LoggerFactory.getLogger(Menu.class);
     public void startGame() {
         Scanner scanner = new Scanner(System.in);
@@ -66,7 +67,7 @@ public class Menu {
             Hero loadedHero = gson.fromJson(reader, Hero.class);
             if (loadedHero != null) {
                 logger.info("Game loaded successfully!");
-                city.exploreCity(loadedHero);
+                city.explore(loadedHero);
             } else {
                 logger.info("Failed to load game.");
                 startGame();
@@ -121,9 +122,9 @@ public class Menu {
             choice = scanner.nextInt();
             scanner.nextLine();
             switch (choice) {
-                case 1 -> city.exploreCity(createHeroPartTwo(new Archer()));
-                case 2 -> city.exploreCity(createHeroPartTwo(new Knight()));
-                case 3 -> city.exploreCity(createHeroPartTwo(new Mage()));
+                case 1 -> city.explore(createHeroPartTwo(new Archer()));
+                case 2 -> city.explore(createHeroPartTwo(new Knight()));
+                case 3 -> city.explore(createHeroPartTwo(new Mage()));
                 case 4 -> {
                     return;
                 }

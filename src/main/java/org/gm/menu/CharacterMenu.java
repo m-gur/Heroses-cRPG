@@ -18,7 +18,7 @@ public class CharacterMenu {
     private final ItemService itemService = new ItemService();
     private static final Logger logger = LoggerFactory.getLogger(CharacterMenu.class);
     private static final String INVALID = "Invalid choice. Please try again.";
-    void showCharacterMenu(Hero hero) {
+    public void showCharacterMenu(Hero hero) {
         Scanner scanner = new Scanner(System.in);
         int choice;
         do {
