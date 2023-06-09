@@ -11,12 +11,15 @@ import org.gm.hero.entity.*;
 import org.gm.hero.items.entity.Item;
 import org.gm.hero.items.entity.ItemType;
 import org.gm.hero.services.HeroService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Map;
 
 public class AbilitiesService {
-
+    protected final Logger logger = LoggerFactory.getLogger(getClass());
     private HeroService heroService = new HeroService();
+
     public AbilitiesAfterModifier setAbilitiesAfterModifier(Hero hero) {
         setAbilitiesFromItems(hero);
 
@@ -35,10 +38,9 @@ public class AbilitiesService {
         return abilitiesAfterModifier;
     }
 
-
     public void distributeSkillPoints(Hero hero, Map<String, Integer> skillPointsDistribution) {
         if (hero.getSkillPoints() <= 0) {
-            System.out.println("No skill points available to distribute.");
+            logger.info("No skill points available to distribute.");
             return;
         }
 
@@ -53,7 +55,7 @@ public class AbilitiesService {
             }
 
             if (remainingSkillPointsToDistribute < pointsToAdd) {
-                System.out.println("Not enough skill points available to distribute.");
+                logger.info("Not enough skill points available to distribute.");
                 break;
             }
 
@@ -62,33 +64,34 @@ public class AbilitiesService {
             ModifierAbilities modifierAbilities = hero.getModifierAbilities();
 
             switch (skillName) {
-                case "strength":
+                case "strength" -> {
                     abilities.setStrength(abilities.getStrength() + pointsToAdd);
                     abilitiesAfterModifier.setStrength(abilities.getStrength() * modifierAbilities.getStrengthModifier());
-                    break;
-                case "defence":
+                }
+                case "defence" -> {
                     abilities.setDefence(abilities.getDefence() + pointsToAdd);
                     abilitiesAfterModifier.setDefence(abilities.getDefence() * modifierAbilities.getDefenceModifier());
-                    break;
-                case "intelligence":
+                }
+                case "intelligence" -> {
                     abilities.setIntelligence(abilities.getIntelligence() + pointsToAdd);
                     abilitiesAfterModifier.setIntelligence(abilities.getIntelligence() * modifierAbilities.getIntelligenceModifier());
-                    break;
-                case "dexterity":
+                }
+                case "dexterity" -> {
                     abilities.setDexterity(abilities.getDexterity() + pointsToAdd);
                     abilitiesAfterModifier.setDexterity(abilities.getDexterity() * modifierAbilities.getDexterityModifier());
-                    break;
-                case "agility":
+                }
+                case "agility" -> {
                     abilities.setAgility(abilities.getAgility() + pointsToAdd);
                     abilitiesAfterModifier.setAgility(abilities.getAgility() * modifierAbilities.getAgilityModifier());
-                    break;
-                case "speed":
+                }
+                case "speed" -> {
                     abilities.setSpeed(abilities.getSpeed() + pointsToAdd);
                     abilitiesAfterModifier.setSpeed(abilities.getSpeed() * modifierAbilities.getSpeedModifier());
-                    break;
-                default:
-                    System.out.println("Invalid skill name: " + skillName);
+                }
+                default -> {
+                    logger.info("Invalid skill name: " + skillName);
                     continue;
+                }
             }
 
             remainingSkillPointsToDistribute -= pointsToAdd;
@@ -97,15 +100,15 @@ public class AbilitiesService {
             hero.setMaxHp(heroService.setHP(hero));
         }
 
-        System.out.println("Skill points distributed successfully.");
+        logger.info("Skill points distributed successfully.");
     }
 
     public void resetSkillPoints(Hero hero) {
-        Abilities abilities = new Abilities(1f,1f,1f,1f,1f,1f);
+        Abilities abilities = new Abilities(1f, 1f, 1f, 1f, 1f, 1f);
         hero.setAbilities(abilities);
         hero.setSkillPoints(hero.getLvl() * 10);
         setAbilitiesAfterModifier(hero);
-        System.out.println("Skill points reset successfully.");
+        logger.info("Skill points reset successfully.");
     }
 
     public ModifierAbilities setModifierAbilities(Hero hero) {
@@ -120,7 +123,7 @@ public class AbilitiesService {
         } else if (hero instanceof Archer) {
             modifierStrategy = new ArcherModifierStrategy();
         } else {
-            System.out.println("Invalid hero class");
+            logger.info("Invalid hero class");
             return modifierAbilities;
         }
 
@@ -146,14 +149,14 @@ public class AbilitiesService {
 
     public void unsetAbilitiesFromItems(Hero hero, Item item) {
         Abilities abilities = hero.getAbilities();
-            if (!item.isUsage()) {
-                Abilities itemAbilities = item.getAbilities();
-                abilities.setStrength(abilities.getStrength() - itemAbilities.getStrength());
-                abilities.setDefence(abilities.getDefence() - itemAbilities.getDefence());
-                abilities.setIntelligence(abilities.getIntelligence() - itemAbilities.getIntelligence());
-                abilities.setDexterity(abilities.getDexterity() - itemAbilities.getDexterity());
-                abilities.setAgility(abilities.getAgility() - itemAbilities.getAgility());
-                abilities.setSpeed(abilities.getSpeed() - itemAbilities.getSpeed());
-            }
+        if (!item.isUsage()) {
+            Abilities itemAbilities = item.getAbilities();
+            abilities.setStrength(abilities.getStrength() - itemAbilities.getStrength());
+            abilities.setDefence(abilities.getDefence() - itemAbilities.getDefence());
+            abilities.setIntelligence(abilities.getIntelligence() - itemAbilities.getIntelligence());
+            abilities.setDexterity(abilities.getDexterity() - itemAbilities.getDexterity());
+            abilities.setAgility(abilities.getAgility() - itemAbilities.getAgility());
+            abilities.setSpeed(abilities.getSpeed() - itemAbilities.getSpeed());
         }
+    }
 }

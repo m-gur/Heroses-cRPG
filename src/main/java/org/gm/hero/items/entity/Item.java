@@ -31,12 +31,12 @@ public class Item {
     @Override
     public String toString() {
         return "Item{" +
-                "name='" + name + '\'' +
-                ", itemType=" + itemType +
-                ", abilities=" + abilities +
-                ", value=" + value +
-                ", quantity=" + quantity +
-                ", isUsage=" + isUsage +
-                '}';
+               "name='" + name + '\'' +
+               ", itemType=" + itemType +
+               ", abilities=" + abilities +
+               ", value=" + value +
+               ", quantity=" + quantity +
+               ", isUsage=" + isUsage +
+               '}';
     }
 }

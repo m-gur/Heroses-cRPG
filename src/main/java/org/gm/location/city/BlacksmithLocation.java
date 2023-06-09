@@ -12,15 +12,16 @@ import java.util.Scanner;
 
 public class BlacksmithLocation extends CityLocation {
     private final ItemService itemService = new ItemService();
+
     @Override
     public void explore(Hero hero) {
         Scanner scanner = new Scanner(System.in);
         int choice;
         logger.info("""
-    Welcome adventurer, my name is Greg.
-    What brings you to me?
-    Are you want to upgrade your equipment?
-    """);
+                Welcome adventurer, my name is Greg.
+                What brings you to me?
+                Are you want to upgrade your equipment?
+                """);
         logger.info("Welcome Greg, my name is " + hero.getName());
         do {
             logger.info("""

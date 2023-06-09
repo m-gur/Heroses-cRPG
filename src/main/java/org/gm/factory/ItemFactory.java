@@ -21,7 +21,7 @@ public class ItemFactory {
         abilitiesForArmorItems.setAgility(random.nextInt(hero.getLvl() * 3));
         abilitiesForArmorItems.setSpeed(random.nextInt(hero.getLvl() * 3));
         Abilities abilitiesForOtherTypeItem = new Abilities(0f, 0f, 0f, 0f, 0f, 0f);
-        int itemChoice = random.nextInt(9)+1;
+        int itemChoice = random.nextInt(9) + 1;
         switch (itemChoice) {
             case 1 -> {
                 return new Item(getRandomHelmetName(), ItemType.HELMET, abilitiesForArmorItems,

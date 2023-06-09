@@ -34,6 +34,7 @@ public abstract class Hero {
     private BigDecimal coins;
 
     public abstract ModifierStrategy getModifierStrategy();
+
     public abstract String getHeroType();
 
     public Hero(String name) {
@@ -43,7 +44,7 @@ public abstract class Hero {
         this.maxHp = 100;
         this.experience = 0.0f;
         this.skillPoints = 10;
-        this.abilities = new Abilities(1.0f,1.0f,1.0f,1.0f,1.0f,1.0f);
+        this.abilities = new Abilities(1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f);
         this.modifierAbilities = new ModifierAbilities();
         this.abilitiesAfterModifier = new AbilitiesAfterModifier();
         this.inventory = new HashMap<>();
@@ -56,7 +57,7 @@ public abstract class Hero {
         this.lvl = 1;
         this.experience = 0.0f;
         this.skillPoints = 10;
-        this.abilities = new Abilities(1.0f,1.0f,1.0f,1.0f,1.0f,1.0f);
+        this.abilities = new Abilities(1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f);
         this.modifierAbilities = new ModifierAbilities();
         this.abilitiesAfterModifier = new AbilitiesAfterModifier();
         this.inventory = new HashMap<>();

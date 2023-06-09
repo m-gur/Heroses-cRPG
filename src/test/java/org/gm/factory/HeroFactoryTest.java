@@ -14,20 +14,17 @@ import java.util.List;
 import java.util.Random;
 
 public class HeroFactoryTest {
-    private LevelService levelService = new LevelService();
-    private HeroService heroService = new HeroService();
-    private AbilitiesService abilitiesService = new AbilitiesService();
+    private final LevelService levelService = new LevelService();
+    private final HeroService heroService = new HeroService();
+    private final AbilitiesService abilitiesService = new AbilitiesService();
+
     public Hero createRandomHero(String heroType) {
-        switch (heroType) {
-            case "Mage":
-                return randomMage();
-            case "Knight":
-                return randomKnight();
-            case "Archer":
-                return randomArcher();
-            default:
-                throw new IllegalArgumentException("Invalid hero type: " + heroType);
-        }
+        return switch (heroType) {
+            case "Mage" -> randomMage();
+            case "Knight" -> randomKnight();
+            case "Archer" -> randomArcher();
+            default -> throw new IllegalArgumentException("Invalid hero type: " + heroType);
+        };
     }
 
     private Hero createRandomHeroPartTwo(Class<? extends Hero> heroClass, String heroName) {

@@ -10,9 +10,9 @@ public class HauntedForestLocation extends OutsideLocation {
         Scanner scanner = new Scanner(System.in);
 
         logger.info("""
-        Currently, you are too weak for this place. Come back when you are stronger.
-        Where would you like to go?
-        """);
+                Currently, you are too weak for this place. Come back when you are stronger.
+                Where would you like to go?
+                """);
 
         extracted(scanner);
     }

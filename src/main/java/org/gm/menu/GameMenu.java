@@ -14,6 +14,7 @@ import static java.lang.System.exit;
 public class GameMenu {
     static final String SAVE_FILE_PATH = "src/main/resources/game_save.json";
     private static final Logger logger = LoggerFactory.getLogger(GameMenu.class);
+
     public void gameMenu(Hero hero) {
         Scanner scanner = new Scanner(System.in);
         int choice;
@@ -37,6 +38,7 @@ public class GameMenu {
             }
         } while (choice != 3);
     }
+
     private void saveGame(Hero hero) {
         try (OutputStream os = new FileOutputStream(SAVE_FILE_PATH);
              Writer writer = new OutputStreamWriter(os)) {

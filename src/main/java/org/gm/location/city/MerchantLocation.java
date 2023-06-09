@@ -10,24 +10,25 @@ import java.util.Scanner;
 
 public class MerchantLocation extends CityLocation {
     private final ItemService itemService = new ItemService();
+
     @Override
     public void explore(Hero hero) {
         Scanner scanner = new Scanner(System.in);
         int choice;
         do {
             logger.info("""
-                What item do you want to sell?
-                1. Helmet
-                2. Chest
-                3. Ring
-                4. Necklace
-                5. Trousers
-                6. Shoes
-                7. Weapon
-                8. Usually
-                9. Usable
-                10. Return
-                """);
+                    What item do you want to sell?
+                    1. Helmet
+                    2. Chest
+                    3. Ring
+                    4. Necklace
+                    5. Trousers
+                    6. Shoes
+                    7. Weapon
+                    8. Usually
+                    9. Usable
+                    10. Return
+                    """);
 
             choice = scanner.nextInt();
             scanner.nextLine();

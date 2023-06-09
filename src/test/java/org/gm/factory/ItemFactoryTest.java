@@ -10,7 +10,7 @@ public class ItemFactoryTest {
     public Item createFactoryItem(ItemType itemType) {
         Abilities abilities = new Abilities(1f, 1f, 1f, 1f, 1f, 1f);
         Abilities abilities2 = new Abilities(0f, 0f, 0f, 0f, 0f, 0f);
-        switch (itemType){
+        switch (itemType) {
             case HELMET -> {
                 return new Item("Helm", ItemType.HELMET, abilities, BigDecimal.valueOf(10), 1, true);
             }

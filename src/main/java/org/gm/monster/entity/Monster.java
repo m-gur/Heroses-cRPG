@@ -23,12 +23,12 @@ public class Monster {
     @Override
     public String toString() {
         return "Monster{" +
-                "name='" + name + '\'' +
-                ", monsterClass=" + monsterClass +
-                ", lvl=" + lvl +
-                ", hp=" + hp +
-                ", experience=" + experience +
-                ", damage=" + damage +
-                '}';
+               "name='" + name + '\'' +
+               ", monsterClass=" + monsterClass +
+               ", lvl=" + lvl +
+               ", hp=" + hp +
+               ", experience=" + experience +
+               ", damage=" + damage +
+               '}';
     }
 }

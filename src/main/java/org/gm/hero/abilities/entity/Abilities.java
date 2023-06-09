@@ -20,12 +20,12 @@ public class Abilities {
     @Override
     public String toString() {
         return "Abilities{" +
-                "strength=" + strength +
-                ", defence=" + defence +
-                ", intelligence=" + intelligence +
-                ", dexterity=" + dexterity +
-                ", agility=" + agility +
-                ", speed=" + speed +
-                '}';
+               "strength=" + strength +
+               ", defence=" + defence +
+               ", intelligence=" + intelligence +
+               ", dexterity=" + dexterity +
+               ", agility=" + agility +
+               ", speed=" + speed +
+               '}';
     }
 }

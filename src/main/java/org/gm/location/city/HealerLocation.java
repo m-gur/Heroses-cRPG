@@ -2,7 +2,7 @@ package org.gm.location.city;
 
 import org.gm.hero.entity.Hero;
 
-public class HealerLocation extends CityLocation{
+public class HealerLocation extends CityLocation {
     @Override
     public void explore(Hero hero) {
         logger.info("""

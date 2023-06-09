@@ -30,6 +30,7 @@ public class Menu {
     private final LevelService levelService = new LevelService();
     private final CityLocation city = new CityLocation();
     private static final Logger logger = LoggerFactory.getLogger(Menu.class);
+
     public void startGame() {
         Scanner scanner = new Scanner(System.in);
         Map<Integer, Runnable> menuOptions = new HashMap<>();
@@ -58,6 +59,7 @@ public class Menu {
             }
         } while (choice != 3);
     }
+
     private void loadGame() {
         try (Reader reader = new FileReader(SAVE_FILE_PATH)) {
             Gson gson = new GsonBuilder()
@@ -76,6 +78,7 @@ public class Menu {
             e.printStackTrace();
         }
     }
+
     private static class HeroDeserializer implements JsonDeserializer<Hero> {
         @Override
         public Hero deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
@@ -148,14 +151,14 @@ public class Menu {
 
         logger.info("Welcome " + hero.getName() + "!");
         logger.info("""
-               I am really glad to see you want to spent a few great moments in our world.
-               However you must to know this city has a problem with monsters..
-               There are some types of them, some of them are familiar to city dwellers.
-               They can help you to describe and got needed staff to explore the world.
-               Unfortunately there are a few monsters, which are really dangerous..
-               Their goal is to destroy this world, getting armies and start the war with humans!
-               You must help this people survive, find the solution...
-                """);
+                I am really glad to see you want to spent a few great moments in our world.
+                However you must to know this city has a problem with monsters..
+                There are some types of them, some of them are familiar to city dwellers.
+                They can help you to describe and got needed staff to explore the world.
+                Unfortunately there are a few monsters, which are really dangerous..
+                Their goal is to destroy this world, getting armies and start the war with humans!
+                You must help this people survive, find the solution...
+                 """);
         return hero;
     }
 }

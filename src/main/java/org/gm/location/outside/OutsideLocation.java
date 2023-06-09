@@ -18,6 +18,7 @@ public class OutsideLocation extends Location {
     protected final FightService fightService = new FightService();
     private final CharacterMenu characterMenu = new CharacterMenu();
     private final GameMenu gameMenu = new GameMenu();
+
     @Override
     public void explore(Hero hero) {
         Scanner scanner = new Scanner(System.in);
@@ -37,7 +38,7 @@ public class OutsideLocation extends Location {
         choicesMap.put(6, () -> gameMenu.gameMenu(hero));
     }
 
-    private void handleChoice(int choice ) {
+    private void handleChoice(int choice) {
         Runnable action = choicesMap.get(choice);
         if (action != null) {
             action.run();
@@ -47,6 +48,7 @@ public class OutsideLocation extends Location {
             logger.info("Invalid choice. Please try again.");
         }
     }
+
     void extracted(Scanner scanner) {
         int choice;
         do {

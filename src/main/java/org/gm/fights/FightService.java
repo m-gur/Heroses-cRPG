@@ -13,6 +13,7 @@ public class FightService {
     private LevelService levelService = new LevelService();
     private ItemFactory itemFactory = new ItemFactory();
     private ItemService itemService = new ItemService();
+
     public void performBattle(Hero hero, Monster monster) {
         Random random = new Random();
         boolean heroFirstAttack = random.nextBoolean();

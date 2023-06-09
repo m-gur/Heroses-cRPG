@@ -22,6 +22,7 @@ class AbilitiesServiceTest {
         heroFactoryTest = new HeroFactoryTest();
         abilitiesService = new AbilitiesService();
     }
+
     @Test
     void distributeSkillPoints_WithoutParameters_ReturnsTrue() {
 

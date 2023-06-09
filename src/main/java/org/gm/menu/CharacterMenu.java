@@ -18,6 +18,7 @@ public class CharacterMenu {
     private final ItemService itemService = new ItemService();
     private static final Logger logger = LoggerFactory.getLogger(CharacterMenu.class);
     private static final String INVALID = "Invalid choice. Please try again.";
+
     public void showCharacterMenu(Hero hero) {
         Scanner scanner = new Scanner(System.in);
         int choice;
@@ -51,22 +52,22 @@ public class CharacterMenu {
     }
 
     private void showHeroBasicStats(Hero hero) {
-        logger.info( "Name: " + hero.getName() + "\n" +
-                            "level: " + hero.getLvl() + "\n" +
-                            "experience: " + hero.getExperience() + "\n" +
-                            "required experience to level up: " + hero.getRequiredExperience() + "\n" +
-                            "current hp: " + hero.getCurrentHp() + "\n" +
-                            "max hp: " + hero.getMaxHp() + "\n" +
-                            "skill points to distribute: " + hero.getSkillPoints() + "\n" +
-                            "damage: " + hero.getDamage() + "\n" +
-                            "coins: " + hero.getCoins() + "\n\n" +
-                            "Abilities: \n" +
-                            "strength: " + hero.getAbilitiesAfterModifier().getStrength() + "\n" +
-                            "defence: " + hero.getAbilitiesAfterModifier().getDefence() + "\n" +
-                            "intelligence: " + hero.getAbilitiesAfterModifier().getIntelligence() + "\n" +
-                            "dexterity: " + hero.getAbilitiesAfterModifier().getDexterity() + "\n" +
-                            "agility: " + hero.getAbilitiesAfterModifier().getAgility() + "\n" +
-                            "speed: " + hero.getAbilitiesAfterModifier().getSpeed() + "\n"
+        logger.info("Name: " + hero.getName() + "\n" +
+                    "level: " + hero.getLvl() + "\n" +
+                    "experience: " + hero.getExperience() + "\n" +
+                    "required experience to level up: " + hero.getRequiredExperience() + "\n" +
+                    "current hp: " + hero.getCurrentHp() + "\n" +
+                    "max hp: " + hero.getMaxHp() + "\n" +
+                    "skill points to distribute: " + hero.getSkillPoints() + "\n" +
+                    "damage: " + hero.getDamage() + "\n" +
+                    "coins: " + hero.getCoins() + "\n\n" +
+                    "Abilities: \n" +
+                    "strength: " + hero.getAbilitiesAfterModifier().getStrength() + "\n" +
+                    "defence: " + hero.getAbilitiesAfterModifier().getDefence() + "\n" +
+                    "intelligence: " + hero.getAbilitiesAfterModifier().getIntelligence() + "\n" +
+                    "dexterity: " + hero.getAbilitiesAfterModifier().getDexterity() + "\n" +
+                    "agility: " + hero.getAbilitiesAfterModifier().getAgility() + "\n" +
+                    "speed: " + hero.getAbilitiesAfterModifier().getSpeed() + "\n"
         );
     }
 
@@ -118,15 +119,15 @@ public class CharacterMenu {
         int choice;
         do {
             logger.info("""
-                Which skill do you want to add points to?
-                1. Strength
-                2. Defence
-                3. Intelligence
-                4. Dexterity
-                5. Agility
-                6. Speed
-                7. Return
-                """);
+                    Which skill do you want to add points to?
+                    1. Strength
+                    2. Defence
+                    3. Intelligence
+                    4. Dexterity
+                    5. Agility
+                    6. Speed
+                    7. Return
+                    """);
 
             choice = scanner.nextInt();
             scanner.nextLine();
@@ -139,7 +140,7 @@ public class CharacterMenu {
                 Map<String, Integer> skillPointsDistribution = new HashMap<>();
                 skillPointsDistribution.put(skillName, skillPoints);
                 abilitiesService.distributeSkillPoints(hero, skillPointsDistribution);
-            } else if (choice == 7){
+            } else if (choice == 7) {
                 return;
             } else {
                 logger.info(INVALID);
@@ -157,16 +158,16 @@ public class CharacterMenu {
         int choice;
         do {
             logger.info("""
-                What item do you want to equip?
-                1. Helmet
-                2. Chest
-                3. Ring
-                4. Necklace
-                5. Trousers
-                6. Shoes
-                7. Weapon
-                8. Return
-                """);
+                    What item do you want to equip?
+                    1. Helmet
+                    2. Chest
+                    3. Ring
+                    4. Necklace
+                    5. Trousers
+                    6. Shoes
+                    7. Weapon
+                    8. Return
+                    """);
 
             choice = scanner.nextInt();
             scanner.nextLine();

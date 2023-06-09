@@ -4,6 +4,7 @@ import org.gm.hero.entity.Hero;
 
 public class LevelService {
     private HeroService heroService = new HeroService();
+
     public float calculateRequiredExperience(int heroLevel) {
         return (float) heroLevel * 100;
     }

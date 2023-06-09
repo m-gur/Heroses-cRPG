@@ -25,10 +25,10 @@ public class MonsterFactory {
         Random random = new Random();
         Monster monster = new Monster(monsterName, monsterClass);
 
-        monster.setLvl(random.nextInt(hero.getLvl() + 5)+1);
-        monster.setHp(random.nextFloat(hero.getMaxHp() + 50)+1);
+        monster.setLvl(random.nextInt(hero.getLvl() + 5) + 1);
+        monster.setHp(random.nextFloat(hero.getMaxHp() + 50) + 1);
         monster.setExperience(monsterService.setExperience(monster, hero));
-        monster.setDamage(random.nextFloat(hero.getDamage() + 20)+1);
+        monster.setDamage(random.nextFloat(hero.getDamage() + 20) + 1);
         return monster;
     }
 

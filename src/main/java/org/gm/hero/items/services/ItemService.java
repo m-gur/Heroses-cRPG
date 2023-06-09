@@ -52,6 +52,7 @@ public class ItemService {
         equipItem(hero, item);
         return equippedItems;
     }
+
     public void unequipItem(Hero hero, Item item) {
         Map<ItemType, Item> equippedItems = hero.getEquippedItems();
         ItemType itemType = item.getItemType();
@@ -60,6 +61,7 @@ public class ItemService {
         equippedItems.remove(itemType);
         abilitiesService.setAbilitiesAfterModifier(hero);
     }
+
     private void equipItem(Hero hero, Item item) {
         ItemType itemType = item.getItemType();
         Map<ItemType, Item> equippedItems = hero.getEquippedItems();

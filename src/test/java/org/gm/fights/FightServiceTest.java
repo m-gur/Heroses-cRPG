@@ -28,7 +28,7 @@ class FightServiceTest {
     }
 
     @Test
-     void testFight_WithoutParameters_HeroWins() {
+    void testFight_WithoutParameters_HeroWins() {
 
         //given
         Hero archer = heroFactoryTest.createRandomHero("Archer");
@@ -43,7 +43,7 @@ class FightServiceTest {
     }
 
     @Test
-     void testFight_WithoutParameters_MonsterWins() {
+    void testFight_WithoutParameters_MonsterWins() {
 
         //given
         Hero archer = heroFactoryTest.createRandomHero("Archer");

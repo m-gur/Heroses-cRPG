@@ -10,11 +10,13 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class LevelServiceTest {
     private HeroFactoryTest heroFactoryTest;
     private LevelService levelService;
+
     @BeforeEach
     public void setUp() {
         heroFactoryTest = new HeroFactoryTest();
         levelService = new LevelService();
     }
+
     @Test
     void accumulateExperience_withoutParameters_returnsTrue() {
         //given

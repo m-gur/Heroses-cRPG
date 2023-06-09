@@ -13,6 +13,7 @@ public class CityLocation extends Location {
     protected static final CharacterMenu characterMenu = new CharacterMenu();
     protected static final GameMenu gameMenu = new GameMenu();
     private static final OutsideLocation outsideLocation = new OutsideLocation();
+
     @Override
     public void explore(Hero hero) {
         outsideLocation.initializeChoicesMap(hero, this);
