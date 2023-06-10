@@ -3,7 +3,6 @@ package org.gm.hero.quest;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-import org.gm.location.Location;
 
 import java.math.BigDecimal;
 import java.util.Map;
@@ -12,7 +11,8 @@ import java.util.Map;
 @Setter
 @AllArgsConstructor
 public class Quest {
-    private Map<Location, Boolean> locations;
+    private String name;
+    private Map<String, Boolean> locations;
     private float rewardExperience;
     private BigDecimal rewardCoins;
     private boolean isCompleted;
@@ -20,7 +20,7 @@ public class Quest {
     @Override
     public String toString() {
         return "Quest{" +
-               "locations=" + locations +
+               "locations=" + locations.toString() +
                ", rewardExperience=" + rewardExperience +
                ", rewardCoins=" + rewardCoins +
                ", isCompleted=" + isCompleted +

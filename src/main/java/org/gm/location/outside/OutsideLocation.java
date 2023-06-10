@@ -16,8 +16,8 @@ public class OutsideLocation extends Location {
     protected final Map<Integer, Runnable> choicesMap = new HashMap<>();
     protected final MonsterFactory monsterFactory = new MonsterFactory();
     protected final FightService fightService = new FightService();
-    private final CharacterMenu characterMenu = new CharacterMenu();
-    private final GameMenu gameMenu = new GameMenu();
+    protected final CharacterMenu characterMenu = new CharacterMenu();
+    protected final GameMenu gameMenu = new GameMenu();
 
     @Override
     public void explore(Hero hero) {

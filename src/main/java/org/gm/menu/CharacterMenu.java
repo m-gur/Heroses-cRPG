@@ -5,6 +5,7 @@ import org.gm.hero.entity.Hero;
 import org.gm.hero.items.entity.Item;
 import org.gm.hero.items.entity.ItemType;
 import org.gm.hero.items.services.ItemService;
+import org.gm.hero.quest.Quest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -12,6 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class CharacterMenu {
     private final AbilitiesService abilitiesService = new AbilitiesService();
@@ -31,7 +33,8 @@ public class CharacterMenu {
                     4. Equipped items
                     5. Distribute skill points
                     6. Reset skill points
-                    7. Return
+                    7. Quests
+                    8. Return
                     """);
 
             choice = scanner.nextInt();
@@ -43,12 +46,13 @@ public class CharacterMenu {
                 case 4 -> showHeroEquippedItems(hero);
                 case 5 -> distributeSkillPoints(hero);
                 case 6 -> resetSkillPoints(hero);
-                case 7 -> {
+                case 7 -> showQuests(hero);
+                case 8 -> {
                     return;
                 }
                 default -> logger.info(INVALID);
             }
-        } while (choice != 7);
+        } while (choice != 8);
     }
 
     private void showHeroBasicStats(Hero hero) {
@@ -210,6 +214,30 @@ public class CharacterMenu {
     private void printItems(List<Item> items) {
         for (int i = 0; i < items.size(); i++) {
             logger.info((i) + ". " + items.get(i));
+        }
+    }
+
+    private void showQuests(Hero hero) {
+        boolean anyCompletedQuest = hero.getQuests().stream()
+                .filter(Quest::isCompleted)
+                .anyMatch(quest -> true);
+        List<Quest> completedQuests = hero.getQuests().stream()
+                .filter(Quest::isCompleted)
+                .collect(Collectors.toList());
+        List<Quest> notCompletedQuests = hero.getQuests().stream()
+                .filter(quest -> quest.isCompleted() == false)
+                .collect(Collectors.toList());
+        if (!anyCompletedQuest) {
+            logger.info("Actual quests: ");
+            for (Quest quest : notCompletedQuests) {
+                logger.info(quest.toString());
+            }
+        }
+        if (anyCompletedQuest) {
+            logger.info("Completed quests: ");
+            for (Quest quest : completedQuests) {
+                logger.info(quest.toString());
+            }
         }
     }
 }
