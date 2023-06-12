@@ -13,7 +13,7 @@ import java.util.Map;
 import java.util.Scanner;
 
 public class OutsideLocation extends Location {
-    protected final Map<Integer, Runnable> choicesMap = new HashMap<>();
+    protected Map<Integer, Runnable> choicesMap = new HashMap<>();
     protected final MonsterFactory monsterFactory = new MonsterFactory();
     protected final FightService fightService = new FightService();
     protected final CharacterMenu characterMenu = new CharacterMenu();
@@ -31,8 +31,8 @@ public class OutsideLocation extends Location {
 
     public void initializeChoicesMap(Hero hero, CityLocation city) {
         choicesMap.put(1, () -> city.explore(hero));
-        choicesMap.put(2, () -> new CastleLocation().explore(hero));
-        choicesMap.put(3, () -> new HauntedForestLocation().explore(hero));
+        choicesMap.put(2, () -> new CastleLocation().explore(hero, city));
+        choicesMap.put(3, () -> new HauntedForestLocation().explore(hero, city));
         choicesMap.put(4, () -> new AdventureLocation().explore(hero, city));
         choicesMap.put(5, () -> characterMenu.showCharacterMenu(hero));
         choicesMap.put(6, () -> gameMenu.gameMenu(hero));

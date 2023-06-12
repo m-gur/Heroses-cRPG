@@ -9,7 +9,8 @@ public class MayorLocation extends CityLocation {
     @Override
     public void explore(Hero hero) {
         boolean firstJourneyQuest = hero.getQuests().stream()
-                .anyMatch(quest -> quest.getName().equals("First Journey"));
+                .filter(quest -> quest.getName().equals("First Journey"))
+                .allMatch(quest -> !quest.isCompleted());
         if (firstJourneyQuest) {
             logger.info("""
                     Hello traveler, I see that you're interested in helping us.

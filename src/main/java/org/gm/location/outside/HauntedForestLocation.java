@@ -3,6 +3,7 @@ package org.gm.location.outside;
 import org.gm.hero.entity.Hero;
 import org.gm.hero.quest.Quest;
 import org.gm.hero.quest.QuestService;
+import org.gm.location.city.CityLocation;
 import org.gm.monster.entity.Monster;
 import org.gm.monster.entity.MonsterClass;
 
@@ -11,12 +12,11 @@ import java.util.Scanner;
 
 public class HauntedForestLocation extends OutsideLocation {
     QuestService questService = new QuestService();
-    @Override
-    public void explore(Hero hero) {
-        hero.setCurrentHp(10000);
+    public void explore(Hero hero, CityLocation city) {
         Scanner scanner = new Scanner(System.in);
         boolean firstJourneyQuest = hero.getQuests().stream()
-                .anyMatch(quest -> quest.getName().equals("First Journey"));
+                .filter(quest -> quest.getName().equals("First Journey"))
+                .allMatch(quest -> !quest.isCompleted());
         if (firstJourneyQuest) {
             logger.info("""
                     You walk slowly through the forest, occasionally hearing a strange rustling sound.
@@ -49,10 +49,11 @@ public class HauntedForestLocation extends OutsideLocation {
             }
         } else {
             logger.info("""
-                    Currently, you are too weak for this place. Come back when you are stronger.
+                    You don't have anything to look for here at the moment, please come back another time.
                     Where would you like to go?
                     """);
         }
-        super.extracted(scanner);
+        initializeChoicesMap(hero, city);
+        extracted(scanner);
     }
 }
