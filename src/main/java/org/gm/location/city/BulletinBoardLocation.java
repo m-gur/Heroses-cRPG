@@ -11,6 +11,10 @@ import java.util.Map;
 public class BulletinBoardLocation extends CityLocation {
     @Override
     public void explore(Hero hero) {
+        boolean firstJourneyQuestIsCompleted = hero.getQuests().stream()
+                .filter(quest -> quest.getName().equals("First Journey"))
+                .allMatch(Quest::isCompleted);
+        Map<String, Boolean> locations = new HashMap<>();
         logger.info("""
                 Here you will see available quests, some are available now,
                 others after completing the previous ones.
@@ -18,10 +22,16 @@ public class BulletinBoardLocation extends CityLocation {
         boolean firstJourneyQuest = hero.getQuests().stream()
                 .anyMatch(quest -> quest.getName().equals("First Journey"));
         if (!firstJourneyQuest) {
-            Map<String, Boolean> locations = new HashMap<>();
             locations.put("MayorLocation", false);
             locations.put("HauntedForestLocation", false);
             Quest quest = new Quest("First Journey", locations, 100, BigDecimal.valueOf(50), false);
+            List<Quest> quests = hero.getQuests();
+            quests.add(quest);
+            hero.setQuests(quests);
+            logger.info("Quest: " + quest + "\n was added to your quests.");
+        } else if (firstJourneyQuestIsCompleted) {
+            locations.put("CastleLocation", false);
+            Quest quest = new Quest("Betrayed", locations, 200, BigDecimal.valueOf(100), false);
             List<Quest> quests = hero.getQuests();
             quests.add(quest);
             hero.setQuests(quests);

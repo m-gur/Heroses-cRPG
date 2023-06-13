@@ -20,7 +20,8 @@ public class Quest {
     @Override
     public String toString() {
         return "Quest{" +
-               "locations=" + locations.toString() +
+               "name='" + name + '\'' +
+               ", locations=" + locations +
                ", rewardExperience=" + rewardExperience +
                ", rewardCoins=" + rewardCoins +
                ", isCompleted=" + isCompleted +

@@ -221,13 +221,16 @@ public class CharacterMenu {
         boolean anyCompletedQuest = hero.getQuests().stream()
                 .filter(Quest::isCompleted)
                 .anyMatch(quest -> true);
+        boolean anyUnCompletedQuest = hero.getQuests().stream()
+                .filter(Quest::isCompleted)
+                .anyMatch(quest -> false);
         List<Quest> completedQuests = hero.getQuests().stream()
                 .filter(Quest::isCompleted)
                 .collect(Collectors.toList());
         List<Quest> notCompletedQuests = hero.getQuests().stream()
-                .filter(quest -> quest.isCompleted() == false)
+                .filter(quest -> !quest.isCompleted())
                 .collect(Collectors.toList());
-        if (!anyCompletedQuest) {
+        if (!anyUnCompletedQuest) {
             logger.info("Actual quests: ");
             for (Quest quest : notCompletedQuests) {
                 logger.info(quest.toString());
