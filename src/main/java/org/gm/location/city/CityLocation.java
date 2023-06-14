@@ -1,6 +1,7 @@
 package org.gm.location.city;
 
 import org.gm.hero.entity.Hero;
+import org.gm.hero.quest.QuestService;
 import org.gm.location.Location;
 import org.gm.location.outside.OutsideLocation;
 import org.gm.menu.CharacterMenu;
@@ -13,7 +14,7 @@ public class CityLocation extends Location {
     protected static final CharacterMenu characterMenu = new CharacterMenu();
     protected static final GameMenu gameMenu = new GameMenu();
     private static final OutsideLocation outsideLocation = new OutsideLocation();
-
+    protected final QuestService questService = new QuestService();
     @Override
     public void explore(Hero hero) {
         outsideLocation.initializeChoicesMap(hero, this);

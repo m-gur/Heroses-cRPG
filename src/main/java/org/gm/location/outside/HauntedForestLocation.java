@@ -2,7 +2,6 @@ package org.gm.location.outside;
 
 import org.gm.hero.entity.Hero;
 import org.gm.hero.quest.Quest;
-import org.gm.hero.quest.QuestService;
 import org.gm.location.city.CityLocation;
 import org.gm.monster.entity.Monster;
 import org.gm.monster.entity.MonsterClass;
@@ -11,11 +10,13 @@ import java.util.List;
 import java.util.Scanner;
 
 public class HauntedForestLocation extends OutsideLocation {
-    QuestService questService = new QuestService();
     public void explore(Hero hero, CityLocation city) {
         Scanner scanner = new Scanner(System.in);
         boolean firstJourneyQuest = hero.getQuests().stream()
                 .filter(quest -> quest.getName().equals("First Journey"))
+                .allMatch(quest -> !quest.isCompleted());
+        boolean endGameQuest = hero.getQuests().stream()
+                .filter(quest -> quest.getName().equals("EndGame"))
                 .allMatch(quest -> !quest.isCompleted());
         if (firstJourneyQuest) {
             logger.info("""
@@ -45,6 +46,31 @@ public class HauntedForestLocation extends OutsideLocation {
                         You have slain the beast.
                         It was a tough battle, but you managed to do it.
                         The reward for completing the quest is now yours.
+                        """);
+            }
+        } else if (endGameQuest) {
+            logger.info("""
+                        You have reached the forest and see a horde of monsters.
+                        One of them approaches you and says
+                        "Welcome, our problem. We have been waiting for you. We are here to escort you to our ruler. Come, come with us."
+                        
+                        You follow the monsters through the forest until you reach an arena.
+                        You step onto it, and before your eyes appears the king of monsters.
+                        The main issue for the inhabitants, which you must resolve, is to confront him, defeat him, and bring peace to these lands.
+                        Will you succeed? Everyone is counting on you!
+                    """);
+            Monster monster = new Monster("The King", MonsterClass.OTHER, 15, 5000, 500, 1000);
+            fightService.performBattle(hero, monster);
+            if (hero.getCurrentHp() > 0) {
+                Quest firstJourney = hero.getQuests().stream()
+                        .filter(quest -> quest.getName().equals("EndGame")).findFirst().orElseThrow();
+                firstJourney.getLocations().replace("HauntedForestLocation", false, true);
+                List<Quest> quests = hero.getQuests();
+                quests.removeIf(quest -> quest.getName().equals("EndGame"));
+                quests.add(firstJourney);
+                hero.setQuests(quests);
+                logger.info("""
+                        You 've won, congratulations! So, we must leave these lands, but we will meet again :)
                         """);
             }
         } else {

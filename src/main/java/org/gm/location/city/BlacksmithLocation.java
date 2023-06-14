@@ -12,7 +12,6 @@ import java.util.Scanner;
 
 public class BlacksmithLocation extends CityLocation {
     private final ItemService itemService = new ItemService();
-
     @Override
     public void explore(Hero hero) {
         Scanner scanner = new Scanner(System.in);

@@ -3,6 +3,7 @@ package org.gm.location.outside;
 import org.gm.factory.MonsterFactory;
 import org.gm.fights.FightService;
 import org.gm.hero.entity.Hero;
+import org.gm.hero.quest.QuestService;
 import org.gm.location.Location;
 import org.gm.location.city.CityLocation;
 import org.gm.menu.CharacterMenu;
@@ -18,6 +19,7 @@ public class OutsideLocation extends Location {
     protected final FightService fightService = new FightService();
     protected final CharacterMenu characterMenu = new CharacterMenu();
     protected final GameMenu gameMenu = new GameMenu();
+    protected final QuestService questService = new QuestService();
 
     @Override
     public void explore(Hero hero) {

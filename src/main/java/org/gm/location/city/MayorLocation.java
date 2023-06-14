@@ -11,6 +11,9 @@ public class MayorLocation extends CityLocation {
         boolean firstJourneyQuest = hero.getQuests().stream()
                 .filter(quest -> quest.getName().equals("First Journey"))
                 .allMatch(quest -> !quest.isCompleted());
+        boolean endGameQuest = hero.getQuests().stream()
+                .filter(quest -> quest.getName().equals("EndGame"))
+                .allMatch(quest -> !quest.isCompleted());
         if (firstJourneyQuest) {
             logger.info("""
                     Hello traveler, I see that you're interested in helping us.
@@ -25,6 +28,22 @@ public class MayorLocation extends CityLocation {
             quests.removeIf(quest -> quest.getName().equals("First Journey"));
             quests.add(firstJourney);
             hero.setQuests(quests);
+        } else if (endGameQuest) {
+            logger.info("""
+                    Thank you, the city is immensely grateful for your contributions.
+                    We will never forget what you have done for us.
+                    Thanks to you, we have regained peace, and we can finally live normally.
+                    You can stay with us if you want, or you can continue on your adventure!
+                    Regardless of what you choose, we thank you!
+                    """);
+            Quest firstJourney = hero.getQuests().stream()
+                    .filter(quest -> quest.getName().equals("EndGame")).findFirst().orElseThrow();
+            firstJourney.getLocations().replace("MayorLocation", false, true);
+            List<Quest> quests = hero.getQuests();
+            quests.removeIf(quest -> quest.getName().equals("EndGame"));
+            quests.add(firstJourney);
+            hero.setQuests(quests);
+            questService.isQuestCompleted(hero);
         } else {
             logger.info("""
                     Currently, you cannot meet with the mayor.
