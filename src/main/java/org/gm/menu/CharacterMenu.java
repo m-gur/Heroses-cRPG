@@ -9,6 +9,7 @@ import org.gm.hero.quest.Quest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -154,7 +155,27 @@ public class CharacterMenu {
     }
 
     private void resetSkillPoints(Hero hero) {
-        abilitiesService.resetSkillPoints(hero);
+        Scanner scanner = new Scanner(System.in);
+        int cost = 10 * hero.getLvl();
+        int choice;
+        logger.info("Reset cost: " + cost + "\n" +
+                           "Are you agreed to reset?\n" +
+                           "1. Yes\n" +
+                           "2. No\n");
+        choice = scanner.nextInt();
+        if (choice == 1) {
+            if (hero.getCoins().compareTo(BigDecimal.valueOf(cost)) < 0) {
+                logger.info("Invalid needed coins to upgrade item.");
+                showCharacterMenu(hero);
+            }
+            abilitiesService.resetSkillPoints(hero);
+            BigDecimal currentCoins = hero.getCoins();
+            BigDecimal newCoins = currentCoins.subtract(BigDecimal.valueOf(cost));
+            hero.setCoins(newCoins);
+            logger.info("Points reset successfully");
+        } else {
+            showCharacterMenu(hero);
+        }
     }
 
     private void equipItems(Hero hero) {

@@ -86,7 +86,7 @@ public class BlacksmithLocation extends CityLocation {
     }
 
     private void chooseAndUpgradeItem(Hero hero, ItemType itemType) {
-        if (!hero.getCoins().equals(BigDecimal.valueOf(10))) {
+        if (hero.getCoins().compareTo(BigDecimal.valueOf(10)) < 0) {
             logger.info("Invalid needed coins to upgrade item.");
             upgradeEquipment(hero);
         }
@@ -131,8 +131,11 @@ public class BlacksmithLocation extends CityLocation {
         abilities.setSpeed(abilities.getSpeed() + 1);
 
         hero.getInventory().put(itemType, items);
-        logger.info("Item " + item.getName() + " upgraded successfully.");
+        BigDecimal currentCoins = hero.getCoins();
+        BigDecimal newCoins = currentCoins.subtract(BigDecimal.valueOf(10));
+        hero.setCoins(newCoins);
         itemService.itemOperation(hero, item);
+        logger.info("Item " + item.getName() + " upgraded successfully.");
         upgradeEquipment(hero);
     }
 }
