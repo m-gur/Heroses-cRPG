@@ -29,17 +29,17 @@ public class BulletinBoardLocation extends CityLocation {
         if (!firstJourneyQuest) {
             locations.put("MayorLocation", false);
             locations.put("HauntedForestLocation", false);
-            Quest quest = new Quest("First Journey", locations, 100, BigDecimal.valueOf(50), false);
+            Quest quest = new Quest("First Journey", locations, 100, BigDecimal.valueOf(50));
             addQuest(hero, quest);
         } else if (firstJourneyQuestIsCompleted && !betrayedQuest) {
             locations.put("CastleLocation", false);
-            Quest quest = new Quest("Betrayed", locations, 200, BigDecimal.valueOf(100), false);
+            Quest quest = new Quest("Betrayed", locations, 200, BigDecimal.valueOf(100));
             addQuest(hero, quest);
         } else if (betrayedQuestIsCompleted) {
             locations.put("CastleLocation", false);
             locations.put("HauntedForestLocation", false);
             locations.put("MayorLocation", false);
-            Quest quest = new Quest("EndGame", locations, 1000, BigDecimal.valueOf(500), false);
+            Quest quest = new Quest("EndGame", locations, 1000, BigDecimal.valueOf(500));
             addQuest(hero, quest);
         } else {
             logger.info("""
