@@ -23,6 +23,7 @@ public class AdventureLocation extends OutsideLocation {
             hero.setCurrentHp(hero.getMaxHp());
             city.explore(hero);
         }
+        initializeChoicesMap(hero, city);
         extracted(scanner);
     }
 }
