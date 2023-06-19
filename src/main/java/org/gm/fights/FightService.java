@@ -5,7 +5,6 @@ import org.gm.hero.entity.Hero;
 import org.gm.hero.items.entity.Item;
 import org.gm.hero.items.services.ItemService;
 import org.gm.hero.services.LevelService;
-import org.gm.menu.CharacterMenu;
 import org.gm.monster.entity.Monster;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

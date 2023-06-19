@@ -6,6 +6,7 @@ import org.gm.hero.items.entity.Item;
 import org.gm.hero.items.entity.ItemType;
 import org.gm.hero.items.services.ItemService;
 import org.gm.hero.quest.Quest;
+import org.gm.hero.services.HeroService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,6 +20,7 @@ import java.util.stream.Collectors;
 public class CharacterMenu {
     private final AbilitiesService abilitiesService = new AbilitiesService();
     private final ItemService itemService = new ItemService();
+    private final HeroService heroService = new HeroService();
     private static final Logger logger = LoggerFactory.getLogger(CharacterMenu.class);
     private static final String INVALID = "Invalid choice. Please try again.";
 
@@ -35,7 +37,8 @@ public class CharacterMenu {
                     5. Distribute skill points
                     6. Reset skill points
                     7. Quests
-                    8. Return
+                    8. Restore HP
+                    9. Return
                     """);
 
             choice = scanner.nextInt();
@@ -48,7 +51,8 @@ public class CharacterMenu {
                 case 5 -> distributeSkillPoints(hero);
                 case 6 -> resetSkillPoints(hero);
                 case 7 -> showQuests(hero);
-                case 8 -> {
+                case 8 -> restoreHp(hero);
+                case 9 -> {
                     return;
                 }
                 default -> logger.info(INVALID);
@@ -262,6 +266,25 @@ public class CharacterMenu {
             for (Quest quest : completedQuests) {
                 logger.info(quest.toString());
             }
+        }
+    }
+
+    private void restoreHp(Hero hero) {
+        Scanner scanner = new Scanner(System.in);
+        List<Item> items = hero.getInventory().get(ItemType.USABLE);
+        if (items == null || items.isEmpty()) {
+            logger.info("No items of this type in inventory.");
+            return;
+        }
+        printItems(items);
+        int selectedIndex = scanner.nextInt();
+        scanner.nextLine();
+
+        if (selectedIndex >= 0 && selectedIndex < items.size()) {
+            Item selected = items.get(selectedIndex);
+            heroService.restoreHP(hero, selected.getName());
+        } else {
+            logger.info("Invalid item selection.");
         }
     }
 }

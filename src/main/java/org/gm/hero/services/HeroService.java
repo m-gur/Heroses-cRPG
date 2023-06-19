@@ -63,6 +63,7 @@ public class HeroService {
                         usableItems.remove(item);
                     }
                     hero.setCurrentHp(hero.getMaxHp());
+                    logger.info("Hp restored successfully");
                     break;
                 }
             }
