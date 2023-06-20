@@ -216,24 +216,7 @@ public class CharacterMenu {
     }
 
     private void chooseAndEquipItem(Hero hero, ItemType itemType) {
-        Scanner scanner = new Scanner(System.in);
-        List<Item> items = hero.getInventory().get(itemType);
-        if (items == null || items.isEmpty()) {
-            logger.info("No items of this type in inventory.");
-            return;
-        }
-
-        printItems(items);
-        int selectedIndex = scanner.nextInt();
-        scanner.nextLine();
-
-        if (selectedIndex >= 0 && selectedIndex < items.size()) {
-            Item selected = items.get(selectedIndex);
-            itemService.itemOperation(hero, selected);
-            logger.info("Item equipped: " + selected);
-        } else {
-            logger.info("Invalid item selection.");
-        }
+        operationOnItems(hero, itemType, "Equip");
     }
 
     private void printItems(List<Item> items) {
@@ -270,8 +253,12 @@ public class CharacterMenu {
     }
 
     private void restoreHp(Hero hero) {
+        operationOnItems(hero, ItemType.USABLE, "Restore");
+    }
+
+    private void operationOnItems(Hero hero, ItemType itemType, String operation) {
         Scanner scanner = new Scanner(System.in);
-        List<Item> items = hero.getInventory().get(ItemType.USABLE);
+            List<Item> items = hero.getInventory().get(itemType);
         if (items == null || items.isEmpty()) {
             logger.info("No items of this type in inventory.");
             return;
@@ -281,8 +268,16 @@ public class CharacterMenu {
         scanner.nextLine();
 
         if (selectedIndex >= 0 && selectedIndex < items.size()) {
-            Item selected = items.get(selectedIndex);
-            heroService.restoreHP(hero, selected.getName());
+            if (operation.equals("Restore")) {
+                Item selected = items.get(selectedIndex);
+                heroService.restoreHP(hero, selected.getName());
+            } else if (operation.equals("Equip")) {
+                Item selected = items.get(selectedIndex);
+                itemService.itemOperation(hero, selected);
+                logger.info("Item equipped: " + selected);
+            } else {
+                logger.error("Bad operation request.");
+            }
         } else {
             logger.info("Invalid item selection.");
         }
