@@ -53,22 +53,23 @@ public class HeroService {
     public void restoreHP(Hero hero, String itemName) {
         Map<ItemType, List<Item>> inventory = hero.getInventory();
         List<Item> usableItems = inventory.get(ItemType.USABLE);
-
-        if (usableItems != null) {
-            for (Item item : usableItems) {
-                if (item.getName().equals(itemName)) {
-                    if (item.getQuantity() > 1) {
-                        item.setQuantity(item.getQuantity() - 1);
-                    } else {
-                        usableItems.remove(item);
+        if (hero.getCurrentHp() == hero.getMaxHp()) {
+            logger.info("You have max HP, cannot restore.");
+        } else {
+            if (usableItems != null) {
+                for (Item item : usableItems) {
+                    if (item.getName().equals(itemName)) {
+                        if (item.getQuantity() > 1) {
+                            item.setQuantity(item.getQuantity() - 1);
+                        } else {
+                            usableItems.remove(item);
+                        }
+                        hero.setCurrentHp(hero.getMaxHp());
+                        logger.info("Hp restored successfully");
+                        break;
                     }
-                    hero.setCurrentHp(hero.getMaxHp());
-                    logger.info("Hp restored successfully");
-                    break;
                 }
             }
         }
     }
-
-
 }

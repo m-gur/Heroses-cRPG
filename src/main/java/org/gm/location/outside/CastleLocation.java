@@ -64,12 +64,14 @@ public class CastleLocation extends OutsideLocation {
                     Everyone is counting on you, head to the forest and engage in the fight, then return to the mayor.
                     Good luck!
                     """);
-        Quest firstJourney = hero.getQuests().stream()
-                .filter(quest -> quest.getName().equals("EndGame")).findFirst().orElseThrow();
-        firstJourney.getLocations().replace("CastleLocation", false, true);
-        List<Quest> quests = hero.getQuests();
-        quests.removeIf(quest -> quest.getName().equals("EndGame"));
-        quests.add(firstJourney);
-        hero.setQuests(quests);
+        List<Quest> firstJourney = hero.getQuests().stream()
+                .filter(quest -> quest.getName().equals("EndGame")).toList();
+        if (!firstJourney.isEmpty()) {
+            firstJourney.get(0).getLocations().replace("CastleLocation", false, true);
+            List<Quest> quests = hero.getQuests();
+            quests.removeIf(quest -> quest.getName().equals("EndGame"));
+            quests.add(firstJourney.get(0));
+            hero.setQuests(quests);
+        }
     }
 }
