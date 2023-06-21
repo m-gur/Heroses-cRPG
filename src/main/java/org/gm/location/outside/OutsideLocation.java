@@ -32,7 +32,7 @@ public class OutsideLocation extends Location {
     }
 
     public void initializeChoicesMap(Hero hero, CityLocation city) {
-        choicesMap.put(1, () -> city.explore(hero));
+        choicesMap.put(1, () -> new CityLocation().explore(hero));
         choicesMap.put(2, () -> new CastleLocation().explore(hero, city));
         choicesMap.put(3, () -> new HauntedForestLocation().explore(hero, city));
         choicesMap.put(4, () -> new AdventureLocation().explore(hero, city));

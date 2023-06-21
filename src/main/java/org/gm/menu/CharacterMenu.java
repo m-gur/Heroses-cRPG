@@ -7,6 +7,7 @@ import org.gm.hero.items.entity.ItemType;
 import org.gm.hero.items.services.ItemService;
 import org.gm.hero.quest.Quest;
 import org.gm.hero.services.HeroService;
+import org.gm.utils.Utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -219,12 +220,6 @@ public class CharacterMenu {
         operationOnItems(hero, itemType, "Equip");
     }
 
-    private void printItems(List<Item> items) {
-        for (int i = 0; i < items.size(); i++) {
-            logger.info((i) + ". " + items.get(i));
-        }
-    }
-
     private void showQuests(Hero hero) {
         boolean anyCompletedQuest = hero.getQuests().stream()
                 .filter(Quest::isCompleted)
@@ -263,7 +258,7 @@ public class CharacterMenu {
             logger.info("No items of this type in inventory.");
             return;
         }
-        printItems(items);
+        Utils.printItems(items);
         int selectedIndex = scanner.nextInt();
         scanner.nextLine();
 

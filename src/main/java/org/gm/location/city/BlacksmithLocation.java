@@ -5,6 +5,7 @@ import org.gm.hero.entity.Hero;
 import org.gm.hero.items.entity.Item;
 import org.gm.hero.items.entity.ItemType;
 import org.gm.hero.items.services.ItemService;
+import org.gm.utils.Utils;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -97,7 +98,7 @@ public class BlacksmithLocation extends CityLocation {
             upgradeEquipment(hero);
         }
 
-        printItems(items);
+        Utils.printItems(items);
         int selectedIndex = scanner.nextInt();
         scanner.nextLine();
 
@@ -106,12 +107,6 @@ public class BlacksmithLocation extends CityLocation {
             upgradeItem(hero, selected);
         } else {
             logger.info("Invalid item selection.");
-        }
-    }
-
-    private void printItems(List<Item> items) {
-        for (int i = 0; i < items.size(); i++) {
-            logger.info((i) + ". " + items.get(i));
         }
     }
 

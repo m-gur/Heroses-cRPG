@@ -25,10 +25,7 @@ public class FightService {
             if (heroFirstAttack) {
                 performHeroAttack(hero, monster);
                 if (monster.getHp() <= 0) {
-                    levelService.accumulateExperience(hero, monster.getExperience());
-                    Item randomItem = itemFactory.createRandomItem(hero);
-                    hero.setInventory(itemService.addItemToInventory(hero, randomItem));
-                    logger.info("Hero win the fight.");
+                    afterHeroWon(hero, monster);
                 } else {
                     performMonsterAttack(hero, monster);
                 }
@@ -40,14 +37,18 @@ public class FightService {
                 } else {
                     performHeroAttack(hero, monster);
                     if (monster.getHp() <= 0) {
-                        levelService.accumulateExperience(hero, monster.getExperience());
-                        Item randomItem = itemFactory.createRandomItem(hero);
-                        hero.setInventory(itemService.addItemToInventory(hero, randomItem));
-                        logger.info("Hero win the fight.");
+                        afterHeroWon(hero, monster);
                     }
                 }
             }
         }
+    }
+
+    private void afterHeroWon(Hero hero, Monster monster) {
+        levelService.accumulateExperience(hero, monster.getExperience());
+        Item randomItem = itemFactory.createRandomItem(hero);
+        hero.setInventory(itemService.addItemToInventory(hero, randomItem));
+        logger.info("Hero win the fight.");
     }
 
     private void performHeroAttack(Hero hero, Monster monster) {
