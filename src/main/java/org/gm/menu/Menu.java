@@ -76,6 +76,7 @@ public class Menu {
             }
         } catch (IOException e) {
             e.printStackTrace();
+            logger.info("Save not found, create new hero.");
         }
     }
 

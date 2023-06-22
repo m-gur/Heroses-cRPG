@@ -32,7 +32,7 @@ public class FightService {
             } else {
                 performMonsterAttack(hero, monster);
                 if (hero.getCurrentHp() <= 0) {
-                    logger.info("Monster win the fight.");
+                    logger.info("Monster " + monster.getName() + " won the fight.");
                     break;
                 } else {
                     performHeroAttack(hero, monster);
@@ -48,19 +48,20 @@ public class FightService {
         levelService.accumulateExperience(hero, monster.getExperience());
         Item randomItem = itemFactory.createRandomItem(hero);
         hero.setInventory(itemService.addItemToInventory(hero, randomItem));
-        logger.info("Hero win the fight.");
+        logger.info("Hero " + hero.getName() + " won the fight.");
+        logger.info("Received item: " + randomItem);
     }
 
     private void performHeroAttack(Hero hero, Monster monster) {
         monster.setHp(monster.getHp() - hero.getDamage());
-        logger.info("hero attack with: " + hero.getDamage() + " damage");
-        logger.info("remaining monster health: " + monster.getHp());
+        logger.info("Hero " + hero.getName() + " attack with: " + hero.getDamage() + " damage");
+        logger.info("Remaining monster health: " + monster.getHp());
     }
 
     private void performMonsterAttack(Hero hero, Monster monster) {
         hero.setCurrentHp(hero.getCurrentHp() - monster.getDamage());
-        logger.info("monster attack with: " + monster.getDamage() + " damage");
-        logger.info("remaining hero health: " + hero.getCurrentHp());
+        logger.info("Monster " + monster.getName() + " attack with: " + monster.getDamage() + " damage");
+        logger.info("Remaining hero health: " + hero.getCurrentHp());
     }
 
 
