@@ -53,16 +53,54 @@ public class FightService {
     }
 
     private void performHeroAttack(Hero hero, Monster monster) {
-        monster.setHp(monster.getHp() - hero.getDamage());
-        logger.info("Hero " + hero.getName() + " attack with: " + hero.getDamage() + " damage");
-        logger.info("Remaining monster health: " + monster.getHp());
+        attack("hero", hero, monster);
     }
 
     private void performMonsterAttack(Hero hero, Monster monster) {
-        hero.setCurrentHp(hero.getCurrentHp() - monster.getDamage());
-        logger.info("Monster " + monster.getName() + " attack with: " + monster.getDamage() + " damage");
+        attack("monster", hero, monster);
+    }
+
+    private void attack(String attacker, Hero hero, Monster monster) {
+        float damage = 0;
+        if (attacker.equals("monster")) {
+            damage = monster.getDamage();
+        } else if (attacker.equals("hero")) {
+            damage = hero.getDamage();
+        }
+        if (isCriticalHit(monster.getCriticalChance())) {
+            double criticalDamageMultiplier = 1.8;
+            damage *= criticalDamageMultiplier;
+            if (attacker.equals("monster")) {
+                logger.info("Critical hit! " + monster.getName() + " attack with: " + damage + " damage");
+                setHeroHpAfterMonsterAttack(hero, damage);
+            } else if (attacker.equals("hero")) {
+                logger.info("Critical hit! " + hero.getName() + " attack with: " + damage + " damage");
+                setMonsterHpAfterHeroAttack(monster, damage);
+            }
+        } else {
+            if (attacker.equals("monster")) {
+                logger.info(monster.getName() + " attack with: " + damage + " damage");
+                setHeroHpAfterMonsterAttack(hero, damage);
+            } else if (attacker.equals("hero")) {
+                logger.info(hero.getName() + " attack with: " + damage + " damage");
+                setMonsterHpAfterHeroAttack(monster, damage);
+            }
+        }
+    }
+
+    private void setHeroHpAfterMonsterAttack(Hero hero, float damage) {
+        hero.setCurrentHp(hero.getCurrentHp() - damage);
         logger.info("Remaining hero health: " + hero.getCurrentHp());
     }
 
+    private void setMonsterHpAfterHeroAttack(Monster monster, float damage) {
+        monster.setHp(monster.getHp() - damage);
+        logger.info("Remaining monster health: " + monster.getHp());
+    }
+
+    private boolean isCriticalHit(double criticalChance) {
+        double randomValue = Math.random();
+        return randomValue <= criticalChance;
+    }
 
 }

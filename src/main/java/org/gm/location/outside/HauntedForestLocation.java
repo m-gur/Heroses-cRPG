@@ -44,7 +44,7 @@ public class HauntedForestLocation extends OutsideLocation {
                     You can see blood on its claws, indicating that the beast has recently claimed a victim.
                     Keep going, fight bravely!
                     """);
-        Monster monster = new Monster("Cerber", MonsterClass.OTHER, 5, 400, 50, 60);
+        Monster monster = new Monster("Cerber", MonsterClass.OTHER, 5, 400, 50, 60, 0.3);
         fightService.performBattle(hero, monster);
         if (hero.getCurrentHp() > 0) {
             Quest firstJourney = hero.getQuests().stream()
@@ -73,7 +73,7 @@ public class HauntedForestLocation extends OutsideLocation {
                         The main issue for the inhabitants, which you must resolve, is to confront him, defeat him, and bring peace to these lands.
                         Will you succeed? Everyone is counting on you!
                     """);
-        Monster monster = new Monster("The King", MonsterClass.OTHER, 15, 5000, 500, 1000);
+        Monster monster = new Monster("The King", MonsterClass.OTHER, 15, 5000, 500, 1000, 0.7);
         fightService.performBattle(hero, monster);
         if (hero.getCurrentHp() > 0) {
             Quest firstJourney = hero.getQuests().stream()

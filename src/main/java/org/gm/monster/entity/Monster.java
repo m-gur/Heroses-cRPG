@@ -14,21 +14,12 @@ public class Monster {
     private float hp;
     private float experience;
     private float damage;
+    private double criticalChance;
 
     public Monster(String name, MonsterClass monsterClass) {
         this.name = name;
         this.monsterClass = monsterClass;
+        this.criticalChance = 0.1;
     }
 
-    @Override
-    public String toString() {
-        return "Monster{" +
-               "name='" + name + '\'' +
-               ", monsterClass=" + monsterClass +
-               ", lvl=" + lvl +
-               ", hp=" + hp +
-               ", experience=" + experience +
-               ", damage=" + damage +
-               '}';
-    }
 }

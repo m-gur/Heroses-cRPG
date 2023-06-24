@@ -70,6 +70,7 @@ public class CharacterMenu {
                     "max hp: " + hero.getMaxHp() + "\n" +
                     "skill points to distribute: " + hero.getSkillPoints() + "\n" +
                     "damage: " + hero.getDamage() + "\n" +
+                    "critical change: " + hero.getCriticalChance() + "\n" +
                     "coins: " + hero.getCoins() + "\n\n" +
                     "Abilities: \n" +
                     "strength: " + hero.getAbilitiesAfterModifier().getStrength() + "\n" +

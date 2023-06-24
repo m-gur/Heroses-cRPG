@@ -35,6 +35,7 @@ public abstract class Hero {
     private String heroType;
     private BigDecimal coins;
     private List<Quest> quests;
+    private double criticalChance;
 
     public abstract ModifierStrategy getModifierStrategy();
 
@@ -55,6 +56,7 @@ public abstract class Hero {
         this.heroType = getHeroType();
         this.coins = BigDecimal.ZERO;
         this.quests = new ArrayList<>();
+        this.criticalChance = 0.1;
     }
 
     public Hero() {
@@ -69,25 +71,7 @@ public abstract class Hero {
         this.heroType = getHeroType();
         this.coins = BigDecimal.ZERO;
         this.quests = new ArrayList<>();
+        this.criticalChance = 0.1;
     }
 
-    @Override
-    public String toString() {
-        return "Hero{" +
-               "name='" + name + '\'' +
-               ", lvl=" + lvl +
-               ", currentHp=" + currentHp +
-               ", maxHp=" + maxHp +
-               ", experience=" + experience +
-               ", requiredExperience=" + requiredExperience +
-               ", skillPoints=" + skillPoints +
-               ", abilities=" + abilities +
-               ", modifierAbilities=" + modifierAbilities +
-               ", abilitiesAfterModifier=" + abilitiesAfterModifier +
-               ", damage=" + damage +
-               ", inventory=" + inventory +
-               ", equippedItems=" + equippedItems +
-               ", heroType='" + heroType + '\'' +
-               '}';
-    }
 }

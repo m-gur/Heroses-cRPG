@@ -39,7 +39,7 @@ public class CastleLocation extends OutsideLocation {
                     What happened to him then? Did he feast on mushrooms and grow this big?
                     It doesn't matter, there's a reward on his head, so he must be dealt with!
                     """);
-        Monster monster = new Monster("Herold", MonsterClass.OTHER, 7, 700, 200, 100);
+        Monster monster = new Monster("Herold", MonsterClass.OTHER, 7, 700, 200, 100, 0.1);
         fightService.performBattle(hero, monster);
         if (hero.getCurrentHp() > 0) {
             Quest firstJourney = hero.getQuests().stream()
