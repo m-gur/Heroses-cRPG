@@ -21,6 +21,7 @@ public class FightService {
         Random random = new Random();
         boolean heroFirstAttack = random.nextBoolean();
 
+        logger.info("The battle between the " + hero.getName() + " and the " + monster.getName() + " begins.");
         while (hero.getCurrentHp() > 0 && monster.getHp() > 0) {
             if (heroFirstAttack) {
                 performHeroAttack(hero, monster);

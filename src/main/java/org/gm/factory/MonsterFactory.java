@@ -1,8 +1,7 @@
 package org.gm.factory;
 
 import org.gm.hero.entity.Hero;
-import org.gm.monster.entity.Monster;
-import org.gm.monster.entity.MonsterClass;
+import org.gm.monster.entity.*;
 import org.gm.monster.services.MonsterService;
 
 import java.util.*;
@@ -21,9 +20,8 @@ public class MonsterFactory {
         };
     }
 
-    private Monster createRandomMonsterPartTwo(MonsterClass monsterClass, String monsterName, Hero hero) {
+    private Monster createRandomMonsterPartTwo(Monster monster, Hero hero) {
         Random random = new Random();
-        Monster monster = new Monster(monsterName, monsterClass);
 
         monster.setLvl(random.nextInt(hero.getLvl() + 5) + 1);
         monster.setHp(random.nextFloat(hero.getMaxHp() + 50) + 1);
@@ -33,15 +31,15 @@ public class MonsterFactory {
     }
 
     private Monster randomOrc(Hero hero) {
-        return createRandomMonsterPartTwo(MonsterClass.ORC, randomOrcName(), hero);
+        return createRandomMonsterPartTwo(new Orc(randomOrcName()), hero);
     }
 
     private Monster randomGoblin(Hero hero) {
-        return createRandomMonsterPartTwo(MonsterClass.GOBLIN, randomGoblinName(), hero);
+        return createRandomMonsterPartTwo(new Goblin(randomGoblinName()), hero);
     }
 
     private Monster randomSkeleton(Hero hero) {
-        return createRandomMonsterPartTwo(MonsterClass.SKELETON, randomSkeletonName(), hero);
+        return createRandomMonsterPartTwo(new Skeleton(randomSkeletonName()), hero);
     }
 
     private String randomOrcName() {

@@ -3,8 +3,8 @@ package org.gm.location.outside;
 import org.gm.hero.entity.Hero;
 import org.gm.hero.quest.Quest;
 import org.gm.location.city.CityLocation;
+import org.gm.monster.entity.Elite;
 import org.gm.monster.entity.Monster;
-import org.gm.monster.entity.MonsterClass;
 
 import java.util.List;
 import java.util.Scanner;
@@ -44,7 +44,7 @@ public class HauntedForestLocation extends OutsideLocation {
                     You can see blood on its claws, indicating that the beast has recently claimed a victim.
                     Keep going, fight bravely!
                     """);
-        Monster monster = new Monster("Cerber", MonsterClass.OTHER, 5, 400, 50, 60, 0.3);
+        Monster monster = new Elite("Cerber", 5, 400, 50, 60, 0.3);
         fightService.performBattle(hero, monster);
         if (hero.getCurrentHp() > 0) {
             Quest firstJourney = hero.getQuests().stream()
@@ -73,7 +73,7 @@ public class HauntedForestLocation extends OutsideLocation {
                         The main issue for the inhabitants, which you must resolve, is to confront him, defeat him, and bring peace to these lands.
                         Will you succeed? Everyone is counting on you!
                     """);
-        Monster monster = new Monster("The King", MonsterClass.OTHER, 15, 5000, 500, 1000, 0.7);
+        Monster monster = new Elite("The King", 15, 5000, 500, 1000, 0.7);
         fightService.performBattle(hero, monster);
         if (hero.getCurrentHp() > 0) {
             Quest firstJourney = hero.getQuests().stream()

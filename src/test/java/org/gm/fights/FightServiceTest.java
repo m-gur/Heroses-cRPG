@@ -3,7 +3,7 @@ package org.gm.fights;
 import org.gm.factory.HeroFactoryTest;
 import org.gm.hero.entity.Hero;
 import org.gm.monster.entity.Monster;
-import org.gm.monster.entity.MonsterClass;
+import org.gm.monster.entity.Orc;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -18,7 +18,7 @@ class FightServiceTest {
     public void setUp() {
         heroFactoryTest = new HeroFactoryTest();
 
-        monster = new Monster("Higher Orc Commander", MonsterClass.ORC);
+        monster = new Orc("Higher Orc Commander");
         monster.setLvl(1);
         monster.setHp(100);
         monster.setExperience(100);
