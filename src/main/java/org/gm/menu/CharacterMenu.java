@@ -94,7 +94,7 @@ public class CharacterMenu {
             List<Item> items = entry.getValue();
 
             if (!items.isEmpty()) {
-                logger.info(itemType.toString() + " items: " + items);
+                logger.info(itemType.getSimpleName() + " items: " + items);
             }
         }
     }
@@ -110,7 +110,7 @@ public class CharacterMenu {
         for (Map.Entry<Class<? extends Item>, Item> entry : equippedItems.entrySet()) {
             Class<? extends Item> itemType = entry.getKey();
             Item item = entry.getValue();
-            logger.info(itemType.toString() + " item: " + item);
+            logger.info(itemType.getSimpleName() + " item: " + item);
         }
     }
 
