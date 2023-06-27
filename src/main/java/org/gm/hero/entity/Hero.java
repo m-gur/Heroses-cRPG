@@ -6,7 +6,6 @@ import org.gm.hero.abilities.entity.AbilitiesAfterModifier;
 import org.gm.hero.abilities.entity.ModifierAbilities;
 import org.gm.hero.abilities.entity.ModifierStrategy;
 import org.gm.hero.items.entity.Item;
-import org.gm.hero.items.entity.ItemType;
 import org.gm.hero.quest.Quest;
 
 import java.math.BigDecimal;
@@ -30,8 +29,8 @@ public abstract class Hero {
     private ModifierAbilities modifierAbilities;
     private AbilitiesAfterModifier abilitiesAfterModifier;
     private float damage;
-    private Map<ItemType, List<Item>> inventory;
-    private Map<ItemType, Item> equippedItems;
+    private Map<Class<? extends Item>, List<Item>> inventory;
+    private Map<Class<? extends Item>, Item> equippedItems;
     private String heroType;
     private BigDecimal coins;
     private List<Quest> quests;

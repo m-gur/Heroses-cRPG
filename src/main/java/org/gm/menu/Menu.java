@@ -6,6 +6,7 @@ import org.gm.hero.entity.Archer;
 import org.gm.hero.entity.Hero;
 import org.gm.hero.entity.Knight;
 import org.gm.hero.entity.Mage;
+import org.gm.hero.items.entity.*;
 import org.gm.hero.services.HeroService;
 import org.gm.hero.services.LevelService;
 import org.gm.location.city.CityLocation;
@@ -63,6 +64,8 @@ public class Menu {
     private void loadGame() {
         try (Reader reader = new FileReader(SAVE_FILE_PATH)) {
             Gson gson = new GsonBuilder()
+                    .registerTypeAdapter(Class.class, new ClassTypeAdapter())
+                    .registerTypeAdapter(Item.class, new ItemDeserializer())
                     .registerTypeAdapter(Hero.class, new HeroDeserializer())
                     .create();
 
@@ -77,6 +80,18 @@ public class Menu {
         } catch (IOException e) {
             e.printStackTrace();
             logger.info("Save not found, create new hero.");
+        }
+    }
+
+    private static class ClassTypeAdapter implements JsonDeserializer<Class<?>> {
+
+        @Override
+        public Class<?> deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+            try {
+                return Class.forName(json.getAsString());
+            } catch (ClassNotFoundException e) {
+                throw new JsonParseException(e);
+            }
         }
     }
 
@@ -107,6 +122,55 @@ public class Menu {
                     return Archer.class;
                 }
                 default -> throw new ClassNotFoundException("Unknown hero type: " + typeName);
+            }
+        }
+    }
+
+    private static class ItemDeserializer implements JsonDeserializer<Item> {
+        @Override
+        public Item deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+            JsonObject jsonObject = json.getAsJsonObject();
+
+            String typeName = jsonObject.getAsJsonPrimitive("itemType").getAsString();
+            try {
+                Class<? extends Item> itemClass = getItemClass(typeName);
+                return context.deserialize(jsonObject, itemClass);
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        private Class<? extends Item> getItemClass(String typeName) throws ClassNotFoundException {
+            switch (typeName) {
+                case "Chest" -> {
+                    return Chest.class;
+                }
+                case "Helmet" -> {
+                    return Helmet.class;
+                }
+                case "Necklace" -> {
+                    return Necklace.class;
+                }
+                case "Ring" -> {
+                    return Ring.class;
+                }
+                case "Shoes" -> {
+                    return Shoes.class;
+                }
+                case "Trousers" -> {
+                    return Trousers.class;
+                }
+                case "Usable" -> {
+                    return Usable.class;
+                }
+                case "Usually" -> {
+                    return Usually.class;
+                }
+                case "Weapon" -> {
+                    return Weapon.class;
+                }
+                default -> throw new ClassNotFoundException("Unknown item type: " + typeName);
             }
         }
     }

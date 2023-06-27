@@ -1,12 +1,13 @@
 package org.gm.menu;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import com.google.gson.*;
 import org.gm.hero.entity.Hero;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Scanner;
 
 import static java.lang.System.exit;
@@ -42,12 +43,27 @@ public class GameMenu {
     private void saveGame(Hero hero) {
         try (OutputStream os = new FileOutputStream(SAVE_FILE_PATH);
              Writer writer = new OutputStreamWriter(os)) {
-            Gson gson = new GsonBuilder().create();
+            Gson gson = new GsonBuilder()
+                    .setPrettyPrinting()
+                    .create();
             gson.toJson(hero, writer);
             logger.info("Game saved successfully!");
         } catch (IOException e) {
             e.printStackTrace();
         }
+        try {
+            String json = new String(Files.readAllBytes(Paths.get(SAVE_FILE_PATH)));
+
+            json = json.replace("class ", "");
+
+            FileWriter writer = new FileWriter(SAVE_FILE_PATH);
+            writer.write(json);
+            writer.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         gameMenu(hero);
     }
 }

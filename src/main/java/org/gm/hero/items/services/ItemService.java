@@ -13,9 +13,9 @@ import java.util.Map;
 public class ItemService {
     private AbilitiesService abilitiesService = new AbilitiesService();
 
-    public Map<ItemType, List<Item>> addItemToInventory(Hero hero, Item item) {
-        ItemType itemType = item.getItemType();
-        Map<ItemType, List<Item>> inventory = hero.getInventory();
+    public Map<Class<? extends Item>, List<Item>> addItemToInventory(Hero hero, Item item) {
+        Class<? extends Item> itemType = item.getClass();
+        Map<Class<? extends Item>, List<Item>> inventory = hero.getInventory();
 
         if (inventory.containsKey(itemType)) {
             List<Item> itemList = inventory.get(itemType);
@@ -30,8 +30,8 @@ public class ItemService {
     }
 
     public void sellItem(Hero hero, Item item) {
-        ItemType itemType = item.getItemType();
-        Map<ItemType, List<Item>> inventory = hero.getInventory();
+        Class<? extends Item> itemType = item.getClass();
+        Map<Class<? extends Item>, List<Item>> inventory = hero.getInventory();
         List<Item> items = new ArrayList<>();
         items.add(item);
         if (item.isUsage()) {
@@ -42,9 +42,9 @@ public class ItemService {
         hero.setCoins(hero.getCoins().add(value));
     }
 
-    public Map<ItemType, Item> itemOperation(Hero hero, Item item) {
-        ItemType itemType = item.getItemType();
-        Map<ItemType, Item> equippedItems = hero.getEquippedItems();
+    public Map<Class<? extends Item>, Item> itemOperation(Hero hero, Item item) {
+        Class<? extends Item> itemType = item.getClass();
+        Map<Class<? extends Item>, Item> equippedItems = hero.getEquippedItems();
         Item currentlyEquippedItem = equippedItems.get(itemType);
         if (currentlyEquippedItem != null) {
             unequipItem(hero, currentlyEquippedItem);
@@ -54,8 +54,8 @@ public class ItemService {
     }
 
     public void unequipItem(Hero hero, Item item) {
-        Map<ItemType, Item> equippedItems = hero.getEquippedItems();
-        ItemType itemType = item.getItemType();
+        Map<Class<? extends Item>, Item> equippedItems = hero.getEquippedItems();
+        Class<? extends Item> itemType = item.getClass();
         item.setUsage(false);
         abilitiesService.unsetAbilitiesFromItems(hero, item);
         equippedItems.remove(itemType);
@@ -63,8 +63,8 @@ public class ItemService {
     }
 
     private void equipItem(Hero hero, Item item) {
-        ItemType itemType = item.getItemType();
-        Map<ItemType, Item> equippedItems = hero.getEquippedItems();
+        Class<? extends Item> itemType = item.getClass();
+        Map<Class<? extends Item>, Item> equippedItems = hero.getEquippedItems();
         item.setUsage(true);
         equippedItems.put(itemType, item);
         abilitiesService.setAbilitiesAfterModifier(hero);

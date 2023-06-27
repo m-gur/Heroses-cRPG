@@ -11,28 +11,29 @@ import java.math.BigDecimal;
 @Getter
 @Setter
 @AllArgsConstructor
-@NoArgsConstructor
-public class Item {
+public abstract class Item {
     private String name;
-    private ItemType itemType;
     private Abilities abilities;
     private BigDecimal value;
     private int quantity;
     private boolean isUsage;
+    private String itemType;
 
-    public Item(String name, ItemType itemType, BigDecimal value, int quantity, boolean isUsage) {
+    public abstract String getItemType();
+
+    public Item(String name, Abilities abilities, BigDecimal value, int quantity, boolean isUsage) {
         this.name = name;
-        this.itemType = itemType;
+        this.abilities = abilities;
         this.value = value;
         this.quantity = quantity;
         this.isUsage = isUsage;
+        this.itemType = getItemType();
     }
 
     @Override
     public String toString() {
         return "Item{" +
                "name='" + name + '\'' +
-               ", itemType=" + itemType +
                ", abilities=" + abilities +
                ", value=" + value +
                ", quantity=" + quantity +

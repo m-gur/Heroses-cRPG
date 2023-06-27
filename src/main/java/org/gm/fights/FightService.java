@@ -50,39 +50,39 @@ public class FightService {
         Item randomItem = itemFactory.createRandomItem(hero);
         hero.setInventory(itemService.addItemToInventory(hero, randomItem));
         logger.info("Hero " + hero.getName() + " won the fight.");
-        logger.info("Received item: " + randomItem);
+        logger.info("Received " + randomItem.getClass().getSimpleName() + " item: " + randomItem);
     }
 
     private void performHeroAttack(Hero hero, Monster monster) {
-        attack("hero", hero, monster);
+        attack(hero.getClass(), hero, monster);
     }
 
     private void performMonsterAttack(Hero hero, Monster monster) {
-        attack("monster", hero, monster);
+        attack(monster.getClass(), hero, monster);
     }
 
-    private void attack(String attacker, Hero hero, Monster monster) {
+    private void attack(Class attacker, Hero hero, Monster monster) {
         float damage = 0;
-        if (attacker.equals("monster")) {
+        if (attacker.equals(monster.getClass())) {
             damage = monster.getDamage();
-        } else if (attacker.equals("hero")) {
+        } else if (attacker.equals(hero.getClass())) {
             damage = hero.getDamage();
         }
         if (isCriticalHit(monster.getCriticalChance())) {
             double criticalDamageMultiplier = 1.8;
             damage *= criticalDamageMultiplier;
-            if (attacker.equals("monster")) {
+            if (attacker.equals(monster.getClass())) {
                 logger.info("Critical hit! " + monster.getName() + " attack with: " + damage + " damage");
                 setHeroHpAfterMonsterAttack(hero, damage);
-            } else if (attacker.equals("hero")) {
+            } else if (attacker.equals(hero.getClass())) {
                 logger.info("Critical hit! " + hero.getName() + " attack with: " + damage + " damage");
                 setMonsterHpAfterHeroAttack(monster, damage);
             }
         } else {
-            if (attacker.equals("monster")) {
+            if (attacker.equals(monster.getClass())) {
                 logger.info(monster.getName() + " attack with: " + damage + " damage");
                 setHeroHpAfterMonsterAttack(hero, damage);
-            } else if (attacker.equals("hero")) {
+            } else if (attacker.equals(hero.getClass())) {
                 logger.info(hero.getName() + " attack with: " + damage + " damage");
                 setMonsterHpAfterHeroAttack(monster, damage);
             }

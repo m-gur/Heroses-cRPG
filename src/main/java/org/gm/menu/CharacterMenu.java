@@ -2,8 +2,7 @@ package org.gm.menu;
 
 import org.gm.hero.abilities.services.AbilitiesService;
 import org.gm.hero.entity.Hero;
-import org.gm.hero.items.entity.Item;
-import org.gm.hero.items.entity.ItemType;
+import org.gm.hero.items.entity.*;
 import org.gm.hero.items.services.ItemService;
 import org.gm.hero.quest.Quest;
 import org.gm.hero.services.HeroService;
@@ -83,15 +82,15 @@ public class CharacterMenu {
     }
 
     private void showHeroInventory(Hero hero) {
-        Map<ItemType, List<Item>> inventory = hero.getInventory();
+        Map<Class<? extends Item>, List<Item>> inventory = hero.getInventory();
 
         if (inventory.isEmpty()) {
             logger.info("Currently you have no items in your inventory.");
             return;
         }
 
-        for (Map.Entry<ItemType, List<Item>> entry : inventory.entrySet()) {
-            ItemType itemType = entry.getKey();
+        for (Map.Entry<Class<? extends Item>, List<Item>> entry : inventory.entrySet()) {
+            Class<? extends Item> itemType = entry.getKey();
             List<Item> items = entry.getValue();
 
             if (!items.isEmpty()) {
@@ -101,15 +100,15 @@ public class CharacterMenu {
     }
 
     private void showHeroEquippedItems(Hero hero) {
-        Map<ItemType, Item> equippedItems = hero.getEquippedItems();
+        Map<Class<? extends Item>, Item> equippedItems = hero.getEquippedItems();
 
         if (equippedItems.isEmpty()) {
             logger.info("Currently you have no equipped items.");
             return;
         }
 
-        for (Map.Entry<ItemType, Item> entry : equippedItems.entrySet()) {
-            ItemType itemType = entry.getKey();
+        for (Map.Entry<Class<? extends Item>, Item> entry : equippedItems.entrySet()) {
+            Class<? extends Item> itemType = entry.getKey();
             Item item = entry.getValue();
             logger.info(itemType.toString() + " item: " + item);
         }
@@ -204,20 +203,20 @@ public class CharacterMenu {
             scanner.nextLine();
 
             switch (choice) {
-                case 1 -> chooseAndEquipItem(hero, ItemType.HELMET);
-                case 2 -> chooseAndEquipItem(hero, ItemType.CHEST);
-                case 3 -> chooseAndEquipItem(hero, ItemType.RING);
-                case 4 -> chooseAndEquipItem(hero, ItemType.NECKLACE);
-                case 5 -> chooseAndEquipItem(hero, ItemType.TROUSERS);
-                case 6 -> chooseAndEquipItem(hero, ItemType.SHOES);
-                case 7 -> chooseAndEquipItem(hero, ItemType.WEAPON);
+                case 1 -> chooseAndEquipItem(hero, Helmet.class);
+                case 2 -> chooseAndEquipItem(hero, Chest.class);
+                case 3 -> chooseAndEquipItem(hero, Ring.class);
+                case 4 -> chooseAndEquipItem(hero, Necklace.class);
+                case 5 -> chooseAndEquipItem(hero, Trousers.class);
+                case 6 -> chooseAndEquipItem(hero, Shoes.class);
+                case 7 -> chooseAndEquipItem(hero, Weapon.class);
                 case 8 -> showCharacterMenu(hero);
                 default -> logger.info(INVALID);
             }
         } while (choice != 8);
     }
 
-    private void chooseAndEquipItem(Hero hero, ItemType itemType) {
+    private void chooseAndEquipItem(Hero hero, Class itemType) {
         operationOnItems(hero, itemType, "Equip");
     }
 
@@ -249,10 +248,10 @@ public class CharacterMenu {
     }
 
     private void restoreHp(Hero hero) {
-        operationOnItems(hero, ItemType.USABLE, "Restore");
+        operationOnItems(hero, Usable.class, "Restore");
     }
 
-    private void operationOnItems(Hero hero, ItemType itemType, String operation) {
+    private void operationOnItems(Hero hero, Class<? extends Item> itemType, String operation) {
         Scanner scanner = new Scanner(System.in);
             List<Item> items = hero.getInventory().get(itemType);
         if (items == null || items.isEmpty()) {

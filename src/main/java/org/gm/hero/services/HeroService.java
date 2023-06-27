@@ -4,6 +4,7 @@ import org.gm.hero.abilities.entity.AbilitiesAfterModifier;
 import org.gm.hero.entity.*;
 import org.gm.hero.items.entity.Item;
 import org.gm.hero.items.entity.ItemType;
+import org.gm.hero.items.entity.Usable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -51,8 +52,8 @@ public class HeroService {
 
 
     public void restoreHP(Hero hero, String itemName) {
-        Map<ItemType, List<Item>> inventory = hero.getInventory();
-        List<Item> usableItems = inventory.get(ItemType.USABLE);
+        Map<Class<? extends Item>, List<Item>> inventory = hero.getInventory();
+        List<Item> usableItems = inventory.get(Usable.class);
         if (hero.getCurrentHp() == hero.getMaxHp()) {
             logger.info("You have max HP, cannot restore.");
         } else {

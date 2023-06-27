@@ -1,11 +1,11 @@
 package org.gm.location.city;
 
 import org.gm.hero.entity.Hero;
-import org.gm.hero.items.entity.Item;
-import org.gm.hero.items.entity.ItemType;
+import org.gm.hero.items.entity.*;
 import org.gm.hero.items.services.ItemService;
 import org.gm.utils.Utils;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -35,24 +35,24 @@ public class MerchantLocation extends CityLocation {
             scanner.nextLine();
 
             switch (choice) {
-                case 1 -> chooseAndSellItem(hero, ItemType.HELMET);
-                case 2 -> chooseAndSellItem(hero, ItemType.CHEST);
-                case 3 -> chooseAndSellItem(hero, ItemType.RING);
-                case 4 -> chooseAndSellItem(hero, ItemType.NECKLACE);
-                case 5 -> chooseAndSellItem(hero, ItemType.TROUSERS);
-                case 6 -> chooseAndSellItem(hero, ItemType.SHOES);
-                case 7 -> chooseAndSellItem(hero, ItemType.WEAPON);
-                case 8 -> chooseAndSellItem(hero, ItemType.USUALLY);
-                case 9 -> chooseAndSellItem(hero, ItemType.USABLE);
+                case 1 -> chooseAndSellItem(hero, Helmet.class);
+                case 2 -> chooseAndSellItem(hero, Chest.class);
+                case 3 -> chooseAndSellItem(hero, Ring.class);
+                case 4 -> chooseAndSellItem(hero, Necklace.class);
+                case 5 -> chooseAndSellItem(hero, Trousers.class);
+                case 6 -> chooseAndSellItem(hero, Shoes.class);
+                case 7 -> chooseAndSellItem(hero, Weapon.class);
+                case 8 -> chooseAndSellItem(hero, Usually.class);
+                case 9 -> chooseAndSellItem(hero, Usable.class);
                 case 10 -> super.explore(hero);
                 default -> logger.info(INVALID);
             }
         } while (choice != 10);
     }
 
-    private void chooseAndSellItem(Hero hero, ItemType itemType) {
+    private void chooseAndSellItem(Hero hero, Class<? extends Item> itemType) {
         Scanner scanner = new Scanner(System.in);
-        List<Item> items = hero.getInventory().get(itemType);
+        List<Item> items = hero.getInventory().getOrDefault(itemType, new ArrayList<>());
         if (items == null || items.isEmpty()) {
             logger.info("No items of this type in inventory.");
             explore(hero);

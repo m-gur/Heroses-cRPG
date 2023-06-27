@@ -2,8 +2,7 @@ package org.gm.location.city;
 
 import org.gm.hero.abilities.entity.Abilities;
 import org.gm.hero.entity.Hero;
-import org.gm.hero.items.entity.Item;
-import org.gm.hero.items.entity.ItemType;
+import org.gm.hero.items.entity.*;
 import org.gm.hero.items.services.ItemService;
 import org.gm.utils.Utils;
 
@@ -61,7 +60,7 @@ public class BlacksmithLocation extends CityLocation {
                 To upgrade item you need to pay 10 coins.
                 Upgraded item will receive all stats + 1
                 1. Helm
-                2. Armor
+                2. Chest
                 3. Ring
                 4. Necklace
                 5. Trousers
@@ -73,20 +72,20 @@ public class BlacksmithLocation extends CityLocation {
             choice = scanner.nextInt();
             scanner.nextLine();
             switch (choice) {
-                case 1 -> chooseAndUpgradeItem(hero, ItemType.HELMET);
-                case 2 -> chooseAndUpgradeItem(hero, ItemType.CHEST);
-                case 3 -> chooseAndUpgradeItem(hero, ItemType.RING);
-                case 4 -> chooseAndUpgradeItem(hero, ItemType.NECKLACE);
-                case 5 -> chooseAndUpgradeItem(hero, ItemType.TROUSERS);
-                case 6 -> chooseAndUpgradeItem(hero, ItemType.SHOES);
-                case 7 -> chooseAndUpgradeItem(hero, ItemType.WEAPON);
+                case 1 -> chooseAndUpgradeItem(hero, Helmet.class);
+                case 2 -> chooseAndUpgradeItem(hero, Chest.class);
+                case 3 -> chooseAndUpgradeItem(hero, Ring.class);
+                case 4 -> chooseAndUpgradeItem(hero, Necklace.class);
+                case 5 -> chooseAndUpgradeItem(hero, Trousers.class);
+                case 6 -> chooseAndUpgradeItem(hero, Shoes.class);
+                case 7 -> chooseAndUpgradeItem(hero, Weapon.class);
                 case 8 -> explore(hero);
                 default -> logger.info(INVALID);
             }
         } while (choice != 8);
     }
 
-    private void chooseAndUpgradeItem(Hero hero, ItemType itemType) {
+    private void chooseAndUpgradeItem(Hero hero, Class<? extends Item> itemType) {
         if (hero.getCoins().compareTo(BigDecimal.valueOf(10)) < 0) {
             logger.info("Invalid needed coins to upgrade item.");
             upgradeEquipment(hero);
@@ -111,11 +110,13 @@ public class BlacksmithLocation extends CityLocation {
     }
 
     private void upgradeItem(Hero hero, Item item) {
-        ItemType itemType = item.getItemType();
+        Class<? extends Item> itemType = item.getClass();
         List<Item> items = hero.getInventory().get(itemType);
-        Item item1 = hero.getEquippedItems().get(itemType);
-        if (item1.equals(item)) {
-            itemService.unequipItem(hero, item);
+        if (hero.getEquippedItems().get(itemType) != null) {
+            Item item1 = hero.getEquippedItems().get(itemType);
+            if (item1.equals(item)) {
+                itemService.unequipItem(hero, item);
+            }
         }
         Abilities abilities = item.getAbilities();
         abilities.setStrength(abilities.getStrength() + 1);

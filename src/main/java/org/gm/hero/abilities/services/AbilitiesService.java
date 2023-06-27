@@ -134,7 +134,7 @@ public class AbilitiesService {
 
     private void setAbilitiesFromItems(Hero hero) {
         Abilities abilities = hero.getAbilities();
-        Map<ItemType, Item> equippedItems = hero.getEquippedItems();
+        Map<Class<? extends Item>, Item> equippedItems = hero.getEquippedItems();
 
         for (Item item : equippedItems.values()) {
             Abilities itemAbilities = item.getAbilities();

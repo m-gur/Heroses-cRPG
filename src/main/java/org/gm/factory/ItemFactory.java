@@ -2,8 +2,7 @@ package org.gm.factory;
 
 import org.gm.hero.abilities.entity.Abilities;
 import org.gm.hero.entity.Hero;
-import org.gm.hero.items.entity.Item;
-import org.gm.hero.items.entity.ItemType;
+import org.gm.hero.items.entity.*;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -24,39 +23,39 @@ public class ItemFactory {
         int itemChoice = random.nextInt(9) + 1;
         switch (itemChoice) {
             case 1 -> {
-                return new Item(getRandomHelmetName(), ItemType.HELMET, abilitiesForArmorItems,
+                return new Helmet(getRandomHelmetName(), abilitiesForArmorItems,
                         BigDecimal.valueOf(random.nextInt(hero.getLvl() * 3)), 1, false);
             }
             case 2 -> {
-                return new Item(getRandomChestName(), ItemType.CHEST, abilitiesForArmorItems,
+                return new Chest(getRandomChestName(), abilitiesForArmorItems,
                         BigDecimal.valueOf(random.nextInt(hero.getLvl() * 3)), 1, false);
             }
             case 3 -> {
-                return new Item(getRandomRingName(), ItemType.RING, abilitiesForArmorItems,
+                return new Ring(getRandomRingName(), abilitiesForArmorItems,
                         BigDecimal.valueOf(random.nextInt(hero.getLvl() * 3)), 1, false);
             }
             case 4 -> {
-                return new Item(getRandomNecklaceName(), ItemType.NECKLACE, abilitiesForArmorItems,
+                return new Necklace(getRandomNecklaceName(), abilitiesForArmorItems,
                         BigDecimal.valueOf(random.nextInt(hero.getLvl() * 3)), 1, false);
             }
             case 5 -> {
-                return new Item(getRandomTrousersName(), ItemType.TROUSERS, abilitiesForArmorItems,
+                return new Trousers(getRandomTrousersName(), abilitiesForArmorItems,
                         BigDecimal.valueOf(random.nextInt(hero.getLvl() * 3)), 1, false);
             }
             case 6 -> {
-                return new Item(getRandomShoesName(), ItemType.SHOES, abilitiesForArmorItems,
+                return new Shoes(getRandomShoesName(), abilitiesForArmorItems,
                         BigDecimal.valueOf(random.nextInt(hero.getLvl() * 3)), 1, false);
             }
             case 7 -> {
-                return new Item(getRandomWeaponName(), ItemType.WEAPON, abilitiesForArmorItems,
+                return new Weapon(getRandomWeaponName(), abilitiesForArmorItems,
                         BigDecimal.valueOf(random.nextInt(hero.getLvl() * 3)), 1, false);
             }
             case 8 -> {
-                return new Item(getRandomUsuallyName(), ItemType.USUALLY, abilitiesForOtherTypeItem,
+                return new Usually(getRandomUsuallyName(), abilitiesForOtherTypeItem,
                         BigDecimal.valueOf(random.nextInt(hero.getLvl() * 3)), 1, false);
             }
             case 9 -> {
-                return new Item(getRandomUsableName(), ItemType.USABLE, abilitiesForOtherTypeItem,
+                return new Usable(getRandomUsableName(), abilitiesForOtherTypeItem,
                         BigDecimal.valueOf(random.nextInt(hero.getLvl() * 3)), 1, false);
             }
             default -> throw new IllegalArgumentException("Invalid item type");
