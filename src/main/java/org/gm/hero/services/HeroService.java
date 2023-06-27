@@ -3,7 +3,6 @@ package org.gm.hero.services;
 import org.gm.hero.abilities.entity.AbilitiesAfterModifier;
 import org.gm.hero.entity.*;
 import org.gm.hero.items.entity.Item;
-import org.gm.hero.items.entity.ItemType;
 import org.gm.hero.items.entity.Usable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -9,7 +9,6 @@ import org.gm.hero.abilities.entity.impl.KnightModifierStrategy;
 import org.gm.hero.abilities.entity.impl.MageModifierStrategy;
 import org.gm.hero.entity.*;
 import org.gm.hero.items.entity.Item;
-import org.gm.hero.items.entity.ItemType;
 import org.gm.hero.services.HeroService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

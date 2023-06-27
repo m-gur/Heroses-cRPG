@@ -3,7 +3,6 @@ package org.gm.hero.items.services;
 import org.gm.hero.abilities.services.AbilitiesService;
 import org.gm.hero.entity.Hero;
 import org.gm.hero.items.entity.Item;
-import org.gm.hero.items.entity.ItemType;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
