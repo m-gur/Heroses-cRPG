@@ -27,41 +27,43 @@ public class CharacterMenu {
     public void showCharacterMenu(Hero hero) {
         Scanner scanner = new Scanner(System.in);
         int choice;
+
+        Map<Integer, Runnable> menuOptions = new HashMap<>();
+        menuOptions.put(1, () -> showHeroBasicStats(hero));
+        menuOptions.put(2, () -> showHeroInventory(hero));
+        menuOptions.put(3, () -> equipItems(hero));
+        menuOptions.put(4, () -> showHeroEquippedItems(hero));
+        menuOptions.put(5, () -> distributeSkillPoints(hero));
+        menuOptions.put(6, () -> resetSkillPoints(hero));
+        menuOptions.put(7, () -> showQuests(hero));
+        menuOptions.put(8, () -> restoreHp(hero));
+        menuOptions.put(9, () -> {});
+
         do {
             logger.info("""
-                    Character menu options:
-                    1. Basic stats
-                    2. Inventory
-                    3. Equip items
-                    4. Equipped items
-                    5. Distribute skill points
-                    6. Reset skill points
-                    7. Quests
-                    8. Restore HP
-                    9. Return
-                    """);
+                Character menu options:
+                1. Basic stats
+                2. Inventory
+                3. Equip items
+                4. Equipped items
+                5. Distribute skill points
+                6. Reset skill points
+                7. Quests
+                8. Restore HP
+                9. Return
+                """);
 
             choice = scanner.nextInt();
             scanner.nextLine();
-            switch (choice) {
-                case 1 -> showHeroBasicStats(hero);
-                case 2 -> showHeroInventory(hero);
-                case 3 -> equipItems(hero);
-                case 4 -> showHeroEquippedItems(hero);
-                case 5 -> distributeSkillPoints(hero);
-                case 6 -> resetSkillPoints(hero);
-                case 7 -> showQuests(hero);
-                case 8 -> restoreHp(hero);
-                case 9 -> {
-                    return;
-                }
-                default -> logger.info(INVALID);
-            }
-        } while (choice != 8);
+
+            Runnable selectedOption = menuOptions.getOrDefault(choice, () -> logger.info(INVALID));
+            selectedOption.run();
+        } while (choice != 9);
     }
 
     private void showHeroBasicStats(Hero hero) {
         logger.info("Name: " + hero.getName() + "\n" +
+                    "class: " + hero.getHeroType() + "\n" +
                     "level: " + hero.getLvl() + "\n" +
                     "experience: " + hero.getExperience() + "\n" +
                     "required experience to level up: " + hero.getRequiredExperience() + "\n" +
@@ -186,37 +188,40 @@ public class CharacterMenu {
     private void equipItems(Hero hero) {
         Scanner scanner = new Scanner(System.in);
         int choice;
+
+        Map<Integer, Runnable> equipOptions = new HashMap<>();
+        equipOptions.put(1, () -> chooseAndEquipItem(hero, Helmet.class));
+        equipOptions.put(2, () -> chooseAndEquipItem(hero, Chest.class));
+        equipOptions.put(3, () -> chooseAndEquipItem(hero, Ring.class));
+        equipOptions.put(4, () -> chooseAndEquipItem(hero, Necklace.class));
+        equipOptions.put(5, () -> chooseAndEquipItem(hero, Trousers.class));
+        equipOptions.put(6, () -> chooseAndEquipItem(hero, Shoes.class));
+        equipOptions.put(7, () -> chooseAndEquipItem(hero, Weapon.class));
+        equipOptions.put(8, () -> showCharacterMenu(hero));
+
         do {
             logger.info("""
-                    What item do you want to equip?
-                    1. Helmet
-                    2. Chest
-                    3. Ring
-                    4. Necklace
-                    5. Trousers
-                    6. Shoes
-                    7. Weapon
-                    8. Return
-                    """);
+                What item do you want to equip?
+                1. Helmet
+                2. Chest
+                3. Ring
+                4. Necklace
+                5. Trousers
+                6. Shoes
+                7. Weapon
+                8. Return
+                """);
 
             choice = scanner.nextInt();
             scanner.nextLine();
 
-            switch (choice) {
-                case 1 -> chooseAndEquipItem(hero, Helmet.class);
-                case 2 -> chooseAndEquipItem(hero, Chest.class);
-                case 3 -> chooseAndEquipItem(hero, Ring.class);
-                case 4 -> chooseAndEquipItem(hero, Necklace.class);
-                case 5 -> chooseAndEquipItem(hero, Trousers.class);
-                case 6 -> chooseAndEquipItem(hero, Shoes.class);
-                case 7 -> chooseAndEquipItem(hero, Weapon.class);
-                case 8 -> showCharacterMenu(hero);
-                default -> logger.info(INVALID);
-            }
+            Runnable selectedOption = equipOptions.getOrDefault(choice, () -> logger.info(INVALID));
+            selectedOption.run();
         } while (choice != 8);
     }
 
-    private void chooseAndEquipItem(Hero hero, Class itemType) {
+
+    private void chooseAndEquipItem(Hero hero, Class<? extends Item> itemType) {
         operationOnItems(hero, itemType, "Equip");
     }
 

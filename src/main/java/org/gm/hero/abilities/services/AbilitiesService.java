@@ -13,7 +13,10 @@ import org.gm.hero.services.HeroService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Consumer;
+import java.util.function.IntConsumer;
 
 public class AbilitiesService {
     protected final Logger logger = LoggerFactory.getLogger(getClass());
@@ -45,6 +48,36 @@ public class AbilitiesService {
 
         int remainingSkillPointsToDistribute = hero.getSkillPoints();
 
+        Abilities abilities = hero.getAbilities();
+        AbilitiesAfterModifier abilitiesAfterModifier = hero.getAbilitiesAfterModifier();
+        ModifierAbilities modifierAbilities = hero.getModifierAbilities();
+
+        Map<String, Consumer<Integer>> skillActions = new HashMap<>();
+        skillActions.put("strength", points -> {
+            abilities.setStrength(abilities.getStrength() + points);
+            abilitiesAfterModifier.setStrength(abilities.getStrength() * modifierAbilities.getStrengthModifier());
+        });
+        skillActions.put("defence", points -> {
+            abilities.setDefence(abilities.getDefence() + points);
+            abilitiesAfterModifier.setDefence(abilities.getDefence() * modifierAbilities.getDefenceModifier());
+        });
+        skillActions.put("intelligence", points -> {
+            abilities.setIntelligence(abilities.getIntelligence() + points);
+            abilitiesAfterModifier.setIntelligence(abilities.getIntelligence() * modifierAbilities.getIntelligenceModifier());
+        });
+        skillActions.put("dexterity", points -> {
+            abilities.setDexterity(abilities.getDexterity() + points);
+            abilitiesAfterModifier.setDexterity(abilities.getDexterity() * modifierAbilities.getDexterityModifier());
+        });
+        skillActions.put("agility", points -> {
+            abilities.setAgility(abilities.getAgility() + points);
+            abilitiesAfterModifier.setAgility(abilities.getAgility() * modifierAbilities.getAgilityModifier());
+        });
+        skillActions.put("speed", points -> {
+            abilities.setSpeed(abilities.getSpeed() + points);
+            abilitiesAfterModifier.setSpeed(abilities.getSpeed() * modifierAbilities.getSpeedModifier());
+        });
+
         for (Map.Entry<String, Integer> entry : skillPointsDistribution.entrySet()) {
             String skillName = entry.getKey();
             Integer pointsToAdd = entry.getValue();
@@ -58,39 +91,12 @@ public class AbilitiesService {
                 break;
             }
 
-            Abilities abilities = hero.getAbilities();
-            AbilitiesAfterModifier abilitiesAfterModifier = hero.getAbilitiesAfterModifier();
-            ModifierAbilities modifierAbilities = hero.getModifierAbilities();
-
-            switch (skillName) {
-                case "strength" -> {
-                    abilities.setStrength(abilities.getStrength() + pointsToAdd);
-                    abilitiesAfterModifier.setStrength(abilities.getStrength() * modifierAbilities.getStrengthModifier());
-                }
-                case "defence" -> {
-                    abilities.setDefence(abilities.getDefence() + pointsToAdd);
-                    abilitiesAfterModifier.setDefence(abilities.getDefence() * modifierAbilities.getDefenceModifier());
-                }
-                case "intelligence" -> {
-                    abilities.setIntelligence(abilities.getIntelligence() + pointsToAdd);
-                    abilitiesAfterModifier.setIntelligence(abilities.getIntelligence() * modifierAbilities.getIntelligenceModifier());
-                }
-                case "dexterity" -> {
-                    abilities.setDexterity(abilities.getDexterity() + pointsToAdd);
-                    abilitiesAfterModifier.setDexterity(abilities.getDexterity() * modifierAbilities.getDexterityModifier());
-                }
-                case "agility" -> {
-                    abilities.setAgility(abilities.getAgility() + pointsToAdd);
-                    abilitiesAfterModifier.setAgility(abilities.getAgility() * modifierAbilities.getAgilityModifier());
-                }
-                case "speed" -> {
-                    abilities.setSpeed(abilities.getSpeed() + pointsToAdd);
-                    abilitiesAfterModifier.setSpeed(abilities.getSpeed() * modifierAbilities.getSpeedModifier());
-                }
-                default -> {
-                    logger.info("Invalid skill name: " + skillName);
-                    continue;
-                }
+            IntConsumer skillAction = (IntConsumer) skillActions.get(skillName);
+            if (skillAction != null) {
+                skillAction.accept(pointsToAdd);
+            } else {
+                logger.info("Invalid skill name: " + skillName);
+                continue;
             }
 
             remainingSkillPointsToDistribute -= pointsToAdd;
@@ -101,6 +107,7 @@ public class AbilitiesService {
 
         logger.info("Skill points distributed successfully.");
     }
+
 
     public void resetSkillPoints(Hero hero) {
         Abilities abilities = new Abilities(1f, 1f, 1f, 1f, 1f, 1f);

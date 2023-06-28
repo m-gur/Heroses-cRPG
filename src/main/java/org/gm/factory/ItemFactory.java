@@ -5,13 +5,13 @@ import org.gm.hero.entity.Hero;
 import org.gm.hero.items.entity.*;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
+import java.util.function.Supplier;
 
 public class ItemFactory {
+    private Random random = new Random();
+
     public Item createRandomItem(Hero hero) {
-        Random random = new Random();
         Abilities abilitiesForArmorItems = new Abilities();
         abilitiesForArmorItems.setStrength(random.nextInt(hero.getLvl() * 3));
         abilitiesForArmorItems.setDefence(random.nextInt(hero.getLvl() * 3));
@@ -21,49 +21,37 @@ public class ItemFactory {
         abilitiesForArmorItems.setSpeed(random.nextInt(hero.getLvl() * 3));
         Abilities abilitiesForOtherTypeItem = new Abilities(0f, 0f, 0f, 0f, 0f, 0f);
         int itemChoice = random.nextInt(9) + 1;
-        switch (itemChoice) {
-            case 1 -> {
-                return new Helmet(getRandomHelmetName(), abilitiesForArmorItems,
-                        BigDecimal.valueOf(random.nextInt(hero.getLvl() * 3)), 1, false);
-            }
-            case 2 -> {
-                return new Chest(getRandomChestName(), abilitiesForArmorItems,
-                        BigDecimal.valueOf(random.nextInt(hero.getLvl() * 3)), 1, false);
-            }
-            case 3 -> {
-                return new Ring(getRandomRingName(), abilitiesForArmorItems,
-                        BigDecimal.valueOf(random.nextInt(hero.getLvl() * 3)), 1, false);
-            }
-            case 4 -> {
-                return new Necklace(getRandomNecklaceName(), abilitiesForArmorItems,
-                        BigDecimal.valueOf(random.nextInt(hero.getLvl() * 3)), 1, false);
-            }
-            case 5 -> {
-                return new Trousers(getRandomTrousersName(), abilitiesForArmorItems,
-                        BigDecimal.valueOf(random.nextInt(hero.getLvl() * 3)), 1, false);
-            }
-            case 6 -> {
-                return new Shoes(getRandomShoesName(), abilitiesForArmorItems,
-                        BigDecimal.valueOf(random.nextInt(hero.getLvl() * 3)), 1, false);
-            }
-            case 7 -> {
-                return new Weapon(getRandomWeaponName(), abilitiesForArmorItems,
-                        BigDecimal.valueOf(random.nextInt(hero.getLvl() * 3)), 1, false);
-            }
-            case 8 -> {
-                return new Usually(getRandomUsuallyName(), abilitiesForOtherTypeItem,
-                        BigDecimal.valueOf(random.nextInt(hero.getLvl() * 3)), 1, false);
-            }
-            case 9 -> {
-                return new Usable(getRandomUsableName(), abilitiesForOtherTypeItem,
-                        BigDecimal.valueOf(random.nextInt(hero.getLvl() * 3)), 1, false);
-            }
-            default -> throw new IllegalArgumentException("Invalid item type");
+
+        Map<Integer, Supplier<Item>> itemCreators = new HashMap<>();
+        itemCreators.put(1, () -> new Helmet(getRandomHelmetName(), abilitiesForArmorItems,
+                BigDecimal.valueOf(random.nextInt(hero.getLvl() * 3)), 1, false));
+        itemCreators.put(2, () -> new Chest(getRandomChestName(), abilitiesForArmorItems,
+                BigDecimal.valueOf(random.nextInt(hero.getLvl() * 3)), 1, false));
+        itemCreators.put(3, () -> new Ring(getRandomRingName(), abilitiesForArmorItems,
+                BigDecimal.valueOf(random.nextInt(hero.getLvl() * 3)), 1, false));
+        itemCreators.put(4, () -> new Necklace(getRandomNecklaceName(), abilitiesForArmorItems,
+                BigDecimal.valueOf(random.nextInt(hero.getLvl() * 3)), 1, false));
+        itemCreators.put(5, () -> new Trousers(getRandomTrousersName(), abilitiesForArmorItems,
+                BigDecimal.valueOf(random.nextInt(hero.getLvl() * 3)), 1, false));
+        itemCreators.put(6, () -> new Shoes(getRandomShoesName(), abilitiesForArmorItems,
+                BigDecimal.valueOf(random.nextInt(hero.getLvl() * 3)), 1, false));
+        itemCreators.put(7, () -> new Weapon(getRandomWeaponName(), abilitiesForArmorItems,
+                BigDecimal.valueOf(random.nextInt(hero.getLvl() * 3)), 1, false));
+        itemCreators.put(8, () -> new Usually(getRandomUsuallyName(), abilitiesForOtherTypeItem,
+                BigDecimal.valueOf(random.nextInt(hero.getLvl() * 3)), 1, false));
+        itemCreators.put(9, () -> new Usable(getRandomUsableName(), abilitiesForOtherTypeItem,
+                BigDecimal.valueOf(random.nextInt(hero.getLvl() * 3)), 1, false));
+
+        Supplier<Item> itemCreator = itemCreators.get(itemChoice);
+        if (itemCreator != null) {
+            return itemCreator.get();
+        } else {
+            throw new IllegalArgumentException("Invalid item type");
         }
     }
 
+
     private String getRandomHelmetName() {
-        Random random = new Random();
         List<String> names = new ArrayList<>();
         names.add("Incarnated Ivory Helm");
         names.add("Jaws of Lost Souls");
@@ -79,7 +67,6 @@ public class ItemFactory {
     }
 
     private String getRandomChestName() {
-        Random random = new Random();
         List<String> names = new ArrayList<>();
         names.add("Vindicator Skeletal Batteplate");
         names.add("Warden of the King");
@@ -95,7 +82,6 @@ public class ItemFactory {
     }
 
     private String getRandomRingName() {
-        Random random = new Random();
         List<String> names = new ArrayList<>();
         names.add("Platinum Ring of Devotions");
         names.add("Ring of Fiend Finding");
@@ -111,7 +97,6 @@ public class ItemFactory {
     }
 
     private String getRandomNecklaceName() {
-        Random random = new Random();
         List<String> names = new ArrayList<>();
         names.add("Loyal Blossom Necklace");
         names.add("Azure Ambition Amulet");
@@ -127,7 +112,6 @@ public class ItemFactory {
     }
 
     private String getRandomTrousersName() {
-        Random random = new Random();
         List<String> names = new ArrayList<>();
         names.add("Leggings of Agony");
         names.add("Scaled Legplates of Frozen Wars");
@@ -143,7 +127,6 @@ public class ItemFactory {
     }
 
     private String getRandomShoesName() {
-        Random random = new Random();
         List<String> names = new ArrayList<>();
         names.add("Stompers of Immortal Protection");
         names.add("Demonic Scaled Stompers");
@@ -159,7 +142,6 @@ public class ItemFactory {
     }
 
     private String getRandomWeaponName() {
-        Random random = new Random();
         List<String> names = new ArrayList<>();
         names.add("Doom");
         names.add("Oblivion");
@@ -175,7 +157,6 @@ public class ItemFactory {
     }
 
     private String getRandomUsuallyName() {
-        Random random = new Random();
         List<String> names = new ArrayList<>();
         names.add("Photo");
         names.add("Rag Doll");
@@ -186,7 +167,6 @@ public class ItemFactory {
     }
 
     private String getRandomUsableName() {
-        Random random = new Random();
         List<String> names = new ArrayList<>();
         names.add("HP Potion");
         names.add("HP Apple");

@@ -8,6 +8,8 @@ import org.slf4j.LoggerFactory;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 import static java.lang.System.exit;
@@ -19,26 +21,32 @@ public class GameMenu {
     public void gameMenu(Hero hero) {
         Scanner scanner = new Scanner(System.in);
         int choice;
+        Map<Integer, Runnable> menuActions = new HashMap<>();
+        menuActions.put(1, () -> saveGame(hero));
+        menuActions.put(2, () -> exit(0));
+        menuActions.put(3, () -> {
+        });
+
         do {
             logger.info("""
-                    What you want to do?
-                    1. Save game
-                    2. Exit game
-                    3. Return
-                    """);
+                What do you want to do?
+                1. Save game
+                2. Exit game
+                3. Return
+                """);
 
             choice = scanner.nextInt();
             scanner.nextLine();
-            switch (choice) {
-                case 1 -> saveGame(hero);
-                case 2 -> exit(0);
-                case 3 -> {
-                    return;
-                }
-                default -> logger.info("Invalid choice. Please try again.");
+
+            Runnable menuAction = menuActions.get(choice);
+            if (menuAction != null) {
+                menuAction.run();
+            } else {
+                logger.info("Invalid choice. Please try again.");
             }
         } while (choice != 3);
     }
+
 
     private void saveGame(Hero hero) {
         try (OutputStream os = new FileOutputStream(SAVE_FILE_PATH);

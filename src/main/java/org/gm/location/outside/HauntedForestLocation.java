@@ -18,15 +18,16 @@ public class HauntedForestLocation extends OutsideLocation {
         boolean endGameQuest = hero.getQuests().stream()
                 .filter(quest -> quest.getName().equals("EndGame"))
                 .allMatch(quest -> !quest.isCompleted());
-        if (firstJourneyQuest) {
-            firstJourneyQuest(hero);
-        } else if (endGameQuest) {
-            endGameQuest(hero);
-        } else {
+        if (hero.getQuests().isEmpty()) {
             logger.info("""
                     You don't have anything to look for here at the moment, please come back another time.
                     Where would you like to go?
                     """);
+        }
+        else if (firstJourneyQuest) {
+            firstJourneyQuest(hero);
+        } else if (endGameQuest) {
+            endGameQuest(hero);
         }
         initializeChoicesMap(hero, city);
         extracted(scanner);

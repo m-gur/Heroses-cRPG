@@ -9,26 +9,28 @@ import org.gm.hero.entity.Mage;
 import org.gm.hero.services.HeroService;
 import org.gm.hero.services.LevelService;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
+import java.util.function.Supplier;
 
 public class HeroFactoryTest {
     private final LevelService levelService = new LevelService();
     private final HeroService heroService = new HeroService();
     private final AbilitiesService abilitiesService = new AbilitiesService();
+    private Random random = new Random();
 
     public Hero createRandomHero(String heroType) {
-        return switch (heroType) {
-            case "Mage" -> randomMage();
-            case "Knight" -> randomKnight();
-            case "Archer" -> randomArcher();
-            default -> throw new IllegalArgumentException("Invalid hero type: " + heroType);
-        };
+        Map<String, Supplier<Hero>> heroMap = new HashMap<>();
+        heroMap.put("Mage", this::randomMage);
+        heroMap.put("Knight", this::randomKnight);
+        heroMap.put("Archer", this::randomArcher);
+
+        return heroMap.getOrDefault(heroType, () -> {
+            throw new IllegalArgumentException("Invalid hero type: " + heroType);
+        }).get();
     }
 
+
     private Hero createRandomHeroPartTwo(Class<? extends Hero> heroClass, String heroName) {
-        Random random = new Random();
         Abilities abilities = new Abilities(1f, 1f, 1f, 1f, 1f, 1f);
 
         Hero hero;
@@ -65,7 +67,6 @@ public class HeroFactoryTest {
     }
 
     private String randomWizardName() {
-        Random random = new Random();
         List<String> names = new ArrayList<>();
         names.add("Ineas");
         names.add("Urass");
@@ -81,7 +82,6 @@ public class HeroFactoryTest {
     }
 
     private String randomKnightName() {
-        Random random = new Random();
         List<String> names = new ArrayList<>();
         names.add("Lylie the Mild");
         names.add("Guinevere the Young");
@@ -97,7 +97,6 @@ public class HeroFactoryTest {
     }
 
     private String randomArcherName() {
-        Random random = new Random();
         List<String> names = new ArrayList<>();
         names.add("Ashitaka");
         names.add("Raj Kaur");

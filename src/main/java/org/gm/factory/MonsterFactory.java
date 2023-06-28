@@ -5,24 +5,26 @@ import org.gm.monster.entity.*;
 import org.gm.monster.services.MonsterService;
 
 import java.util.*;
+import java.util.function.Function;
 
 public class MonsterFactory {
-    MonsterService monsterService = new MonsterService();
+    private Random random = new Random();
+    private MonsterService monsterService = new MonsterService();
 
     public Monster createRandomMonster(Hero hero) {
-        Random random = new Random();
         int monsterType = random.nextInt(3);
-        return switch (monsterType) {
-            case 0 -> randomOrc(hero);
-            case 1 -> randomGoblin(hero);
-            case 2 -> randomSkeleton(hero);
-            default -> throw new IllegalArgumentException("Invalid monster type");
-        };
+
+        Map<Integer, Function<Hero, Monster>> monsterMap = new HashMap<>();
+        monsterMap.put(0, this::randomOrc);
+        monsterMap.put(1, this::randomGoblin);
+        monsterMap.put(2, this::randomSkeleton);
+
+        return monsterMap.getOrDefault(monsterType, h -> {
+            throw new IllegalArgumentException("Invalid monster type");
+        }).apply(hero);
     }
 
     private Monster createRandomMonsterPartTwo(Monster monster, Hero hero) {
-        Random random = new Random();
-
         monster.setLvl(random.nextInt(hero.getLvl() + 5) + 1);
         monster.setHp(random.nextFloat(hero.getMaxHp() + 50) + 1);
         monster.setExperience(monsterService.setExperience(monster, hero));
@@ -43,7 +45,6 @@ public class MonsterFactory {
     }
 
     private String randomOrcName() {
-        Random random = new Random();
         List<String> names = new ArrayList<>();
         names.add("Higher Orc Commander");
         names.add("Orc Commander");
@@ -55,7 +56,6 @@ public class MonsterFactory {
     }
 
     private String randomGoblinName() {
-        Random random = new Random();
         List<String> names = new ArrayList<>();
         names.add("Goblin");
         names.add("King Goblin");
@@ -67,7 +67,6 @@ public class MonsterFactory {
     }
 
     private String randomSkeletonName() {
-        Random random = new Random();
         List<String> names = new ArrayList<>();
         names.add("Skeleton");
         names.add("King Skeleton");

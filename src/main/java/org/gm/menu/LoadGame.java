@@ -14,6 +14,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
 import java.lang.reflect.Type;
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.gm.menu.GameMenu.SAVE_FILE_PATH;
 
@@ -69,19 +71,19 @@ public class LoadGame {
         }
 
         private Class<? extends Hero> getHeroClass(String typeName) throws ClassNotFoundException {
-            switch (typeName) {
-                case "Mage" -> {
-                    return Mage.class;
-                }
-                case "Knight" -> {
-                    return Knight.class;
-                }
-                case "Archer" -> {
-                    return Archer.class;
-                }
-                default -> throw new ClassNotFoundException("Unknown hero type: " + typeName);
+            Map<String, Class<? extends Hero>> heroClasses = new HashMap<>();
+            heroClasses.put("Mage", Mage.class);
+            heroClasses.put("Knight", Knight.class);
+            heroClasses.put("Archer", Archer.class);
+
+            Class<? extends Hero> heroClass = heroClasses.get(typeName);
+            if (heroClass != null) {
+                return heroClass;
+            } else {
+                throw new ClassNotFoundException("Unknown hero type: " + typeName);
             }
         }
+
     }
 
     private static class ItemDeserializer implements JsonDeserializer<Item> {
@@ -100,36 +102,24 @@ public class LoadGame {
         }
 
         private Class<? extends Item> getItemClass(String typeName) throws ClassNotFoundException {
-            switch (typeName) {
-                case "Chest" -> {
-                    return Chest.class;
-                }
-                case "Helmet" -> {
-                    return Helmet.class;
-                }
-                case "Necklace" -> {
-                    return Necklace.class;
-                }
-                case "Ring" -> {
-                    return Ring.class;
-                }
-                case "Shoes" -> {
-                    return Shoes.class;
-                }
-                case "Trousers" -> {
-                    return Trousers.class;
-                }
-                case "Usable" -> {
-                    return Usable.class;
-                }
-                case "Usually" -> {
-                    return Usually.class;
-                }
-                case "Weapon" -> {
-                    return Weapon.class;
-                }
-                default -> throw new ClassNotFoundException("Unknown item type: " + typeName);
+            Map<String, Class<? extends Item>> itemClasses = new HashMap<>();
+            itemClasses.put("Chest", Chest.class);
+            itemClasses.put("Helmet", Helmet.class);
+            itemClasses.put("Necklace", Necklace.class);
+            itemClasses.put("Ring", Ring.class);
+            itemClasses.put("Shoes", Shoes.class);
+            itemClasses.put("Trousers", Trousers.class);
+            itemClasses.put("Usable", Usable.class);
+            itemClasses.put("Usually", Usually.class);
+            itemClasses.put("Weapon", Weapon.class);
+
+            Class<? extends Item> itemClass = itemClasses.get(typeName);
+            if (itemClass != null) {
+                return itemClass;
+            } else {
+                throw new ClassNotFoundException("Unknown item type: " + typeName);
             }
         }
+
     }
 }

@@ -15,6 +15,7 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.function.Supplier;
 
 import static java.lang.System.exit;
 
@@ -58,28 +59,34 @@ public class Menu {
     private void createHero() {
         Scanner scanner = new Scanner(System.in);
         int choice;
+
+        Map<Integer, Supplier<Hero>> heroMap = new HashMap<>();
+        heroMap.put(1, Archer::new);
+        heroMap.put(2, Knight::new);
+        heroMap.put(3, Mage::new);
+
         do {
             logger.info("""
-                    Which class of hero you want to choose?
-                    1. Archer
-                    2. Knight
-                    3. Mage
-                    4. Return
-                    """);
+                Which class of hero you want to choose?
+                1. Archer
+                2. Knight
+                3. Mage
+                4. Return
+                """);
 
             choice = scanner.nextInt();
             scanner.nextLine();
-            switch (choice) {
-                case 1 -> city.explore(createHeroPartTwo(new Archer()));
-                case 2 -> city.explore(createHeroPartTwo(new Knight()));
-                case 3 -> city.explore(createHeroPartTwo(new Mage()));
-                case 4 -> {
-                    return;
-                }
-                default -> logger.info("Invalid choice. Please try again.");
+
+            if (heroMap.containsKey(choice)) {
+                city.explore(createHeroPartTwo(heroMap.get(choice).get()));
+            } else if (choice == 4) {
+                return;
+            } else {
+                logger.info("Invalid choice. Please try again.");
             }
         } while (choice != 4);
     }
+
 
     private Hero createHeroPartTwo(Hero hero) {
         Scanner scanner = new Scanner(System.in);

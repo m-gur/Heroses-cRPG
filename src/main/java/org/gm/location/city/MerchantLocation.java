@@ -5,9 +5,7 @@ import org.gm.hero.items.entity.*;
 import org.gm.hero.items.services.ItemService;
 import org.gm.utils.Utils;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class MerchantLocation extends CityLocation {
     private final ItemService itemService = new ItemService();
@@ -16,39 +14,47 @@ public class MerchantLocation extends CityLocation {
     public void explore(Hero hero) {
         Scanner scanner = new Scanner(System.in);
         int choice;
+        Map<Integer, Class<? extends Item>> itemChoices = new HashMap<>();
+        itemChoices.put(1, Helmet.class);
+        itemChoices.put(2, Chest.class);
+        itemChoices.put(3, Ring.class);
+        itemChoices.put(4, Necklace.class);
+        itemChoices.put(5, Trousers.class);
+        itemChoices.put(6, Shoes.class);
+        itemChoices.put(7, Weapon.class);
+        itemChoices.put(8, Usually.class);
+        itemChoices.put(9, Usable.class);
+        itemChoices.put(10, null); // Return option
+
         do {
             logger.info("""
-                    What item do you want to sell?
-                    1. Helmet
-                    2. Chest
-                    3. Ring
-                    4. Necklace
-                    5. Trousers
-                    6. Shoes
-                    7. Weapon
-                    8. Usually
-                    9. Usable
-                    10. Return
-                    """);
+                What item do you want to sell?
+                1. Helmet
+                2. Chest
+                3. Ring
+                4. Necklace
+                5. Trousers
+                6. Shoes
+                7. Weapon
+                8. Usually
+                9. Usable
+                10. Return
+                """);
 
             choice = scanner.nextInt();
             scanner.nextLine();
 
-            switch (choice) {
-                case 1 -> chooseAndSellItem(hero, Helmet.class);
-                case 2 -> chooseAndSellItem(hero, Chest.class);
-                case 3 -> chooseAndSellItem(hero, Ring.class);
-                case 4 -> chooseAndSellItem(hero, Necklace.class);
-                case 5 -> chooseAndSellItem(hero, Trousers.class);
-                case 6 -> chooseAndSellItem(hero, Shoes.class);
-                case 7 -> chooseAndSellItem(hero, Weapon.class);
-                case 8 -> chooseAndSellItem(hero, Usually.class);
-                case 9 -> chooseAndSellItem(hero, Usable.class);
-                case 10 -> super.explore(hero);
-                default -> logger.info(INVALID);
+            Class<? extends Item> itemClass = itemChoices.get(choice);
+            if (itemClass != null && choice != 10) {
+                chooseAndSellItem(hero, itemClass);
+            } else if (choice == 10) {
+                super.explore(hero);
+            } else {
+                logger.info(INVALID);
             }
         } while (choice != 10);
     }
+
 
     private void chooseAndSellItem(Hero hero, Class<? extends Item> itemType) {
         Scanner scanner = new Scanner(System.in);

@@ -7,6 +7,8 @@ import org.gm.location.outside.OutsideLocation;
 import org.gm.menu.CharacterMenu;
 import org.gm.menu.GameMenu;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 public class CityLocation extends Location {
@@ -20,28 +22,31 @@ public class CityLocation extends Location {
         outsideLocation.initializeChoicesMap(hero, this);
         Scanner scanner = new Scanner(System.in);
         int choice;
+        Map<Integer, Runnable> locationChoices = new HashMap<>();
+        locationChoices.put(1, () -> new BlacksmithLocation().explore(hero));
+        locationChoices.put(2, () -> new MarketLocation().explore(hero));
+        locationChoices.put(3, () -> new BulletinBoardLocation().explore(hero));
+        locationChoices.put(4, () -> outsideLocation.explore(hero));
+        locationChoices.put(5, () -> characterMenu.showCharacterMenu(hero));
+        locationChoices.put(6, () -> gameMenu.gameMenu(hero));
+
         do {
             logger.info("""
-                    Where you want to go?
-                    1. Blacksmith
-                    2. Market
-                    3. Bulletin Board
-                    4. Get out of town
-                    5. Character menu
-                    6. Game menu
-                    """);
+                Where you want to go?
+                1. Blacksmith
+                2. Market
+                3. Bulletin Board
+                4. Get out of town
+                5. Character menu
+                6. Game menu
+                """);
 
             choice = scanner.nextInt();
             scanner.nextLine();
-            switch (choice) {
-                case 1 -> new BlacksmithLocation().explore(hero);
-                case 2 -> new MarketLocation().explore(hero);
-                case 3 -> new BulletinBoardLocation().explore(hero);
-                case 4 -> outsideLocation.explore(hero);
-                case 5 -> characterMenu.showCharacterMenu(hero);
-                case 6 -> gameMenu.gameMenu(hero);
-                default -> logger.info(INVALID);
-            }
+
+            Runnable selectedOption = locationChoices.getOrDefault(choice, () -> logger.info(INVALID));
+            selectedOption.run();
         } while (choice != 7);
     }
+
 }

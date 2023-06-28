@@ -7,7 +7,9 @@ import org.gm.hero.items.services.ItemService;
 import org.gm.utils.Utils;
 
 import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 public class BlacksmithLocation extends CityLocation {
@@ -16,74 +18,84 @@ public class BlacksmithLocation extends CityLocation {
     public void explore(Hero hero) {
         Scanner scanner = new Scanner(System.in);
         int choice;
+
+        Map<Integer, Runnable> exploreOptions = new HashMap<>();
+        exploreOptions.put(1, () -> upgradeEquipment(hero));
+        exploreOptions.put(2, () -> logger.info("""
+            This town is no longer like before..
+            Many things have changed, people have changed.
+            Now the city is not safe, everyone is scared.
+            No one is helping us with the monsters, there were some adventurers.
+            Just like you, people paid them to kill monsters and save them.
+            After getting the money, they ran away. The problem wasn't solved
+            and we lost the money..
+            Maybe you want to help us with the monsters?
+            If you can provide proof that the monsters have been defeated,
+            we will reward you with some coins for your help.
+            Think about it, there should be an announcement on the bulletin board.
+            """));
+        exploreOptions.put(3, () -> super.explore(hero));
+
         logger.info("""
-                Welcome adventurer, my name is Greg.
-                What brings you to me?
-                Are you want to upgrade your equipment?
-                """);
+            Welcome adventurer, my name is Greg.
+            What brings you to me?
+            Do you want to upgrade your equipment?
+            """);
         logger.info("Welcome Greg, my name is " + hero.getName());
+
         do {
             logger.info("""
-                    1. Yes, I want to upgrade equipment
-                    2. No, only want to ask you about the town
-                    3. No, sorry I got lost, thanks (leaving)
-                    """);
+                1. Yes, I want to upgrade my equipment
+                2. No, I just want to ask you about the town
+                3. No, sorry, I got lost. Thanks for your help (leaving)
+                """);
 
             choice = scanner.nextInt();
             scanner.nextLine();
-            switch (choice) {
-                case 1 -> upgradeEquipment(hero);
-                case 2 -> logger.info("""
-                        This town is no longer like before..
-                        Many things are changed, people changed.
-                        Now in city it is not safe, everyone are scared.
-                        No one are helping us with the monsters, there was some adventurers.
-                        Just like you, people paid them to kill monsters and safe them.
-                        After getting money, they run away. The problem wasn't solved
-                        and we lost the money..
-                        Maybe you want to help us with monsters?
-                        Probably if you will give us the proof, monsters died,
-                        we will give you some coins for your help.
-                        Think about this, on bulletin board should be an announcement.
-                        """);
-                case 3 -> super.explore(hero);
-                default -> logger.info(INVALID);
-            }
+
+            Runnable selectedOption = exploreOptions.getOrDefault(choice, () -> logger.info(INVALID));
+            selectedOption.run();
         } while (choice != 3);
     }
+
 
     private void upgradeEquipment(Hero hero) {
         Scanner scanner = new Scanner(System.in);
         int choice;
+
+        Map<Integer, Runnable> upgradeOptions = new HashMap<>();
+        upgradeOptions.put(1, () -> chooseAndUpgradeItem(hero, Helmet.class));
+        upgradeOptions.put(2, () -> chooseAndUpgradeItem(hero, Chest.class));
+        upgradeOptions.put(3, () -> chooseAndUpgradeItem(hero, Ring.class));
+        upgradeOptions.put(4, () -> chooseAndUpgradeItem(hero, Necklace.class));
+        upgradeOptions.put(5, () -> chooseAndUpgradeItem(hero, Trousers.class));
+        upgradeOptions.put(6, () -> chooseAndUpgradeItem(hero, Shoes.class));
+        upgradeOptions.put(7, () -> chooseAndUpgradeItem(hero, Weapon.class));
+        upgradeOptions.put(8, () -> explore(hero));
+
         logger.info("""
-                What you want to upgrade?
-                To upgrade item you need to pay 10 coins.
-                Upgraded item will receive all stats + 1
-                1. Helm
-                2. Chest
-                3. Ring
-                4. Necklace
-                5. Trousers
-                6. Shoes
-                7. Weapon
-                8. Return
-                """);
+            What do you want to upgrade?
+            To upgrade an item, you need to pay 10 coins.
+            The upgraded item will receive +1 to all stats.
+            1. Helm
+            2. Chest
+            3. Ring
+            4. Necklace
+            5. Trousers
+            6. Shoes
+            7. Weapon
+            8. Return
+            """);
+
         do {
             choice = scanner.nextInt();
             scanner.nextLine();
-            switch (choice) {
-                case 1 -> chooseAndUpgradeItem(hero, Helmet.class);
-                case 2 -> chooseAndUpgradeItem(hero, Chest.class);
-                case 3 -> chooseAndUpgradeItem(hero, Ring.class);
-                case 4 -> chooseAndUpgradeItem(hero, Necklace.class);
-                case 5 -> chooseAndUpgradeItem(hero, Trousers.class);
-                case 6 -> chooseAndUpgradeItem(hero, Shoes.class);
-                case 7 -> chooseAndUpgradeItem(hero, Weapon.class);
-                case 8 -> explore(hero);
-                default -> logger.info(INVALID);
-            }
+
+            Runnable selectedOption = upgradeOptions.getOrDefault(choice, () -> logger.info(INVALID));
+            selectedOption.run();
         } while (choice != 8);
     }
+
 
     private void chooseAndUpgradeItem(Hero hero, Class<? extends Item> itemType) {
         if (hero.getCoins().compareTo(BigDecimal.valueOf(10)) < 0) {

@@ -18,15 +18,16 @@ public class CastleLocation extends OutsideLocation {
         boolean endGameQuest = hero.getQuests().stream()
                 .filter(quest -> quest.getName().equals("EndGame"))
                 .allMatch(quest -> !quest.isCompleted());
-        if (betrayedQuest) {
-            betrayedQuest(hero);
-        } else if (endGameQuest) {
-            endGameQuest(hero);
-        } else {
+        if (hero.getQuests().isEmpty()) {
             logger.info("""
                     You have arrived at the castle, but for now, you can't do anything more here.
                     Where would you like to go?
                     """);
+        }
+        else if (betrayedQuest) {
+            betrayedQuest(hero);
+        } else if (endGameQuest) {
+            endGameQuest(hero);
         }
         initializeChoicesMap(hero, city);
         extracted(scanner);
