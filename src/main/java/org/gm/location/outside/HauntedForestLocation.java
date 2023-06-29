@@ -7,11 +7,9 @@ import org.gm.monster.entity.Elite;
 import org.gm.monster.entity.Monster;
 
 import java.util.List;
-import java.util.Scanner;
 
 public class HauntedForestLocation extends OutsideLocation {
     public void explore(Hero hero, CityLocation city) {
-        Scanner scanner = new Scanner(System.in);
         boolean firstJourneyQuest = hero.getQuests().stream()
                 .filter(quest -> quest.getName().equals("First Journey"))
                 .allMatch(quest -> !quest.isCompleted());
@@ -29,8 +27,7 @@ public class HauntedForestLocation extends OutsideLocation {
         } else if (endGameQuest) {
             endGameQuest(hero);
         }
-        initializeChoicesMap(hero, city);
-        extracted(scanner);
+        locationVisitor.outsideLocationsChoice(hero, city);
     }
     private void firstJourneyQuest(Hero hero) {
         logger.info("""

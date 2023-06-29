@@ -9,6 +9,14 @@ import java.util.Scanner;
 public class MarketLocation extends CityLocation {
     @Override
     public void explore(Hero hero) {
+        logger.info("""
+            The center of the town, from this place you can go to the mayor,
+            sell some stuff to merchants, or lose your money for other things.
+            """);
+        marketLocationsChoice(hero);
+    }
+
+    private void marketLocationsChoice(Hero hero) {
         Scanner scanner = new Scanner(System.in);
         int choice;
         Map<Integer, Runnable> locationActions = new HashMap<>();
@@ -19,11 +27,6 @@ public class MarketLocation extends CityLocation {
         locationActions.put(5, () -> gameMenu.gameMenu(hero));
         locationActions.put(6, () -> {
         });
-
-        logger.info("""
-            The center of the town, from this place you can go to the mayor,
-            sell some stuff to merchants, or lose your money for other things.
-            """);
 
         do {
             logger.info("""

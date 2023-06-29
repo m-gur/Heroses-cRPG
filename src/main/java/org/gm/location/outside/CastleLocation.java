@@ -7,11 +7,9 @@ import org.gm.monster.entity.Elite;
 import org.gm.monster.entity.Monster;
 
 import java.util.List;
-import java.util.Scanner;
 
 public class CastleLocation extends OutsideLocation {
     public void explore(Hero hero, CityLocation city) {
-        Scanner scanner = new Scanner(System.in);
         boolean betrayedQuest = hero.getQuests().stream()
                 .filter(quest -> quest.getName().equals("Betrayed"))
                 .allMatch(quest -> !quest.isCompleted());
@@ -29,8 +27,7 @@ public class CastleLocation extends OutsideLocation {
         } else if (endGameQuest) {
             endGameQuest(hero);
         }
-        initializeChoicesMap(hero, city);
-        extracted(scanner);
+        locationVisitor.outsideLocationsChoice(hero, city);
     }
     private void betrayedQuest(Hero hero) {
         logger.info("""

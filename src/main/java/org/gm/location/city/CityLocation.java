@@ -19,14 +19,20 @@ public class CityLocation extends Location {
     protected final QuestService questService = new QuestService();
     @Override
     public void explore(Hero hero) {
-        outsideLocation.initializeChoicesMap(hero, this);
+        logger.info("""
+                You are in the city center, from this place everything begins.
+                """);
+        cityLocationsChoice(hero);
+    }
+
+    private void cityLocationsChoice(Hero hero) {
         Scanner scanner = new Scanner(System.in);
         int choice;
         Map<Integer, Runnable> locationChoices = new HashMap<>();
         locationChoices.put(1, () -> new BlacksmithLocation().explore(hero));
         locationChoices.put(2, () -> new MarketLocation().explore(hero));
         locationChoices.put(3, () -> new BulletinBoardLocation().explore(hero));
-        locationChoices.put(4, () -> outsideLocation.explore(hero));
+        locationChoices.put(4, () -> outsideLocation.explore(hero, this));
         locationChoices.put(5, () -> characterMenu.showCharacterMenu(hero));
         locationChoices.put(6, () -> gameMenu.gameMenu(hero));
 

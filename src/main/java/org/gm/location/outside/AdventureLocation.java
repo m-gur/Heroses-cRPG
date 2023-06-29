@@ -4,12 +4,9 @@ import org.gm.hero.entity.Hero;
 import org.gm.location.city.CityLocation;
 import org.gm.monster.entity.Monster;
 
-import java.util.Scanner;
-
 public class AdventureLocation extends OutsideLocation {
     public void explore(Hero hero, CityLocation city) {
         Monster randomMonster = monsterFactory.createRandomMonster(hero);
-        Scanner scanner = new Scanner(System.in);
         logger.info("""
                 You are brave, choosing an adventure.
                 Are you able to find something more than just monsters here?
@@ -23,7 +20,6 @@ public class AdventureLocation extends OutsideLocation {
             hero.setCurrentHp(hero.getMaxHp());
             city.explore(hero);
         }
-        initializeChoicesMap(hero, city);
-        extracted(scanner);
+        locationVisitor.outsideLocationsChoice(hero, city);
     }
 }
