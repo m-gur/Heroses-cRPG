@@ -2,10 +2,8 @@ package org.gm.menu;
 
 import org.gm.hero.abilities.services.AbilitiesService;
 import org.gm.hero.entity.Hero;
-import org.gm.hero.items.entity.*;
-import org.gm.hero.items.services.ItemService;
+import org.gm.hero.items.*;
 import org.gm.hero.quest.Quest;
-import org.gm.hero.services.HeroService;
 import org.gm.utils.Utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,8 +17,6 @@ import java.util.stream.Collectors;
 
 public class CharacterMenu {
     private final AbilitiesService abilitiesService = new AbilitiesService();
-    private final ItemService itemService = new ItemService();
-    private final HeroService heroService = new HeroService();
     private static final Logger logger = LoggerFactory.getLogger(CharacterMenu.class);
     private static final String INVALID = "Invalid choice. Please try again.";
 
@@ -270,10 +266,10 @@ public class CharacterMenu {
         if (selectedIndex >= 0 && selectedIndex < items.size()) {
             if (operation.equals("Restore")) {
                 Item selected = items.get(selectedIndex);
-                heroService.restoreHP(hero, selected.getName());
+                hero.restoreHP(selected.getName());
             } else if (operation.equals("Equip")) {
                 Item selected = items.get(selectedIndex);
-                itemService.itemOperation(hero, selected);
+                selected.itemOperation(hero);
                 logger.info("Item equipped: " + selected);
             } else {
                 logger.error("Bad operation request.");

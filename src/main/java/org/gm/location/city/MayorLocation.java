@@ -46,6 +46,7 @@ public class MayorLocation extends CityLocation {
         quests.removeIf(quest -> quest.getName().equals("First Journey"));
         quests.add(firstJourney);
         hero.setQuests(quests);
+        firstJourney.isQuestCompleted(hero);
     }
 
     private void endGameQuest(Hero hero) {
@@ -56,13 +57,13 @@ public class MayorLocation extends CityLocation {
                 You can stay with us if you want, or you can continue on your adventure!
                 Regardless of what you choose, we thank you!
                 """);
-        Quest firstJourney = hero.getQuests().stream()
+        Quest endGame = hero.getQuests().stream()
                 .filter(quest -> quest.getName().equals("EndGame")).findFirst().orElseThrow();
-        firstJourney.getLocations().replace("MayorLocation", false, true);
+        endGame.getLocations().replace("MayorLocation", false, true);
         List<Quest> quests = hero.getQuests();
         quests.removeIf(quest -> quest.getName().equals("EndGame"));
-        quests.add(firstJourney);
+        quests.add(endGame);
         hero.setQuests(quests);
-        questService.isQuestCompleted(hero);
+        endGame.isQuestCompleted(hero);
     }
 }

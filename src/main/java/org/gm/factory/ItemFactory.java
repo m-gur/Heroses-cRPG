@@ -2,7 +2,7 @@ package org.gm.factory;
 
 import org.gm.hero.abilities.entity.Abilities;
 import org.gm.hero.entity.Hero;
-import org.gm.hero.items.entity.*;
+import org.gm.hero.items.*;
 
 import java.math.BigDecimal;
 import java.util.*;

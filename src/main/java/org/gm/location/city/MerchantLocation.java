@@ -1,14 +1,12 @@
 package org.gm.location.city;
 
 import org.gm.hero.entity.Hero;
-import org.gm.hero.items.entity.*;
-import org.gm.hero.items.services.ItemService;
+import org.gm.hero.items.*;
 import org.gm.utils.Utils;
 
 import java.util.*;
 
 public class MerchantLocation extends CityLocation {
-    private final ItemService itemService = new ItemService();
 
     @Override
     public void explore(Hero hero) {
@@ -70,7 +68,7 @@ public class MerchantLocation extends CityLocation {
 
         if (selectedIndex >= 0 && selectedIndex < items.size()) {
             Item selected = items.get(selectedIndex);
-            itemService.sellItem(hero, selected);
+            selected.sellItem(hero);
             logger.info("Item sold: " + selected);
         } else {
             logger.info("Invalid item selection.");

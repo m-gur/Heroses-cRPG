@@ -5,7 +5,6 @@ import org.gm.hero.entity.Archer;
 import org.gm.hero.entity.Hero;
 import org.gm.hero.entity.Knight;
 import org.gm.hero.entity.Mage;
-import org.gm.hero.services.HeroService;
 import org.gm.hero.services.LevelService;
 import org.gm.location.city.CityLocation;
 import org.slf4j.Logger;
@@ -20,7 +19,6 @@ import java.util.function.Supplier;
 import static java.lang.System.exit;
 
 public class Menu {
-    private final HeroService heroService = new HeroService();
     private final AbilitiesService abilitiesService = new AbilitiesService();
     private final LevelService levelService = new LevelService();
     private final CityLocation city = new CityLocation();
@@ -92,12 +90,12 @@ public class Menu {
         Scanner scanner = new Scanner(System.in);
         logger.info("Enter your Hero name: ");
         hero.setName(scanner.nextLine());
-        heroService.setDamage(hero);
+        hero.setDamage();
         hero.setRequiredExperience(levelService.calculateRequiredExperience(hero.getLvl()));
-        heroService.setHP(hero);
-        hero.setCurrentHp(hero.getMaxHp());
+        hero.setMaxHp(hero.setHP());
         abilitiesService.setModifierAbilities(hero);
         abilitiesService.setAbilitiesAfterModifier(hero);
+        hero.setCurrentHp(hero.getMaxHp());
         hero.setHeroType(hero.getHeroType());
         hero.setCoins(BigDecimal.ZERO);
 

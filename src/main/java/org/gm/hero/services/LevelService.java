@@ -3,7 +3,6 @@ package org.gm.hero.services;
 import org.gm.hero.entity.Hero;
 
 public class LevelService {
-    private HeroService heroService = new HeroService();
 
     public float calculateRequiredExperience(int heroLevel) {
         return (float) heroLevel * 100;
@@ -41,8 +40,8 @@ public class LevelService {
     }
 
     private void upgradeStatisticsAfterLevelUp(Hero hero) {
-        hero.setDamage(heroService.setDamage(hero));
-        hero.setMaxHp(heroService.setHP(hero));
+        hero.setDamage();
+        hero.setMaxHp(hero.setHP());
         hero.setCurrentHp(hero.getMaxHp());
     }
 }

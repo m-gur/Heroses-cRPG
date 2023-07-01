@@ -2,8 +2,7 @@ package org.gm.location.city;
 
 import org.gm.hero.abilities.entity.Abilities;
 import org.gm.hero.entity.Hero;
-import org.gm.hero.items.entity.*;
-import org.gm.hero.items.services.ItemService;
+import org.gm.hero.items.*;
 import org.gm.utils.Utils;
 
 import java.math.BigDecimal;
@@ -13,7 +12,6 @@ import java.util.Map;
 import java.util.Scanner;
 
 public class BlacksmithLocation extends CityLocation {
-    private final ItemService itemService = new ItemService();
     @Override
     public void explore(Hero hero) {
         Scanner scanner = new Scanner(System.in);
@@ -127,7 +125,7 @@ public class BlacksmithLocation extends CityLocation {
         if (hero.getEquippedItems().get(itemType) != null) {
             Item item1 = hero.getEquippedItems().get(itemType);
             if (item1.equals(item)) {
-                itemService.unequipItem(hero, item);
+                item.unequipItem(hero);
             }
         }
         Abilities abilities = item.getAbilities();
@@ -142,7 +140,7 @@ public class BlacksmithLocation extends CityLocation {
         BigDecimal currentCoins = hero.getCoins();
         BigDecimal newCoins = currentCoins.subtract(BigDecimal.valueOf(10));
         hero.setCoins(newCoins);
-        itemService.itemOperation(hero, item);
+        item.itemOperation(hero);
         logger.info("Item " + item.getName() + " upgraded successfully.");
         upgradeEquipment(hero);
     }

@@ -1,15 +1,16 @@
 package org.gm.factory;
 
 import org.gm.hero.entity.Hero;
-import org.gm.monster.entity.*;
-import org.gm.monster.services.MonsterService;
+import org.gm.monster.Goblin;
+import org.gm.monster.Monster;
+import org.gm.monster.Orc;
+import org.gm.monster.Skeleton;
 
 import java.util.*;
 import java.util.function.Function;
 
 public class MonsterFactory {
     private Random random = new Random();
-    private MonsterService monsterService = new MonsterService();
 
     public Monster createRandomMonster(Hero hero) {
         int monsterType = random.nextInt(3);
@@ -27,7 +28,7 @@ public class MonsterFactory {
     private Monster createRandomMonsterPartTwo(Monster monster, Hero hero) {
         monster.setLvl(random.nextInt(hero.getLvl() + 5) + 1);
         monster.setHp(random.nextFloat(hero.getMaxHp() + 50) + 1);
-        monster.setExperience(monsterService.setExperience(monster, hero));
+        monster.setExperience(hero);
         monster.setDamage(random.nextFloat(hero.getDamage() + 20) + 1);
         return monster;
     }

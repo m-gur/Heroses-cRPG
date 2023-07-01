@@ -3,8 +3,8 @@ package org.gm.hero.services;
 import org.gm.factory.HeroFactoryTest;
 import org.gm.factory.ItemFactoryTest;
 import org.gm.hero.entity.Hero;
-import org.gm.hero.items.entity.Item;
-import org.gm.hero.items.entity.Usable;
+import org.gm.hero.items.Item;
+import org.gm.hero.items.Usable;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -15,8 +15,7 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class HeroServiceTest {
-    private HeroService heroService;
+class HeroTest {
     private ItemFactoryTest itemFactoryTest;
     private HeroFactoryTest heroFactoryTest;
 
@@ -24,7 +23,6 @@ class HeroServiceTest {
     public void setUp() {
         itemFactoryTest = new ItemFactoryTest();
         heroFactoryTest = new HeroFactoryTest();
-        heroService = new HeroService();
     }
 
     @Test
@@ -40,7 +38,7 @@ class HeroServiceTest {
         inventory.put(Usable.class, usable);
         archer.setInventory(inventory);
         //when
-        heroService.restoreHP(archer, "HP Potion");
+        archer.restoreHP("HP Potion");
 
         //then
         assertEquals(200, archer.getCurrentHp());
@@ -54,7 +52,7 @@ class HeroServiceTest {
         archer.setMaxHp(200);
         archer.setCurrentHp(100);
         //when
-        heroService.restoreHP(archer, "HP Potion");
+        archer.restoreHP("HP Potion");
 
         //then
         assertEquals(100, archer.getCurrentHp());

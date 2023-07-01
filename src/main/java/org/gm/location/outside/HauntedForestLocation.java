@@ -3,8 +3,8 @@ package org.gm.location.outside;
 import org.gm.hero.entity.Hero;
 import org.gm.hero.quest.Quest;
 import org.gm.location.city.CityLocation;
-import org.gm.monster.entity.Elite;
-import org.gm.monster.entity.Monster;
+import org.gm.monster.Elite;
+import org.gm.monster.Monster;
 
 import java.util.List;
 
@@ -52,12 +52,17 @@ public class HauntedForestLocation extends OutsideLocation {
             quests.removeIf(quest -> quest.getName().equals("First Journey"));
             quests.add(firstJourney);
             hero.setQuests(quests);
-            questService.isQuestCompleted(hero);
+            firstJourney.isQuestCompleted(hero);
             logger.info("""
                         You have slain the beast.
                         It was a tough battle, but you managed to do it.
                         The reward for completing the quest is now yours.
                         """);
+        }
+        else {
+            logger.info("""
+                    Beast was better than you, first you need to stronger.
+                    """);
         }
     }
     private void endGameQuest(Hero hero) {
@@ -74,16 +79,22 @@ public class HauntedForestLocation extends OutsideLocation {
         Monster monster = new Elite("The King", 15, 5000, 500, 1000, 0.7);
         fightService.performBattle(hero, monster);
         if (hero.getCurrentHp() > 0) {
-            Quest firstJourney = hero.getQuests().stream()
+            Quest endGame = hero.getQuests().stream()
                     .filter(quest -> quest.getName().equals("EndGame")).findFirst().orElseThrow();
-            firstJourney.getLocations().replace("HauntedForestLocation", false, true);
+            endGame.getLocations().replace("HauntedForestLocation", false, true);
             List<Quest> quests = hero.getQuests();
             quests.removeIf(quest -> quest.getName().equals("EndGame"));
-            quests.add(firstJourney);
+            quests.add(endGame);
             hero.setQuests(quests);
+            endGame.isQuestCompleted(hero);
             logger.info("""
                         You 've won, congratulations! So, we must leave these lands, but we will meet again :)
                         """);
+        }
+        else {
+            logger.info("""
+                    Beast was better than you, first you need to stronger.
+                    """);
         }
     }
 }

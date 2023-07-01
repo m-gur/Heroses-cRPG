@@ -7,20 +7,20 @@ import org.gm.hero.abilities.entity.ModifierStrategy;
 import org.gm.hero.abilities.entity.impl.ArcherModifierStrategy;
 import org.gm.hero.abilities.entity.impl.KnightModifierStrategy;
 import org.gm.hero.abilities.entity.impl.MageModifierStrategy;
-import org.gm.hero.entity.*;
-import org.gm.hero.items.entity.Item;
-import org.gm.hero.services.HeroService;
+import org.gm.hero.entity.Archer;
+import org.gm.hero.entity.Hero;
+import org.gm.hero.entity.Knight;
+import org.gm.hero.entity.Mage;
+import org.gm.hero.items.Item;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Consumer;
-import java.util.function.IntConsumer;
 
 public class AbilitiesService {
     protected final Logger logger = LoggerFactory.getLogger(getClass());
-    private HeroService heroService = new HeroService();
 
     public AbilitiesAfterModifier setAbilitiesAfterModifier(Hero hero) {
         setAbilitiesFromItems(hero);
@@ -35,8 +35,8 @@ public class AbilitiesService {
         abilitiesAfterModifier.setDexterity(abilities.getDexterity() * modifierAbilities.getDexterityModifier());
         abilitiesAfterModifier.setAgility(abilities.getAgility() * modifierAbilities.getAgilityModifier());
         abilitiesAfterModifier.setSpeed(abilities.getSpeed() * modifierAbilities.getSpeedModifier());
-        hero.setDamage(heroService.setDamage(hero));
-        hero.setMaxHp(heroService.setHP(hero));
+        hero.setDamage();
+        hero.setMaxHp(hero.setHP());
         return abilitiesAfterModifier;
     }
 
@@ -91,7 +91,7 @@ public class AbilitiesService {
                 break;
             }
 
-            IntConsumer skillAction = (IntConsumer) skillActions.get(skillName);
+            Consumer<Integer> skillAction = skillActions.get(skillName);
             if (skillAction != null) {
                 skillAction.accept(pointsToAdd);
             } else {
@@ -101,8 +101,8 @@ public class AbilitiesService {
 
             remainingSkillPointsToDistribute -= pointsToAdd;
             hero.setSkillPoints(remainingSkillPointsToDistribute);
-            hero.setDamage(heroService.setDamage(hero));
-            hero.setMaxHp(heroService.setHP(hero));
+            hero.setDamage();
+            hero.setMaxHp(hero.setHP());
         }
 
         logger.info("Skill points distributed successfully.");

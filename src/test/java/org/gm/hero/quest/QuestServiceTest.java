@@ -10,17 +10,16 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class QuestServiceTest {
 
-    private QuestService questService;
     private HeroFactoryTest heroFactoryTest;
 
     @BeforeEach
     public void setUp() {
         heroFactoryTest = new HeroFactoryTest();
-        questService = new QuestService();
     }
     @Test
     void isQuestCompleted_withoutParameters_returnsFalse() {
@@ -33,7 +32,7 @@ class QuestServiceTest {
         quests.add(quest);
         archer.setQuests(quests);
         //when
-        questService.isQuestCompleted(archer);
+        quest.isQuestCompleted(archer);
         //then
         assertFalse(archer.getQuests().get(0).isCompleted());
     }
@@ -49,7 +48,7 @@ class QuestServiceTest {
         quests.add(quest);
         archer.setQuests(quests);
         //when
-        questService.isQuestCompleted(archer);
+        quest.isQuestCompleted(archer);
         //then
         assertTrue(archer.getQuests().get(0).isCompleted());
     }

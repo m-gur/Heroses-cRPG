@@ -1,16 +1,16 @@
-package org.gm.hero.items.entity;
+package org.gm.hero.items;
 
 import org.gm.hero.abilities.entity.Abilities;
 
 import java.math.BigDecimal;
 
-public class Shoes extends Item {
-    public Shoes(String name, Abilities abilities, BigDecimal value, int quantity, boolean isUsage) {
+public class Usable extends Item {
+    public Usable(String name, Abilities abilities, BigDecimal value, int quantity, boolean isUsage) {
         super(name, abilities, value, quantity, isUsage);
     }
 
     @Override
     public String getItemType() {
-        return "Shoes";
+        return "Usable";
     }
 }

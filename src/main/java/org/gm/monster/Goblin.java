@@ -1,4 +1,4 @@
-package org.gm.monster.entity;
+package org.gm.monster;
 
 public class Goblin extends Monster {
     public Goblin(String name) {

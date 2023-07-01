@@ -5,7 +5,7 @@ import org.gm.hero.entity.Archer;
 import org.gm.hero.entity.Hero;
 import org.gm.hero.entity.Knight;
 import org.gm.hero.entity.Mage;
-import org.gm.hero.items.entity.*;
+import org.gm.hero.items.*;
 import org.gm.location.city.CityLocation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

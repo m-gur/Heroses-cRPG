@@ -3,8 +3,8 @@ package org.gm.location.outside;
 import org.gm.hero.entity.Hero;
 import org.gm.hero.quest.Quest;
 import org.gm.location.city.CityLocation;
-import org.gm.monster.entity.Elite;
-import org.gm.monster.entity.Monster;
+import org.gm.monster.Elite;
+import org.gm.monster.Monster;
 
 import java.util.List;
 
@@ -40,18 +40,23 @@ public class CastleLocation extends OutsideLocation {
         Monster monster = new Elite("Herold", 7, 700, 200, 100, 0.1);
         fightService.performBattle(hero, monster);
         if (hero.getCurrentHp() > 0) {
-            Quest firstJourney = hero.getQuests().stream()
+            Quest betrayed = hero.getQuests().stream()
                     .filter(quest -> quest.getName().equals("Betrayed")).findFirst().orElseThrow();
-            firstJourney.getLocations().replace("CastleLocation", false, true);
+            betrayed.getLocations().replace("CastleLocation", false, true);
             List<Quest> quests = hero.getQuests();
             quests.removeIf(quest -> quest.getName().equals("Betrayed"));
-            quests.add(firstJourney);
+            quests.add(betrayed);
             hero.setQuests(quests);
-            questService.isQuestCompleted(hero);
+            betrayed.isQuestCompleted(hero);
             logger.info("""
                         After a truly fierce and incredibly tough battle, you finally managed to slay the oversized beast.
                         The reward for completing the quest is now yours.
                         """);
+        }
+        else {
+            logger.info("""
+                    Beast was better than you, first you need to stronger.
+                    """);
         }
     }
     private void endGameQuest(Hero hero) {
@@ -62,13 +67,14 @@ public class CastleLocation extends OutsideLocation {
                     Everyone is counting on you, head to the forest and engage in the fight, then return to the mayor.
                     Good luck!
                     """);
-        List<Quest> firstJourney = hero.getQuests().stream()
+        List<Quest> endGame = hero.getQuests().stream()
                 .filter(quest -> quest.getName().equals("EndGame")).toList();
-        if (!firstJourney.isEmpty()) {
-            firstJourney.get(0).getLocations().replace("CastleLocation", false, true);
+        if (!endGame.isEmpty()) {
+            endGame.get(0).getLocations().replace("CastleLocation", false, true);
             List<Quest> quests = hero.getQuests();
             quests.removeIf(quest -> quest.getName().equals("EndGame"));
-            quests.add(firstJourney.get(0));
+            quests.add(endGame.get(0));
+            endGame.get(0).isQuestCompleted(hero);
             hero.setQuests(quests);
         }
     }

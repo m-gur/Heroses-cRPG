@@ -1,4 +1,4 @@
-package org.gm.monster.entity;
+package org.gm.monster;
 
 public class Elite extends Monster {
     public Elite(String name) {

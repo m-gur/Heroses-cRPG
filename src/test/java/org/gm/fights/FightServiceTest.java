@@ -2,8 +2,8 @@ package org.gm.fights;
 
 import org.gm.factory.HeroFactoryTest;
 import org.gm.hero.entity.Hero;
-import org.gm.monster.entity.Monster;
-import org.gm.monster.entity.Orc;
+import org.gm.monster.Monster;
+import org.gm.monster.Orc;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

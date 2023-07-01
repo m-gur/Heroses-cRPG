@@ -6,7 +6,6 @@ import org.gm.hero.entity.Archer;
 import org.gm.hero.entity.Hero;
 import org.gm.hero.entity.Knight;
 import org.gm.hero.entity.Mage;
-import org.gm.hero.services.HeroService;
 import org.gm.hero.services.LevelService;
 
 import java.util.*;
@@ -14,7 +13,6 @@ import java.util.function.Supplier;
 
 public class HeroFactoryTest {
     private final LevelService levelService = new LevelService();
-    private final HeroService heroService = new HeroService();
     private final AbilitiesService abilitiesService = new AbilitiesService();
     private Random random = new Random();
 
@@ -41,10 +39,10 @@ public class HeroFactoryTest {
             return null;
         }
 
-        hero.setDamage(heroService.setDamage(hero));
+        hero.setDamage();
         hero.setLvl(random.nextInt(10) + 1);
         hero.setExperience(random.nextFloat(99) + 1);
-        hero.setMaxHp(heroService.setHP(hero));
+        hero.setMaxHp(hero.setHP());
         hero.setCurrentHp(hero.getMaxHp());
         hero.setAbilities(abilities);
         hero.setModifierAbilities(abilitiesService.setModifierAbilities(hero));

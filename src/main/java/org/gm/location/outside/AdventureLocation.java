@@ -2,7 +2,7 @@ package org.gm.location.outside;
 
 import org.gm.hero.entity.Hero;
 import org.gm.location.city.CityLocation;
-import org.gm.monster.entity.Monster;
+import org.gm.monster.Monster;
 
 public class AdventureLocation extends OutsideLocation {
     public void explore(Hero hero, CityLocation city) {
