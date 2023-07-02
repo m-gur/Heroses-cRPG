@@ -7,6 +7,7 @@ import org.gm.hero.quest.Quest;
 import org.gm.utils.Utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
@@ -15,6 +16,7 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 
+@Component
 public class CharacterMenu {
     private final AbilitiesService abilitiesService = new AbilitiesService();
     private static final Logger logger = LoggerFactory.getLogger(CharacterMenu.class);

@@ -2,12 +2,22 @@ package org.gm.location.city;
 
 import org.gm.hero.entity.Hero;
 import org.gm.hero.quest.Quest;
+import org.gm.location.LocationVisitor;
+import org.gm.menu.CharacterMenu;
+import org.gm.menu.GameMenu;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+@Component
 public class MayorLocation extends CityLocation {
+
+    public MayorLocation(CharacterMenu characterMenu, GameMenu gameMenu) {
+        super(characterMenu, gameMenu);
+    }
+
     @Override
-    public void explore(Hero hero) {
+    public void explore(Hero hero, LocationVisitor locationVisitor) {
         boolean firstJourneyQuest = hero.getQuests().stream()
                 .filter(quest -> quest.getName().equals("First Journey"))
                 .allMatch(quest -> !quest.isCompleted());

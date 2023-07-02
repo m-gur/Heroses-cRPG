@@ -2,15 +2,25 @@ package org.gm.location.city;
 
 import org.gm.hero.entity.Hero;
 import org.gm.hero.quest.Quest;
+import org.gm.location.LocationVisitor;
+import org.gm.menu.CharacterMenu;
+import org.gm.menu.GameMenu;
+import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+@Component
 public class BulletinBoardLocation extends CityLocation {
+
+    public BulletinBoardLocation(CharacterMenu characterMenu, GameMenu gameMenu) {
+        super(characterMenu, gameMenu);
+    }
+
     @Override
-    public void explore(Hero hero) {
+    public void explore(Hero hero, LocationVisitor locationVisitor) {
         boolean firstJourneyQuestIsCompleted = hero.getQuests().stream()
                 .filter(quest -> quest.getName().equals("First Journey"))
                 .allMatch(Quest::isCompleted);

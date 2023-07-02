@@ -1,22 +1,25 @@
 package org.gm.location.outside;
 
+import lombok.RequiredArgsConstructor;
 import org.gm.factory.MonsterFactory;
 import org.gm.fights.FightService;
 import org.gm.hero.entity.Hero;
 import org.gm.location.Location;
 import org.gm.location.LocationVisitor;
 import org.gm.location.city.CityLocation;
+import org.springframework.stereotype.Component;
 
+@Component
+@RequiredArgsConstructor
 public class OutsideLocation extends Location {
-    protected final MonsterFactory monsterFactory = new MonsterFactory();
-    protected final FightService fightService = new FightService();
-    protected final LocationVisitor locationVisitor = new LocationVisitor();
+    protected final MonsterFactory monsterFactory;
+    protected final FightService fightService;
 
-    public void explore(Hero hero, CityLocation city) {
+    public void explore(Hero hero, CityLocation city, LocationVisitor locationVisitor) {
         logger.info("""
                 You left town, feel a light breeze. Now you have to be careful.
                 Monsters can be everywhere, where you want to go?
                 """);
-        locationVisitor.outsideLocationsChoice(hero, city);
+        locationVisitor.outsideLocationsChoice(hero, city, locationVisitor);
     }
 }

@@ -1,11 +1,20 @@
 package org.gm.location.outside;
 
+import org.gm.factory.MonsterFactory;
+import org.gm.fights.FightService;
 import org.gm.hero.entity.Hero;
+import org.gm.location.LocationVisitor;
 import org.gm.location.city.CityLocation;
 import org.gm.monster.Monster;
+import org.springframework.stereotype.Component;
 
+@Component
 public class AdventureLocation extends OutsideLocation {
-    public void explore(Hero hero, CityLocation city) {
+    public AdventureLocation(MonsterFactory monsterFactory, FightService fightService) {
+        super(monsterFactory, fightService);
+    }
+
+    public void explore(Hero hero, CityLocation city, LocationVisitor locationVisitor) {
         Monster randomMonster = monsterFactory.createRandomMonster(hero);
         logger.info("""
                 You are brave, choosing an adventure.
@@ -18,8 +27,8 @@ public class AdventureLocation extends OutsideLocation {
                     Your health has been restored.
                     """);
             hero.setCurrentHp(hero.getMaxHp());
-            city.explore(hero);
+            city.explore(hero, locationVisitor);
         }
-        locationVisitor.outsideLocationsChoice(hero, city);
+        locationVisitor.outsideLocationsChoice(hero, city, locationVisitor);
     }
 }

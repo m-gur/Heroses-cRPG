@@ -1,14 +1,17 @@
 package org.gm.menu;
 
 import com.google.gson.*;
+import lombok.RequiredArgsConstructor;
 import org.gm.hero.entity.Archer;
 import org.gm.hero.entity.Hero;
 import org.gm.hero.entity.Knight;
 import org.gm.hero.entity.Mage;
 import org.gm.hero.items.*;
+import org.gm.location.LocationVisitor;
 import org.gm.location.city.CityLocation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 import java.io.FileReader;
 import java.io.IOException;
@@ -19,8 +22,11 @@ import java.util.Map;
 
 import static org.gm.menu.GameMenu.SAVE_FILE_PATH;
 
+@RequiredArgsConstructor
+@Component
 public class LoadGame {
-    private final CityLocation city = new CityLocation();
+    private final CityLocation city;
+    private final LocationVisitor locationVisitor;
     private static final Logger logger = LoggerFactory.getLogger(LoadGame.class);
     public void loadGame() {
         try (Reader reader = new FileReader(SAVE_FILE_PATH)) {
@@ -33,7 +39,7 @@ public class LoadGame {
             Hero loadedHero = gson.fromJson(reader, Hero.class);
             if (loadedHero != null) {
                 logger.info("Game loaded successfully!");
-                city.explore(loadedHero);
+                city.explore(loadedHero, locationVisitor);
             } else {
                 logger.info("Failed to load game.");
             }

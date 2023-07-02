@@ -5,10 +5,12 @@ import org.gm.monster.Goblin;
 import org.gm.monster.Monster;
 import org.gm.monster.Orc;
 import org.gm.monster.Skeleton;
+import org.springframework.stereotype.Component;
 
 import java.util.*;
 import java.util.function.Function;
 
+@Component
 public class MonsterFactory {
     private Random random = new Random();
 

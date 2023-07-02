@@ -3,7 +3,11 @@ package org.gm.location.city;
 import org.gm.hero.abilities.entity.Abilities;
 import org.gm.hero.entity.Hero;
 import org.gm.hero.items.*;
+import org.gm.location.LocationVisitor;
+import org.gm.menu.CharacterMenu;
+import org.gm.menu.GameMenu;
 import org.gm.utils.Utils;
+import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
@@ -11,9 +15,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
+@Component
 public class BlacksmithLocation extends CityLocation {
+
+    public BlacksmithLocation(CharacterMenu characterMenu, GameMenu gameMenu) {
+        super(characterMenu, gameMenu);
+    }
+
     @Override
-    public void explore(Hero hero) {
+    public void explore(Hero hero, LocationVisitor locationVisitor) {
         Scanner scanner = new Scanner(System.in);
         int choice;
 
@@ -32,7 +42,7 @@ public class BlacksmithLocation extends CityLocation {
             we will reward you with some coins for your help.
             Think about it, there should be an announcement on the bulletin board.
             """));
-        exploreOptions.put(3, () -> super.explore(hero));
+        exploreOptions.put(3, () -> super.explore(hero, locationVisitor));
 
         logger.info("""
             Welcome adventurer, my name is Greg.

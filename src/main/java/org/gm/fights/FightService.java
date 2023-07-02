@@ -1,5 +1,6 @@
 package org.gm.fights;
 
+import lombok.RequiredArgsConstructor;
 import org.gm.factory.ItemFactory;
 import org.gm.hero.entity.Hero;
 import org.gm.hero.items.Item;
@@ -7,12 +8,15 @@ import org.gm.hero.services.LevelService;
 import org.gm.monster.Monster;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
 import java.util.Random;
 
+@Service
+@RequiredArgsConstructor
 public class FightService {
-    private LevelService levelService = new LevelService();
-    private ItemFactory itemFactory = new ItemFactory();
+    private final LevelService levelService;
+    private final ItemFactory itemFactory;
     private static final Logger logger = LoggerFactory.getLogger(FightService.class);
 
     public void performBattle(Hero hero, Monster monster) {
@@ -46,9 +50,14 @@ public class FightService {
     private void afterHeroWon(Hero hero, Monster monster) {
         levelService.accumulateExperience(hero, monster.getExperience());
         Item randomItem = itemFactory.createRandomItem(hero);
-        hero.setInventory(randomItem.addItemToInventory(hero));
-        logger.info("Hero " + hero.getName() + " won the fight.");
-        logger.info("Received " + randomItem.getClass().getSimpleName() + " item: " + randomItem);
+        if (randomItem == null) {
+            logger.info("Hero " + hero.getName() + " won the fight.");
+            logger.info("Cannot add item to your inventory");
+        } else {
+            hero.setInventory(randomItem.addItemToInventory(hero));
+            logger.info("Hero " + hero.getName() + " won the fight.");
+            logger.info("Received " + randomItem.getClass().getSimpleName() + " item: " + randomItem);
+        }
     }
 
     private void performHeroAttack(Hero hero, Monster monster) {

@@ -14,11 +14,13 @@ import org.gm.hero.entity.Mage;
 import org.gm.hero.items.Item;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Consumer;
 
+@Service
 public class AbilitiesService {
     protected final Logger logger = LoggerFactory.getLogger(getClass());
 

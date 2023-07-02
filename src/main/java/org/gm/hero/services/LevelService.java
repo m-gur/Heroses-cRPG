@@ -1,7 +1,9 @@
 package org.gm.hero.services;
 
 import org.gm.hero.entity.Hero;
+import org.springframework.stereotype.Service;
 
+@Service
 public class LevelService {
 
     public float calculateRequiredExperience(int heroLevel) {

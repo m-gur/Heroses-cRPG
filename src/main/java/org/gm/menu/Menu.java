@@ -6,9 +6,12 @@ import org.gm.hero.entity.Hero;
 import org.gm.hero.entity.Knight;
 import org.gm.hero.entity.Mage;
 import org.gm.hero.services.LevelService;
+import org.gm.location.LocationVisitor;
 import org.gm.location.city.CityLocation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
@@ -18,12 +21,23 @@ import java.util.function.Supplier;
 
 import static java.lang.System.exit;
 
+@Component
 public class Menu {
-    private final AbilitiesService abilitiesService = new AbilitiesService();
-    private final LevelService levelService = new LevelService();
-    private final CityLocation city = new CityLocation();
-    private final LoadGame loadGame = new LoadGame();
+    private final AbilitiesService abilitiesService;
+    private final LevelService levelService;
+    private final CityLocation city;
+    private final LoadGame loadGame;
+    private final LocationVisitor locationVisitor;
     private static final Logger logger = LoggerFactory.getLogger(Menu.class);
+
+    @Autowired
+    public Menu(AbilitiesService abilitiesService, LevelService levelService, CityLocation city, LoadGame loadGame, LocationVisitor locationVisitor) {
+        this.abilitiesService = abilitiesService;
+        this.levelService = levelService;
+        this.city = city;
+        this.loadGame = loadGame;
+        this.locationVisitor = locationVisitor;
+    }
 
     public void startGame() {
         Scanner scanner = new Scanner(System.in);
@@ -76,7 +90,7 @@ public class Menu {
             scanner.nextLine();
 
             if (heroMap.containsKey(choice)) {
-                city.explore(createHeroPartTwo(heroMap.get(choice).get()));
+                city.explore(createHeroPartTwo(heroMap.get(choice).get()), locationVisitor);
             } else if (choice == 4) {
                 return;
             } else {

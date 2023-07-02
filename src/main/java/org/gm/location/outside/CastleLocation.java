@@ -1,15 +1,25 @@
 package org.gm.location.outside;
 
+import org.gm.factory.MonsterFactory;
+import org.gm.fights.FightService;
 import org.gm.hero.entity.Hero;
 import org.gm.hero.quest.Quest;
+import org.gm.location.LocationVisitor;
 import org.gm.location.city.CityLocation;
 import org.gm.monster.Elite;
 import org.gm.monster.Monster;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+@Component
 public class CastleLocation extends OutsideLocation {
-    public void explore(Hero hero, CityLocation city) {
+
+    public CastleLocation(MonsterFactory monsterFactory, FightService fightService) {
+        super(monsterFactory, fightService);
+    }
+
+    public void explore(Hero hero, CityLocation city, LocationVisitor locationVisitor) {
         boolean betrayedQuest = hero.getQuests().stream()
                 .filter(quest -> quest.getName().equals("Betrayed"))
                 .allMatch(quest -> !quest.isCompleted());
@@ -27,7 +37,7 @@ public class CastleLocation extends OutsideLocation {
         } else if (endGameQuest) {
             endGameQuest(hero);
         }
-        locationVisitor.outsideLocationsChoice(hero, city);
+        locationVisitor.outsideLocationsChoice(hero, city, locationVisitor);
     }
     private void betrayedQuest(Hero hero) {
         logger.info("""

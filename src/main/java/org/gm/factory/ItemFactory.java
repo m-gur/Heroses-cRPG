@@ -3,13 +3,15 @@ package org.gm.factory;
 import org.gm.hero.abilities.entity.Abilities;
 import org.gm.hero.entity.Hero;
 import org.gm.hero.items.*;
+import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.util.*;
 import java.util.function.Supplier;
 
+@Component
 public class ItemFactory {
-    private Random random = new Random();
+    private final Random random = new Random();
 
     public Item createRandomItem(Hero hero) {
         Abilities abilitiesForArmorItems = new Abilities();

@@ -1,9 +1,11 @@
 package org.gm.menu;
 
-import com.google.gson.*;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import org.gm.hero.entity.Hero;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -14,6 +16,7 @@ import java.util.Scanner;
 
 import static java.lang.System.exit;
 
+@Component
 public class GameMenu {
     static final String SAVE_FILE_PATH = "src/main/resources/game_save.json";
     private static final Logger logger = LoggerFactory.getLogger(GameMenu.class);
