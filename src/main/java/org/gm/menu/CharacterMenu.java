@@ -4,6 +4,7 @@ import org.gm.hero.abilities.services.AbilitiesService;
 import org.gm.hero.entity.Hero;
 import org.gm.hero.items.*;
 import org.gm.hero.quest.Quest;
+import org.gm.utils.HeroContextHolder;
 import org.gm.utils.Utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,19 +23,19 @@ public class CharacterMenu {
     private static final Logger logger = LoggerFactory.getLogger(CharacterMenu.class);
     private static final String INVALID = "Invalid choice. Please try again.";
 
-    public void showCharacterMenu(Hero hero) {
+    public void showCharacterMenu() {
         Scanner scanner = new Scanner(System.in);
         int choice;
 
         Map<Integer, Runnable> menuOptions = new HashMap<>();
-        menuOptions.put(1, () -> showHeroBasicStats(hero));
-        menuOptions.put(2, () -> showHeroInventory(hero));
-        menuOptions.put(3, () -> equipItems(hero));
-        menuOptions.put(4, () -> showHeroEquippedItems(hero));
-        menuOptions.put(5, () -> distributeSkillPoints(hero));
-        menuOptions.put(6, () -> resetSkillPoints(hero));
-        menuOptions.put(7, () -> showQuests(hero));
-        menuOptions.put(8, () -> restoreHp(hero));
+        menuOptions.put(1, this::showHeroBasicStats);
+        menuOptions.put(2, this::showHeroInventory);
+        menuOptions.put(3, this::equipItems);
+        menuOptions.put(4, this::showHeroEquippedItems);
+        menuOptions.put(5, this::distributeSkillPoints);
+        menuOptions.put(6, this::resetSkillPoints);
+        menuOptions.put(7, this::showQuests);
+        menuOptions.put(8, this::restoreHp);
         menuOptions.put(9, () -> {});
 
         do {
@@ -59,7 +60,8 @@ public class CharacterMenu {
         } while (choice != 9);
     }
 
-    private void showHeroBasicStats(Hero hero) {
+    private void showHeroBasicStats() {
+        Hero hero = HeroContextHolder.getHero();
         logger.info("Name: " + hero.getName() + "\n" +
                     "class: " + hero.getHeroType() + "\n" +
                     "level: " + hero.getLvl() + "\n" +
@@ -81,7 +83,8 @@ public class CharacterMenu {
         );
     }
 
-    private void showHeroInventory(Hero hero) {
+    private void showHeroInventory() {
+        Hero hero = HeroContextHolder.getHero();
         Map<Class<? extends Item>, List<Item>> inventory = hero.getInventory();
 
         if (inventory.isEmpty()) {
@@ -99,7 +102,8 @@ public class CharacterMenu {
         }
     }
 
-    private void showHeroEquippedItems(Hero hero) {
+    private void showHeroEquippedItems() {
+        Hero hero = HeroContextHolder.getHero();
         Map<Class<? extends Item>, Item> equippedItems = hero.getEquippedItems();
 
         if (equippedItems.isEmpty()) {
@@ -114,7 +118,7 @@ public class CharacterMenu {
         }
     }
 
-    private void distributeSkillPoints(Hero hero) {
+    private void distributeSkillPoints() {
         Scanner scanner = new Scanner(System.in);
         String pointsQuestion = "How many points do you want to add?";
 
@@ -149,7 +153,7 @@ public class CharacterMenu {
                 String skillName = skillOptions.get(choice);
                 Map<String, Integer> skillPointsDistribution = new HashMap<>();
                 skillPointsDistribution.put(skillName, skillPoints);
-                abilitiesService.distributeSkillPoints(hero, skillPointsDistribution);
+                abilitiesService.distributeSkillPoints(skillPointsDistribution);
             } else if (choice == 7) {
                 return;
             } else {
@@ -159,7 +163,8 @@ public class CharacterMenu {
         scanner.close();
     }
 
-    private void resetSkillPoints(Hero hero) {
+    private void resetSkillPoints() {
+        Hero hero = HeroContextHolder.getHero();
         Scanner scanner = new Scanner(System.in);
         int cost = 10 * hero.getLvl();
         int choice;
@@ -171,31 +176,31 @@ public class CharacterMenu {
         if (choice == 1) {
             if (hero.getCoins().compareTo(BigDecimal.valueOf(cost)) < 0) {
                 logger.info("Invalid needed coins to upgrade item.");
-                showCharacterMenu(hero);
+                showCharacterMenu();
             }
-            abilitiesService.resetSkillPoints(hero);
+            abilitiesService.resetSkillPoints();
             BigDecimal currentCoins = hero.getCoins();
             BigDecimal newCoins = currentCoins.subtract(BigDecimal.valueOf(cost));
             hero.setCoins(newCoins);
             logger.info("Points reset successfully");
         } else {
-            showCharacterMenu(hero);
+            showCharacterMenu();
         }
     }
 
-    private void equipItems(Hero hero) {
+    private void equipItems() {
         Scanner scanner = new Scanner(System.in);
         int choice;
 
         Map<Integer, Runnable> equipOptions = new HashMap<>();
-        equipOptions.put(1, () -> chooseAndEquipItem(hero, Helmet.class));
-        equipOptions.put(2, () -> chooseAndEquipItem(hero, Chest.class));
-        equipOptions.put(3, () -> chooseAndEquipItem(hero, Ring.class));
-        equipOptions.put(4, () -> chooseAndEquipItem(hero, Necklace.class));
-        equipOptions.put(5, () -> chooseAndEquipItem(hero, Trousers.class));
-        equipOptions.put(6, () -> chooseAndEquipItem(hero, Shoes.class));
-        equipOptions.put(7, () -> chooseAndEquipItem(hero, Weapon.class));
-        equipOptions.put(8, () -> showCharacterMenu(hero));
+        equipOptions.put(1, () -> chooseAndEquipItem(Helmet.class));
+        equipOptions.put(2, () -> chooseAndEquipItem(Chest.class));
+        equipOptions.put(3, () -> chooseAndEquipItem(Ring.class));
+        equipOptions.put(4, () -> chooseAndEquipItem(Necklace.class));
+        equipOptions.put(5, () -> chooseAndEquipItem(Trousers.class));
+        equipOptions.put(6, () -> chooseAndEquipItem(Shoes.class));
+        equipOptions.put(7, () -> chooseAndEquipItem(Weapon.class));
+        equipOptions.put(8, this::showCharacterMenu);
 
         do {
             logger.info("""
@@ -219,11 +224,12 @@ public class CharacterMenu {
     }
 
 
-    private void chooseAndEquipItem(Hero hero, Class<? extends Item> itemType) {
-        operationOnItems(hero, itemType, "Equip");
+    private void chooseAndEquipItem(Class<? extends Item> itemType) {
+        operationOnItems(itemType, "Equip");
     }
 
-    private void showQuests(Hero hero) {
+    private void showQuests() {
+        Hero hero = HeroContextHolder.getHero();
         boolean anyCompletedQuest = hero.getQuests().stream()
                 .filter(Quest::isCompleted)
                 .anyMatch(quest -> true);
@@ -250,11 +256,12 @@ public class CharacterMenu {
         }
     }
 
-    private void restoreHp(Hero hero) {
-        operationOnItems(hero, Usable.class, "Restore");
+    private void restoreHp() {
+        operationOnItems(Usable.class, "Restore");
     }
 
-    private void operationOnItems(Hero hero, Class<? extends Item> itemType, String operation) {
+    private void operationOnItems(Class<? extends Item> itemType, String operation) {
+        Hero hero = HeroContextHolder.getHero();
         Scanner scanner = new Scanner(System.in);
             List<Item> items = hero.getInventory().get(itemType);
         if (items == null || items.isEmpty()) {
@@ -271,7 +278,7 @@ public class CharacterMenu {
                 hero.restoreHP(selected.getName());
             } else if (operation.equals("Equip")) {
                 Item selected = items.get(selectedIndex);
-                selected.itemOperation(hero);
+                selected.itemOperation();
                 logger.info("Item equipped: " + selected);
             } else {
                 logger.error("Bad operation request.");

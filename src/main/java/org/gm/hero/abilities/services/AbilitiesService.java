@@ -12,6 +12,7 @@ import org.gm.hero.entity.Hero;
 import org.gm.hero.entity.Knight;
 import org.gm.hero.entity.Mage;
 import org.gm.hero.items.Item;
+import org.gm.utils.HeroContextHolder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -24,8 +25,9 @@ import java.util.function.Consumer;
 public class AbilitiesService {
     protected final Logger logger = LoggerFactory.getLogger(getClass());
 
-    public AbilitiesAfterModifier setAbilitiesAfterModifier(Hero hero) {
-        setAbilitiesFromItems(hero);
+    public AbilitiesAfterModifier setAbilitiesAfterModifier() {
+        Hero hero = HeroContextHolder.getHero();
+        setAbilitiesFromItems();
 
         Abilities abilities = hero.getAbilities();
         AbilitiesAfterModifier abilitiesAfterModifier = hero.getAbilitiesAfterModifier();
@@ -42,7 +44,8 @@ public class AbilitiesService {
         return abilitiesAfterModifier;
     }
 
-    public void distributeSkillPoints(Hero hero, Map<String, Integer> skillPointsDistribution) {
+    public void distributeSkillPoints(Map<String, Integer> skillPointsDistribution) {
+        Hero hero = HeroContextHolder.getHero();
         if (hero.getSkillPoints() <= 0) {
             logger.info("No skill points available to distribute.");
             return;
@@ -111,15 +114,17 @@ public class AbilitiesService {
     }
 
 
-    public void resetSkillPoints(Hero hero) {
+    public void resetSkillPoints() {
+        Hero hero = HeroContextHolder.getHero();
         Abilities abilities = new Abilities(1f, 1f, 1f, 1f, 1f, 1f);
         hero.setAbilities(abilities);
         hero.setSkillPoints(hero.getLvl() * 10);
-        setAbilitiesAfterModifier(hero);
+        setAbilitiesAfterModifier();
         logger.info("Skill points reset successfully.");
     }
 
-    public ModifierAbilities setModifierAbilities(Hero hero) {
+    public ModifierAbilities setModifierAbilities() {
+        Hero hero = HeroContextHolder.getHero();
         ModifierAbilities modifierAbilities = hero.getModifierAbilities();
 
         ModifierStrategy modifierStrategy;
@@ -140,7 +145,8 @@ public class AbilitiesService {
         return modifierAbilities;
     }
 
-    private void setAbilitiesFromItems(Hero hero) {
+    private void setAbilitiesFromItems() {
+        Hero hero = HeroContextHolder.getHero();
         Abilities abilities = hero.getAbilities();
         Map<Class<? extends Item>, Item> equippedItems = hero.getEquippedItems();
 
@@ -155,7 +161,8 @@ public class AbilitiesService {
         }
     }
 
-    public void unsetAbilitiesFromItems(Hero hero, Item item) {
+    public void unsetAbilitiesFromItems(Item item) {
+        Hero hero = HeroContextHolder.getHero();
         Abilities abilities = hero.getAbilities();
         if (!item.isUsage()) {
             Abilities itemAbilities = item.getAbilities();

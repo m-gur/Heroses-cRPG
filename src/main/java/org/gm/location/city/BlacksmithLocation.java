@@ -6,6 +6,7 @@ import org.gm.hero.items.*;
 import org.gm.location.LocationVisitor;
 import org.gm.menu.CharacterMenu;
 import org.gm.menu.GameMenu;
+import org.gm.utils.HeroContextHolder;
 import org.gm.utils.Utils;
 import org.springframework.stereotype.Component;
 
@@ -23,12 +24,13 @@ public class BlacksmithLocation extends CityLocation {
     }
 
     @Override
-    public void explore(Hero hero, LocationVisitor locationVisitor) {
+    public void explore(LocationVisitor locationVisitor) {
+        Hero hero = HeroContextHolder.getHero();
         Scanner scanner = new Scanner(System.in);
         int choice;
 
         Map<Integer, Runnable> exploreOptions = new HashMap<>();
-        exploreOptions.put(1, () -> upgradeEquipment(hero));
+        exploreOptions.put(1, this::upgradeEquipment);
         exploreOptions.put(2, () -> logger.info("""
             This town is no longer like before..
             Many things have changed, people have changed.
@@ -42,7 +44,7 @@ public class BlacksmithLocation extends CityLocation {
             we will reward you with some coins for your help.
             Think about it, there should be an announcement on the bulletin board.
             """));
-        exploreOptions.put(3, () -> super.explore(hero, locationVisitor));
+        exploreOptions.put(3, () -> super.explore(locationVisitor));
 
         logger.info("""
             Welcome adventurer, my name is Greg.
@@ -67,19 +69,19 @@ public class BlacksmithLocation extends CityLocation {
     }
 
 
-    private void upgradeEquipment(Hero hero) {
+    private void upgradeEquipment() {
         Scanner scanner = new Scanner(System.in);
         int choice;
 
         Map<Integer, Runnable> upgradeOptions = new HashMap<>();
-        upgradeOptions.put(1, () -> chooseAndUpgradeItem(hero, Helmet.class));
-        upgradeOptions.put(2, () -> chooseAndUpgradeItem(hero, Chest.class));
-        upgradeOptions.put(3, () -> chooseAndUpgradeItem(hero, Ring.class));
-        upgradeOptions.put(4, () -> chooseAndUpgradeItem(hero, Necklace.class));
-        upgradeOptions.put(5, () -> chooseAndUpgradeItem(hero, Trousers.class));
-        upgradeOptions.put(6, () -> chooseAndUpgradeItem(hero, Shoes.class));
-        upgradeOptions.put(7, () -> chooseAndUpgradeItem(hero, Weapon.class));
-        upgradeOptions.put(8, () -> explore(hero));
+        upgradeOptions.put(1, () -> chooseAndUpgradeItem(Helmet.class));
+        upgradeOptions.put(2, () -> chooseAndUpgradeItem(Chest.class));
+        upgradeOptions.put(3, () -> chooseAndUpgradeItem(Ring.class));
+        upgradeOptions.put(4, () -> chooseAndUpgradeItem(Necklace.class));
+        upgradeOptions.put(5, () -> chooseAndUpgradeItem(Trousers.class));
+        upgradeOptions.put(6, () -> chooseAndUpgradeItem(Shoes.class));
+        upgradeOptions.put(7, () -> chooseAndUpgradeItem(Weapon.class));
+        upgradeOptions.put(8, this::explore);
 
         logger.info("""
             What do you want to upgrade?
@@ -105,16 +107,17 @@ public class BlacksmithLocation extends CityLocation {
     }
 
 
-    private void chooseAndUpgradeItem(Hero hero, Class<? extends Item> itemType) {
+    private void chooseAndUpgradeItem(Class<? extends Item> itemType) {
+        Hero hero = HeroContextHolder.getHero();
         if (hero.getCoins().compareTo(BigDecimal.valueOf(10)) < 0) {
             logger.info("Invalid needed coins to upgrade item.");
-            upgradeEquipment(hero);
+            upgradeEquipment();
         }
         Scanner scanner = new Scanner(System.in);
         List<Item> items = hero.getInventory().get(itemType);
         if (items == null || items.isEmpty()) {
             logger.info("No items of this type in inventory.");
-            upgradeEquipment(hero);
+            upgradeEquipment();
         }
 
         Utils.printItems(items);
@@ -123,19 +126,20 @@ public class BlacksmithLocation extends CityLocation {
 
         if (selectedIndex >= 0 && selectedIndex < items.size()) {
             Item selected = items.get(selectedIndex);
-            upgradeItem(hero, selected);
+            upgradeItem(selected);
         } else {
             logger.info("Invalid item selection.");
         }
     }
 
-    private void upgradeItem(Hero hero, Item item) {
+    private void upgradeItem(Item item) {
+        Hero hero = HeroContextHolder.getHero();
         Class<? extends Item> itemType = item.getClass();
         List<Item> items = hero.getInventory().get(itemType);
         if (hero.getEquippedItems().get(itemType) != null) {
             Item item1 = hero.getEquippedItems().get(itemType);
             if (item1.equals(item)) {
-                item.unequipItem(hero);
+                item.unequipItem();
             }
         }
         Abilities abilities = item.getAbilities();
@@ -150,8 +154,8 @@ public class BlacksmithLocation extends CityLocation {
         BigDecimal currentCoins = hero.getCoins();
         BigDecimal newCoins = currentCoins.subtract(BigDecimal.valueOf(10));
         hero.setCoins(newCoins);
-        item.itemOperation(hero);
+        item.itemOperation();
         logger.info("Item " + item.getName() + " upgraded successfully.");
-        upgradeEquipment(hero);
+        upgradeEquipment();
     }
 }

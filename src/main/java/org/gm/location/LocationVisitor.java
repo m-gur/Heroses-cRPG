@@ -1,7 +1,6 @@
 package org.gm.location;
 
 import lombok.RequiredArgsConstructor;
-import org.gm.hero.entity.Hero;
 import org.gm.location.city.*;
 import org.gm.location.outside.AdventureLocation;
 import org.gm.location.outside.CastleLocation;
@@ -38,8 +37,8 @@ public class LocationVisitor {
     protected final MayorLocation mayorLocation;
     protected final MerchantLocation merchantLocation;
 
-    public void outsideLocationsChoice(Hero hero, CityLocation city, LocationVisitor locationVisitor) {
-        initializeOutsideChoicesMap(hero, city, locationVisitor);
+    public void outsideLocationsChoice(CityLocation city, LocationVisitor locationVisitor) {
+        initializeOutsideChoicesMap(city, locationVisitor);
         Scanner scanner = new Scanner(System.in);
         int choice;
 
@@ -59,9 +58,9 @@ public class LocationVisitor {
         } while (choice != 7);
     }
 
-    public void cityLocationsChoice(Hero hero, CityLocation city, LocationVisitor locationVisitor) {
-        initializeCityChoicesMap(hero, city, locationVisitor);
-        initializeMarketChoicesMap(hero, locationVisitor);
+    public void cityLocationsChoice(CityLocation city, LocationVisitor locationVisitor) {
+        initializeCityChoicesMap(city, locationVisitor);
+        initializeMarketChoicesMap(locationVisitor);
         Scanner scanner = new Scanner(System.in);
         int choice;
 
@@ -82,8 +81,8 @@ public class LocationVisitor {
         } while (choice != 7);
     }
 
-    public void marketLocationsChoice(Hero hero, LocationVisitor locationVisitor) {
-        initializeMarketChoicesMap(hero, locationVisitor);
+    public void marketLocationsChoice(LocationVisitor locationVisitor) {
+        initializeMarketChoicesMap(locationVisitor);
         Scanner scanner = new Scanner(System.in);
         int choice;
 
@@ -105,31 +104,31 @@ public class LocationVisitor {
         } while (choice != 7);
     }
 
-    private void initializeOutsideChoicesMap(Hero hero, CityLocation city, LocationVisitor locationVisitor) {
-        choicesOutsideMap.put(1, () -> cityLocation.explore(hero, locationVisitor));
-        choicesOutsideMap.put(2, () -> castleLocation.explore(hero, city, locationVisitor));
-        choicesOutsideMap.put(3, () -> hauntedForestLocation.explore(hero, city, locationVisitor));
-        choicesOutsideMap.put(4, () -> adventureLocation.explore(hero, city, locationVisitor));
-        choicesOutsideMap.put(5, () -> characterMenu.showCharacterMenu(hero));
-        choicesOutsideMap.put(6, () -> gameMenu.gameMenu(hero));
+    private void initializeOutsideChoicesMap(CityLocation city, LocationVisitor locationVisitor) {
+        choicesOutsideMap.put(1, () -> cityLocation.explore(locationVisitor));
+        choicesOutsideMap.put(2, () -> castleLocation.explore(city, locationVisitor));
+        choicesOutsideMap.put(3, () -> hauntedForestLocation.explore(city, locationVisitor));
+        choicesOutsideMap.put(4, () -> adventureLocation.explore(city, locationVisitor));
+        choicesOutsideMap.put(5, characterMenu::showCharacterMenu);
+        choicesOutsideMap.put(6, gameMenu::gameMenu);
     }
 
-    private void initializeCityChoicesMap(Hero hero, CityLocation city, LocationVisitor locationVisitor) {
-        choicesCityMap.put(1, () -> blacksmithLocation.explore(hero, locationVisitor));
-        choicesCityMap.put(2, () -> marketLocation.explore(hero, locationVisitor));
-        choicesCityMap.put(3, () -> bulletinBoardLocation.explore(hero, locationVisitor));
-        choicesCityMap.put(4, () -> outsideLocation.explore(hero, city, locationVisitor));
-        choicesCityMap.put(5, () -> characterMenu.showCharacterMenu(hero));
-        choicesCityMap.put(6, () -> gameMenu.gameMenu(hero));
+    private void initializeCityChoicesMap(CityLocation city, LocationVisitor locationVisitor) {
+        choicesCityMap.put(1, () -> blacksmithLocation.explore(locationVisitor));
+        choicesCityMap.put(2, () -> marketLocation.explore(locationVisitor));
+        choicesCityMap.put(3, () -> bulletinBoardLocation.explore(locationVisitor));
+        choicesCityMap.put(4, () -> outsideLocation.explore(city, locationVisitor));
+        choicesCityMap.put(5, characterMenu::showCharacterMenu);
+        choicesCityMap.put(6, gameMenu::gameMenu);
     }
 
-    private void initializeMarketChoicesMap(Hero hero, LocationVisitor locationVisitor) {
-        choicesMarketMap.put(1, () -> healerLocation.explore(hero, locationVisitor));
-        choicesMarketMap.put(2, () -> mayorLocation.explore(hero, locationVisitor));
-        choicesMarketMap.put(3, () -> merchantLocation.explore(hero, locationVisitor));
-        choicesMarketMap.put(4, () -> characterMenu.showCharacterMenu(hero));
-        choicesMarketMap.put(5, () -> gameMenu.gameMenu(hero));
-        choicesMarketMap.put(6, () -> cityLocation.explore(hero, locationVisitor));
+    private void initializeMarketChoicesMap(LocationVisitor locationVisitor) {
+        choicesMarketMap.put(1, () -> healerLocation.explore(locationVisitor));
+        choicesMarketMap.put(2, () -> mayorLocation.explore(locationVisitor));
+        choicesMarketMap.put(3, () -> merchantLocation.explore(locationVisitor));
+        choicesMarketMap.put(4, characterMenu::showCharacterMenu);
+        choicesMarketMap.put(5, gameMenu::gameMenu);
+        choicesMarketMap.put(6, () -> cityLocation.explore(locationVisitor));
     }
 
     private void handleChoice(int choice, String map) {

@@ -23,8 +23,9 @@ class LevelServiceTest {
         Hero archer = heroFactoryTest.createRandomHero("Archer");
         archer.setRequiredExperience(levelService.calculateRequiredExperience(archer.getLvl()));
         float experience = 1000;
+
         //when
-        levelService.accumulateExperience(archer, experience);
+        levelService.accumulateExperience(experience);
         //then
         assertTrue(archer.getLvl() >= 4);
         assertTrue(archer.getExperience() <= 300);

@@ -5,6 +5,7 @@ import org.gm.hero.items.*;
 import org.gm.location.LocationVisitor;
 import org.gm.menu.CharacterMenu;
 import org.gm.menu.GameMenu;
+import org.gm.utils.HeroContextHolder;
 import org.gm.utils.Utils;
 import org.springframework.stereotype.Component;
 
@@ -19,7 +20,7 @@ public class MerchantLocation extends CityLocation {
     }
 
     @Override
-    public void explore(Hero hero, LocationVisitor locationVisitor) {
+    public void explore(LocationVisitor locationVisitor) {
         Scanner scanner = new Scanner(System.in);
         int choice;
         Map<Integer, Class<? extends Item>> itemChoices = new HashMap<>();
@@ -54,9 +55,9 @@ public class MerchantLocation extends CityLocation {
 
             Class<? extends Item> itemClass = itemChoices.get(choice);
             if (itemClass != null && choice != 10) {
-                chooseAndSellItem(hero, itemClass);
+                chooseAndSellItem(itemClass);
             } else if (choice == 10) {
-                super.explore(hero);
+                super.explore();
             } else {
                 logger.info(INVALID);
             }
@@ -64,12 +65,13 @@ public class MerchantLocation extends CityLocation {
     }
 
 
-    private void chooseAndSellItem(Hero hero, Class<? extends Item> itemType) {
+    private void chooseAndSellItem(Class<? extends Item> itemType) {
+        Hero hero = HeroContextHolder.getHero();
         Scanner scanner = new Scanner(System.in);
         List<Item> items = hero.getInventory().getOrDefault(itemType, new ArrayList<>());
         if (items == null || items.isEmpty()) {
             logger.info("No items of this type in inventory.");
-            explore(hero);
+            explore();
         }
 
         Utils.printItems(items);
@@ -78,7 +80,7 @@ public class MerchantLocation extends CityLocation {
 
         if (selectedIndex >= 0 && selectedIndex < items.size()) {
             Item selected = items.get(selectedIndex);
-            selected.sellItem(hero);
+            selected.sellItem();
             logger.info("Item sold: " + selected);
         } else {
             logger.info("Invalid item selection.");

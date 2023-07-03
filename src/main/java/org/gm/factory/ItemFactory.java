@@ -3,6 +3,7 @@ package org.gm.factory;
 import org.gm.hero.abilities.entity.Abilities;
 import org.gm.hero.entity.Hero;
 import org.gm.hero.items.*;
+import org.gm.utils.HeroContextHolder;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
@@ -13,7 +14,8 @@ import java.util.function.Supplier;
 public class ItemFactory {
     private final Random random = new Random();
 
-    public Item createRandomItem(Hero hero) {
+    public Item createRandomItem() {
+        Hero hero = HeroContextHolder.getHero();
         Abilities abilitiesForArmorItems = new Abilities();
         abilitiesForArmorItems.setStrength(random.nextInt(hero.getLvl() * 3));
         abilitiesForArmorItems.setDefence(random.nextInt(hero.getLvl() * 3));

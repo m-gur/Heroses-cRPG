@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.gm.hero.entity.Hero;
 import org.gm.hero.services.LevelService;
+import org.gm.utils.HeroContextHolder;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -39,7 +40,8 @@ public class Quest {
                '}';
     }
 
-    public void isQuestCompleted(Hero hero) {
+    public void isQuestCompleted() {
+        Hero hero = HeroContextHolder.getHero();
         LevelService levelService = new LevelService();
         List<Quest> quests = hero.getQuests();
         for (Quest quest : quests) {
@@ -48,7 +50,7 @@ public class Quest {
 
             if (allLocationsCompleted) {
                 quest.setCompleted(true);
-                levelService.accumulateExperience(hero, quest.getRewardExperience());
+                levelService.accumulateExperience(quest.getRewardExperience());
                 hero.setCoins(hero.getCoins().add(quest.getRewardCoins()));
             }
         }

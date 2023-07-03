@@ -8,6 +8,7 @@ import org.gm.location.LocationVisitor;
 import org.gm.location.city.CityLocation;
 import org.gm.monster.Elite;
 import org.gm.monster.Monster;
+import org.gm.utils.HeroContextHolder;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -18,7 +19,8 @@ public class HauntedForestLocation extends OutsideLocation {
         super(monsterFactory, fightService);
     }
 
-    public void explore(Hero hero, CityLocation city, LocationVisitor locationVisitor) {
+    public void explore(CityLocation city, LocationVisitor locationVisitor) {
+        Hero hero = HeroContextHolder.getHero();
         boolean firstJourneyQuest = hero.getQuests().stream()
                 .filter(quest -> quest.getName().equals("First Journey"))
                 .allMatch(quest -> !quest.isCompleted());
@@ -32,13 +34,14 @@ public class HauntedForestLocation extends OutsideLocation {
                     """);
         }
         else if (firstJourneyQuest) {
-            firstJourneyQuest(hero);
+            firstJourneyQuest();
         } else if (endGameQuest) {
-            endGameQuest(hero);
+            endGameQuest();
         }
-        locationVisitor.outsideLocationsChoice(hero, city, locationVisitor);
+        locationVisitor.outsideLocationsChoice(city, locationVisitor);
     }
-    private void firstJourneyQuest(Hero hero) {
+    private void firstJourneyQuest() {
+        Hero hero = HeroContextHolder.getHero();
         logger.info("""
                     You walk slowly through the forest, occasionally hearing a strange rustling sound.
                     You try not to pay it much attention and continue moving forward.
@@ -52,7 +55,7 @@ public class HauntedForestLocation extends OutsideLocation {
                     Keep going, fight bravely!
                     """);
         Monster monster = new Elite("Cerber", 5, 400, 50, 60, 0.3);
-        fightService.performBattle(hero, monster);
+        fightService.performBattle(monster);
         if (hero.getCurrentHp() > 0) {
             Quest firstJourney = hero.getQuests().stream()
                     .filter(quest -> quest.getName().equals("First Journey")).findFirst().orElseThrow();
@@ -61,7 +64,7 @@ public class HauntedForestLocation extends OutsideLocation {
             quests.removeIf(quest -> quest.getName().equals("First Journey"));
             quests.add(firstJourney);
             hero.setQuests(quests);
-            firstJourney.isQuestCompleted(hero);
+            firstJourney.isQuestCompleted();
             logger.info("""
                         You have slain the beast.
                         It was a tough battle, but you managed to do it.
@@ -74,7 +77,8 @@ public class HauntedForestLocation extends OutsideLocation {
                     """);
         }
     }
-    private void endGameQuest(Hero hero) {
+    private void endGameQuest() {
+        Hero hero = HeroContextHolder.getHero();
         logger.info("""
                         You have reached the forest and see a horde of monsters.
                         One of them approaches you and says
@@ -86,7 +90,7 @@ public class HauntedForestLocation extends OutsideLocation {
                         Will you succeed? Everyone is counting on you!
                     """);
         Monster monster = new Elite("The King", 15, 5000, 500, 1000, 0.7);
-        fightService.performBattle(hero, monster);
+        fightService.performBattle(monster);
         if (hero.getCurrentHp() > 0) {
             Quest endGame = hero.getQuests().stream()
                     .filter(quest -> quest.getName().equals("EndGame")).findFirst().orElseThrow();
@@ -95,7 +99,7 @@ public class HauntedForestLocation extends OutsideLocation {
             quests.removeIf(quest -> quest.getName().equals("EndGame"));
             quests.add(endGame);
             hero.setQuests(quests);
-            endGame.isQuestCompleted(hero);
+            endGame.isQuestCompleted();
             logger.info("""
                         You 've won, congratulations! So, we must leave these lands, but we will meet again :)
                         """);

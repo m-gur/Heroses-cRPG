@@ -9,6 +9,7 @@ import org.gm.hero.entity.Mage;
 import org.gm.hero.items.*;
 import org.gm.location.LocationVisitor;
 import org.gm.location.city.CityLocation;
+import org.gm.utils.HeroContextHolder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -39,7 +40,8 @@ public class LoadGame {
             Hero loadedHero = gson.fromJson(reader, Hero.class);
             if (loadedHero != null) {
                 logger.info("Game loaded successfully!");
-                city.explore(loadedHero, locationVisitor);
+                HeroContextHolder.setHero(loadedHero);
+                city.explore(locationVisitor);
             } else {
                 logger.info("Failed to load game.");
             }

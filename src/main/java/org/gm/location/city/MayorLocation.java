@@ -5,6 +5,7 @@ import org.gm.hero.quest.Quest;
 import org.gm.location.LocationVisitor;
 import org.gm.menu.CharacterMenu;
 import org.gm.menu.GameMenu;
+import org.gm.utils.HeroContextHolder;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -17,7 +18,8 @@ public class MayorLocation extends CityLocation {
     }
 
     @Override
-    public void explore(Hero hero, LocationVisitor locationVisitor) {
+    public void explore(LocationVisitor locationVisitor) {
+        Hero hero = HeroContextHolder.getHero();
         boolean firstJourneyQuest = hero.getQuests().stream()
                 .filter(quest -> quest.getName().equals("First Journey"))
                 .allMatch(quest -> !quest.isCompleted());
@@ -36,13 +38,14 @@ public class MayorLocation extends CityLocation {
                     Please come back later.
                     """);
         } else if (firstJourneyQuest) {
-            firstJourneyQuest(hero);
+            firstJourneyQuest();
         } else if (endGameQuest && endGameQuestLocation) {
-            endGameQuest(hero);
+            endGameQuest();
         }
     }
 
-    private void firstJourneyQuest(Hero hero) {
+    private void firstJourneyQuest() {
+        Hero hero = HeroContextHolder.getHero();
         logger.info("""
                 Hello traveler, I see that you're interested in helping us.
                 I'm very glad, and so are the residents.
@@ -56,10 +59,11 @@ public class MayorLocation extends CityLocation {
         quests.removeIf(quest -> quest.getName().equals("First Journey"));
         quests.add(firstJourney);
         hero.setQuests(quests);
-        firstJourney.isQuestCompleted(hero);
+        firstJourney.isQuestCompleted();
     }
 
-    private void endGameQuest(Hero hero) {
+    private void endGameQuest() {
+        Hero hero = HeroContextHolder.getHero();
         logger.info("""
                 Thank you, the city is immensely grateful for your contributions.
                 We will never forget what you have done for us.
@@ -74,6 +78,6 @@ public class MayorLocation extends CityLocation {
         quests.removeIf(quest -> quest.getName().equals("EndGame"));
         quests.add(endGame);
         hero.setQuests(quests);
-        endGame.isQuestCompleted(hero);
+        endGame.isQuestCompleted();
     }
 }

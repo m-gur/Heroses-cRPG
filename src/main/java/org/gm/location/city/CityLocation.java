@@ -1,7 +1,6 @@
 package org.gm.location.city;
 
 import lombok.RequiredArgsConstructor;
-import org.gm.hero.entity.Hero;
 import org.gm.location.Location;
 import org.gm.location.LocationVisitor;
 import org.gm.menu.CharacterMenu;
@@ -17,11 +16,11 @@ public class CityLocation extends Location {
     protected final CharacterMenu characterMenu;
     protected final GameMenu gameMenu;
 
-    public void explore(Hero hero, LocationVisitor locationVisitor) {
+    public void explore(LocationVisitor locationVisitor) {
         logger.info("""
                 You are in the city center, from this place everything begins.
                 """);
-        locationVisitor.cityLocationsChoice(hero, this, locationVisitor);
+        locationVisitor.cityLocationsChoice(this, locationVisitor);
     }
 
 }

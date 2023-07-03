@@ -5,6 +5,7 @@ import org.gm.monster.Goblin;
 import org.gm.monster.Monster;
 import org.gm.monster.Orc;
 import org.gm.monster.Skeleton;
+import org.gm.utils.HeroContextHolder;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
@@ -14,7 +15,8 @@ import java.util.function.Function;
 public class MonsterFactory {
     private Random random = new Random();
 
-    public Monster createRandomMonster(Hero hero) {
+    public Monster createRandomMonster() {
+        Hero hero = HeroContextHolder.getHero();
         int monsterType = random.nextInt(3);
 
         Map<Integer, Function<Hero, Monster>> monsterMap = new HashMap<>();
@@ -27,24 +29,25 @@ public class MonsterFactory {
         }).apply(hero);
     }
 
-    private Monster createRandomMonsterPartTwo(Monster monster, Hero hero) {
+    private Monster createRandomMonsterPartTwo(Monster monster) {
+        Hero hero = HeroContextHolder.getHero();
         monster.setLvl(random.nextInt(hero.getLvl() + 5) + 1);
         monster.setHp(random.nextFloat(hero.getMaxHp() + 50) + 1);
-        monster.setExperience(hero);
+        monster.setExperience();
         monster.setDamage(random.nextFloat(hero.getDamage() + 20) + 1);
         return monster;
     }
 
     private Monster randomOrc(Hero hero) {
-        return createRandomMonsterPartTwo(new Orc(randomOrcName()), hero);
+        return createRandomMonsterPartTwo(new Orc(randomOrcName()));
     }
 
     private Monster randomGoblin(Hero hero) {
-        return createRandomMonsterPartTwo(new Goblin(randomGoblinName()), hero);
+        return createRandomMonsterPartTwo(new Goblin(randomGoblinName()));
     }
 
     private Monster randomSkeleton(Hero hero) {
-        return createRandomMonsterPartTwo(new Skeleton(randomSkeletonName()), hero);
+        return createRandomMonsterPartTwo(new Skeleton(randomSkeletonName()));
     }
 
     private String randomOrcName() {

@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import org.gm.hero.entity.Hero;
+import org.gm.utils.HeroContextHolder;
 
 @Getter
 @Setter
@@ -25,7 +26,8 @@ public class Monster {
         this.experience = experience;
     }
 
-    public void setExperience(Hero hero) {
+    public void setExperience() {
+        Hero hero = HeroContextHolder.getHero();
         this.setExperience((float) ((hero.getLvl() + this.getLvl()) * 1.3));
     }
 

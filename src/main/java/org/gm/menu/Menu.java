@@ -8,6 +8,7 @@ import org.gm.hero.entity.Mage;
 import org.gm.hero.services.LevelService;
 import org.gm.location.LocationVisitor;
 import org.gm.location.city.CityLocation;
+import org.gm.utils.HeroContextHolder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -90,7 +91,8 @@ public class Menu {
             scanner.nextLine();
 
             if (heroMap.containsKey(choice)) {
-                city.explore(createHeroPartTwo(heroMap.get(choice).get()), locationVisitor);
+                createHeroPartTwo(heroMap.get(choice).get());
+                city.explore(locationVisitor);
             } else if (choice == 4) {
                 return;
             } else {
@@ -100,19 +102,19 @@ public class Menu {
     }
 
 
-    private Hero createHeroPartTwo(Hero hero) {
+    private void createHeroPartTwo(Hero hero) {
+        HeroContextHolder.setHero(hero);
         Scanner scanner = new Scanner(System.in);
         logger.info("Enter your Hero name: ");
         hero.setName(scanner.nextLine());
         hero.setDamage();
         hero.setRequiredExperience(levelService.calculateRequiredExperience(hero.getLvl()));
         hero.setMaxHp(hero.setHP());
-        abilitiesService.setModifierAbilities(hero);
-        abilitiesService.setAbilitiesAfterModifier(hero);
+        abilitiesService.setModifierAbilities();
+        abilitiesService.setAbilitiesAfterModifier();
         hero.setCurrentHp(hero.getMaxHp());
         hero.setHeroType(hero.getHeroType());
         hero.setCoins(BigDecimal.ZERO);
-
         logger.info("Welcome " + hero.getName() + "!");
         logger.info("""
                 I am really glad to see you want to spent a few great moments in our world.
@@ -123,6 +125,5 @@ public class Menu {
                 Their goal is to destroy this world, getting armies and start the war with humans!
                 You must help this people survive, find the solution...
                  """);
-        return hero;
     }
 }

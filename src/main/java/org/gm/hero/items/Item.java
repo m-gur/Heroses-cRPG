@@ -6,6 +6,7 @@ import lombok.Setter;
 import org.gm.hero.abilities.entity.Abilities;
 import org.gm.hero.abilities.services.AbilitiesService;
 import org.gm.hero.entity.Hero;
+import org.gm.utils.HeroContextHolder;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -45,7 +46,8 @@ public abstract class Item {
                '}';
     }
 
-    public Map<Class<? extends Item>, List<Item>> addItemToInventory(Hero hero) {
+    public Map<Class<? extends Item>, List<Item>> addItemToInventory() {
+        Hero hero = HeroContextHolder.getHero();
         Class<? extends Item> thisItemType = this.getClass();
         Map<Class<? extends Item>, List<Item>> inventory = hero.getInventory();
 
@@ -61,45 +63,49 @@ public abstract class Item {
         return inventory;
     }
 
-    public void sellItem(Hero hero) {
+    public void sellItem() {
+        Hero hero = HeroContextHolder.getHero();
         Class<? extends Item> thisItemType = this.getClass();
         Map<Class<? extends Item>, List<Item>> inventory = hero.getInventory();
         List<Item> items = new ArrayList<>();
         items.add(this);
         if (this.isUsage()) {
-            this.unequipItem(hero);
+            this.unequipItem();
         }
         inventory.remove(thisItemType, items);
         BigDecimal thisValue = this.getValue();
         hero.setCoins(hero.getCoins().add(thisValue));
     }
 
-    public void itemOperation(Hero hero) {
+    public void itemOperation() {
+        Hero hero = HeroContextHolder.getHero();
         Class<? extends Item> thisItemType = this.getClass();
         Map<Class<? extends Item>, Item> equippedItems = hero.getEquippedItems();
         Item currentlyEquippedItem = equippedItems.get(thisItemType);
         if (currentlyEquippedItem != null) {
-            this.unequipItem(hero);
+            this.unequipItem();
         }
-        this.equipItem(hero);
+        this.equipItem();
     }
 
-    public void unequipItem(Hero hero) {
+    public void unequipItem() {
+        Hero hero = HeroContextHolder.getHero();
         AbilitiesService abilitiesService = new AbilitiesService();
         Map<Class<? extends Item>, Item> equippedItems = hero.getEquippedItems();
         Class<? extends Item> thisItemType = this.getClass();
         this.setUsage(false);
-        abilitiesService.unsetAbilitiesFromItems(hero, this);
+        abilitiesService.unsetAbilitiesFromItems(this);
         equippedItems.remove(thisItemType);
-        abilitiesService.setAbilitiesAfterModifier(hero);
+        abilitiesService.setAbilitiesAfterModifier();
     }
 
-    private void equipItem(Hero hero) {
+    private void equipItem() {
+        Hero hero = HeroContextHolder.getHero();
         AbilitiesService abilitiesService = new AbilitiesService();
         Class<? extends Item> thisItemType = this.getClass();
         Map<Class<? extends Item>, Item> equippedItems = hero.getEquippedItems();
         this.setUsage(true);
         equippedItems.put(thisItemType, this);
-        abilitiesService.setAbilitiesAfterModifier(hero);
+        abilitiesService.setAbilitiesAfterModifier();
     }
 }

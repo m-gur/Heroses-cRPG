@@ -31,8 +31,9 @@ class QuestServiceTest {
         List<Quest> quests = archer.getQuests();
         quests.add(quest);
         archer.setQuests(quests);
+
         //when
-        quest.isQuestCompleted(archer);
+        quest.isQuestCompleted();
         //then
         assertFalse(archer.getQuests().get(0).isCompleted());
     }
@@ -47,8 +48,9 @@ class QuestServiceTest {
         List<Quest> quests = archer.getQuests();
         quests.add(quest);
         archer.setQuests(quests);
+
         //when
-        quest.isQuestCompleted(archer);
+        quest.isQuestCompleted();
         //then
         assertTrue(archer.getQuests().get(0).isCompleted());
     }

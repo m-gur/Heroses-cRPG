@@ -3,6 +3,7 @@ package org.gm.menu;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.gm.hero.entity.Hero;
+import org.gm.utils.HeroContextHolder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -21,11 +22,11 @@ public class GameMenu {
     static final String SAVE_FILE_PATH = "src/main/resources/game_save.json";
     private static final Logger logger = LoggerFactory.getLogger(GameMenu.class);
 
-    public void gameMenu(Hero hero) {
+    public void gameMenu() {
         Scanner scanner = new Scanner(System.in);
         int choice;
         Map<Integer, Runnable> menuActions = new HashMap<>();
-        menuActions.put(1, () -> saveGame(hero));
+        menuActions.put(1, this::saveGame);
         menuActions.put(2, () -> exit(0));
         menuActions.put(3, () -> {
         });
@@ -51,7 +52,8 @@ public class GameMenu {
     }
 
 
-    private void saveGame(Hero hero) {
+    private void saveGame() {
+        Hero hero = HeroContextHolder.getHero();
         try (OutputStream os = new FileOutputStream(SAVE_FILE_PATH);
              Writer writer = new OutputStreamWriter(os)) {
             Gson gson = new GsonBuilder()
@@ -75,6 +77,6 @@ public class GameMenu {
             e.printStackTrace();
         }
 
-        gameMenu(hero);
+        gameMenu();
     }
 }

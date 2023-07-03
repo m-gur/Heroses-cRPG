@@ -8,6 +8,7 @@ import org.gm.location.LocationVisitor;
 import org.gm.location.city.CityLocation;
 import org.gm.monster.Elite;
 import org.gm.monster.Monster;
+import org.gm.utils.HeroContextHolder;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -19,7 +20,8 @@ public class CastleLocation extends OutsideLocation {
         super(monsterFactory, fightService);
     }
 
-    public void explore(Hero hero, CityLocation city, LocationVisitor locationVisitor) {
+    public void explore(CityLocation city, LocationVisitor locationVisitor) {
+        Hero hero = HeroContextHolder.getHero();
         boolean betrayedQuest = hero.getQuests().stream()
                 .filter(quest -> quest.getName().equals("Betrayed"))
                 .allMatch(quest -> !quest.isCompleted());
@@ -33,13 +35,14 @@ public class CastleLocation extends OutsideLocation {
                     """);
         }
         else if (betrayedQuest) {
-            betrayedQuest(hero);
+            betrayedQuest();
         } else if (endGameQuest) {
-            endGameQuest(hero);
+            endGameQuest();
         }
-        locationVisitor.outsideLocationsChoice(hero, city, locationVisitor);
+        locationVisitor.outsideLocationsChoice(city, locationVisitor);
     }
-    private void betrayedQuest(Hero hero) {
+    private void betrayedQuest() {
+        Hero hero = HeroContextHolder.getHero();
         logger.info("""
                     You enter the castle and immediately hear the screams of terrified, fleeing people.
                     You try to run towards the direction from which people are running, and eventually reach the source.
@@ -48,7 +51,7 @@ public class CastleLocation extends OutsideLocation {
                     It doesn't matter, there's a reward on his head, so he must be dealt with!
                     """);
         Monster monster = new Elite("Herold", 7, 700, 200, 100, 0.1);
-        fightService.performBattle(hero, monster);
+        fightService.performBattle(monster);
         if (hero.getCurrentHp() > 0) {
             Quest betrayed = hero.getQuests().stream()
                     .filter(quest -> quest.getName().equals("Betrayed")).findFirst().orElseThrow();
@@ -57,7 +60,7 @@ public class CastleLocation extends OutsideLocation {
             quests.removeIf(quest -> quest.getName().equals("Betrayed"));
             quests.add(betrayed);
             hero.setQuests(quests);
-            betrayed.isQuestCompleted(hero);
+            betrayed.isQuestCompleted();
             logger.info("""
                         After a truly fierce and incredibly tough battle, you finally managed to slay the oversized beast.
                         The reward for completing the quest is now yours.
@@ -69,7 +72,8 @@ public class CastleLocation extends OutsideLocation {
                     """);
         }
     }
-    private void endGameQuest(Hero hero) {
+    private void endGameQuest() {
+        Hero hero = HeroContextHolder.getHero();
         logger.info("""
                     So here comes our city's legend, hello hello.
                     People talk a lot about you, they are very impressed and thankful to you for helping liberate the city.
@@ -84,7 +88,7 @@ public class CastleLocation extends OutsideLocation {
             List<Quest> quests = hero.getQuests();
             quests.removeIf(quest -> quest.getName().equals("EndGame"));
             quests.add(endGame.get(0));
-            endGame.get(0).isQuestCompleted(hero);
+            endGame.get(0).isQuestCompleted();
             hero.setQuests(quests);
         }
     }

@@ -7,6 +7,7 @@ import org.gm.hero.entity.Hero;
 import org.gm.hero.entity.Knight;
 import org.gm.hero.entity.Mage;
 import org.gm.hero.services.LevelService;
+import org.gm.utils.HeroContextHolder;
 
 import java.util.*;
 import java.util.function.Supplier;
@@ -38,15 +39,15 @@ public class HeroFactoryTest {
             e.printStackTrace();
             return null;
         }
-
+        HeroContextHolder.setHero(hero);
         hero.setDamage();
         hero.setLvl(random.nextInt(10) + 1);
         hero.setExperience(random.nextFloat(99) + 1);
         hero.setMaxHp(hero.setHP());
         hero.setCurrentHp(hero.getMaxHp());
         hero.setAbilities(abilities);
-        hero.setModifierAbilities(abilitiesService.setModifierAbilities(hero));
-        hero.setAbilitiesAfterModifier(abilitiesService.setAbilitiesAfterModifier(hero));
+        hero.setModifierAbilities(abilitiesService.setModifierAbilities());
+        hero.setAbilitiesAfterModifier(abilitiesService.setAbilitiesAfterModifier());
         hero.setRequiredExperience(levelService.calculateRequiredExperience(hero.getLvl()));
 
         return hero;

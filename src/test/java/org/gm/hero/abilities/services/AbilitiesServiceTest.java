@@ -37,7 +37,7 @@ class AbilitiesServiceTest {
         skillPointsDistribution.put("dexterity", 4);
 
         //when
-        abilitiesService.distributeSkillPoints(archer, skillPointsDistribution);
+        abilitiesService.distributeSkillPoints(skillPointsDistribution);
 
         //then
         assertEquals(6, archer.getAbilities().getStrength());
@@ -57,7 +57,7 @@ class AbilitiesServiceTest {
         skillPointsDistribution.put("strength", 25);
 
         //when
-        abilitiesService.distributeSkillPoints(archer, skillPointsDistribution);
+        abilitiesService.distributeSkillPoints(skillPointsDistribution);
 
         //then
         assertFalse(archer.getAbilities().getStrength() > 25);

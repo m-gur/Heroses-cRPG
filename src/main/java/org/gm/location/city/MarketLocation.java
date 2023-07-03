@@ -1,6 +1,5 @@
 package org.gm.location.city;
 
-import org.gm.hero.entity.Hero;
 import org.gm.location.LocationVisitor;
 import org.gm.menu.CharacterMenu;
 import org.gm.menu.GameMenu;
@@ -15,12 +14,12 @@ public class MarketLocation extends CityLocation {
     }
 
     @Override
-    public void explore(Hero hero, LocationVisitor locationVisitor) {
+    public void explore(LocationVisitor locationVisitor) {
         logger.info("""
             The center of the town, from this place you can go to the mayor,
             sell some stuff to merchants, or lose your money for other things.
             """);
-        locationVisitor.marketLocationsChoice(hero, locationVisitor);
+        locationVisitor.marketLocationsChoice(locationVisitor);
     }
 
 }

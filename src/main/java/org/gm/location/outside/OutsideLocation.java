@@ -3,7 +3,6 @@ package org.gm.location.outside;
 import lombok.RequiredArgsConstructor;
 import org.gm.factory.MonsterFactory;
 import org.gm.fights.FightService;
-import org.gm.hero.entity.Hero;
 import org.gm.location.Location;
 import org.gm.location.LocationVisitor;
 import org.gm.location.city.CityLocation;
@@ -15,11 +14,11 @@ public class OutsideLocation extends Location {
     protected final MonsterFactory monsterFactory;
     protected final FightService fightService;
 
-    public void explore(Hero hero, CityLocation city, LocationVisitor locationVisitor) {
+    public void explore(CityLocation city, LocationVisitor locationVisitor) {
         logger.info("""
                 You left town, feel a light breeze. Now you have to be careful.
                 Monsters can be everywhere, where you want to go?
                 """);
-        locationVisitor.outsideLocationsChoice(hero, city, locationVisitor);
+        locationVisitor.outsideLocationsChoice(city, locationVisitor);
     }
 }

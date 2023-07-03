@@ -45,7 +45,7 @@ class FightServiceTest {
         archer.setDamage(40);
 
         //when
-        fightService.performBattle(archer, monster);
+        fightService.performBattle(monster);
 
 
         //then
@@ -60,7 +60,7 @@ class FightServiceTest {
         archer.setDamage(1);
 
         //when
-        fightService.performBattle(archer, monster);
+        fightService.performBattle(monster);
 
         //then
         assertTrue(archer.getCurrentHp() <= 0);
