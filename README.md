@@ -1,6 +1,6 @@
 # Heroses-cRPG
 
-This is a simple console game with Spring. 
+Simple console game with Spring. 
 - It includes character progression, battles, items, and quests.   
 - Game is using Context to working with Hero, to eliminate handing over Hero to all methods.  
 - Next is saving and loading game using json file.  
