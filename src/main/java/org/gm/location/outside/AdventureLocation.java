@@ -15,6 +15,7 @@ public class AdventureLocation extends OutsideLocation {
         super(monsterFactory, fightService);
     }
 
+    @Override
     public void explore(CityLocation city, LocationVisitor locationVisitor) {
         Hero hero = HeroContextHolder.getHero();
         Monster randomMonster = monsterFactory.createRandomMonster();

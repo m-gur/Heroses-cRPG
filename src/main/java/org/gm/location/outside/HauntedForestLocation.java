@@ -72,6 +72,7 @@ public class HauntedForestLocation extends OutsideLocation {
                         """);
         }
         else {
+            hero.setCurrentHp(hero.getMaxHp());
             logger.info("""
                     Beast was better than you, first you need to stronger.
                     """);
@@ -105,6 +106,7 @@ public class HauntedForestLocation extends OutsideLocation {
                         """);
         }
         else {
+            hero.setCurrentHp(hero.getMaxHp());
             logger.info("""
                     Beast was better than you, first you need to stronger.
                     """);
